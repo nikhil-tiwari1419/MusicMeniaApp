@@ -97,7 +97,7 @@ function CreateMusic() {
             <p className='text-gray-600 text-sm sm:text-base'>Share your feeling with the world</p>
           </div>
 
-          <div className='bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10'>
+          <div className='bg-white rounded shadow-xl p-6 sm:p-8 lg:p-10'>
             <button
               onClick={() => navigate('/')}
               className='px-4 py-2 mb-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors'>
@@ -124,7 +124,7 @@ function CreateMusic() {
                       onClick={clearAudio}
                       className='absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors'>
                       <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='8' d='M6 18L18 6M6 6l12 12' />
                       </svg>
                     </button>
                     <p className='mt-2 text-sm text-gray-600'>📁 {filename}</p>
@@ -157,15 +157,15 @@ function CreateMusic() {
               {/* Caption */}
               <div className='space-y-2'>
                 <label htmlFor="caption" className='block text-sm font-semibold text-gray-700'>
-                  Title
+                  Music Description 
                 </label>
                 <textarea
                   name="caption"
                   id="caption"
                   required
-                  rows='4'
+                  rows='2'
                   maxLength={maxLength}
-                  placeholder='Write a title for your Audio...'
+                  placeholder='Write a description for your Audio...'
                   onChange={handleCaptionChange}
                   className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none text-gray-900 placeholder-gray-400'
                 />

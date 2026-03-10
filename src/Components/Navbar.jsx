@@ -1,88 +1,107 @@
-import React, { useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useTheme } from '../Context/Theme';
-import { Sun, Moon } from 'lucide-react';
+
+const navLinks = [
+  { label: 'Home',         path: '/' },
+  { label: 'Create Music', path: '/create-music' },
+  { label: 'LocalFeed',    path: '/Local-Feed' },
+  { label: 'Album',        path: '/album' },
+  { label: 'About',        path: '/about' },
+];
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const dark = theme === "dark";
+  const menuRef = useRef(null);
 
-  const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Create Music', path: '/create-music' },
-    { label: 'LocalFeed', path: '/Local-Feed' },
-    { label: 'About', path: '/about' },
-    { label: 'Album', path: '/album' },
-  ];
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   return (
-    <div className={`p-2  fixed w-full sm:px-20 justify-between flex border border-dashed ${theme === "dark"? "bg-gray-800 border-white ":" border-black bg-gray-100 text-black"}`}>
+    <div className={`fixed top-0 w-full z-50 border-b
+      ${dark ? "bg-gray-900 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-900"}`}>
 
+      <div className="flex items-center justify-between px-4 sm:px-8 md:px-16 py-3">
 
-      {/* Logo */}
-      <div className={`flex cursor-pointer font-bold ${theme === "dark" ? "text-white":" text-black"}`} 
-      onClick={() => navigate('/')}>
-        <span className='bg-gray-900 text-xl text-white py-1 pl-2 font-mono rounded-l-2xl pr-1'>Music</span>
-        <span className='bg-blue-400 text-xl text-black  py-1 pr-2 font-mono rounded-r-2xl pl-1'>Menia</span>
+        {/* Logo */}
+        <div className="flex cursor-pointer flex-shrink-0" onClick={() => navigate('/')}>
+          <span className="bg-gray-900 text-white text-lg font-mono py-1 pl-3 pr-1 rounded-l-xl">Music</span>
+          <span className="bg-blue-400 text-black text-lg font-mono py-1 pr-3 pl-1 rounded-r-xl">Menia</span>
+        </div>
+
+        {/* Desktop Links */}
+        <ul className="hidden md:flex gap-1 font-medium">
+          {navLinks.map(link => (
+            <li key={link.label}>
+              <NavLink to={link.path}
+                className={({ isActive }) =>
+                  `px-3 py-1.5 rounded-lg  transition-colors cursor-pointer block
+                  ${isActive
+                    ? "text-blue-500 font-semibold"
+                    : dark ? "hover:bg-gray-800" : "hover:bg-gray-100"}`
+                }>
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+
+        {/* Right side controls */}
+        <div className="flex items-center gap-2">
+
+          {/* Theme toggle — always visible */}
+          <button onClick={toggleTheme}
+            className={`p-2 rounded-full border transition-colors
+              ${dark ? "text-yellow-400 hover:bg-gray-800" : "text-gray-600 hover:bg-gray-100"}`}>
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Hamburger — mobile only, RIGHT next to theme toggle */}
+          <button
+            className={`md:hidden p-2 rounded-lg transition-colors
+              ${dark ? "hover:bg-gray-800 text-white" : "hover:bg-gray-100 text-gray-800"}`}
+            onClick={() => setOpen(!open)}>
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
+        </div>
       </div>
 
-   
-
-      {/* Desktop Links */}
-      <ul className='hidden md:flex gap-6 font-semibold'>
-        {navLinks.map((link) => (
-          <li
-            key={link.label}
-            onClick={() => navigate(link.path)}
-            className='cursor-pointer hover:text-blue-500 hover:underline underline-offset-2 transition-colors'
-          >
-            {link.label}
-          </li>
-        ))}
-      </ul>
-
-      {/* Hamburger - mobile only */}
-      <button className='md:hidden text-black cursor-pointer' onClick={() => setOpen(!open)}>
-        {open ? <X size={28} /> : <Menu size={28} />}
-      </button>
-
-
-      {/* Mobile menu */}
+      {/* Mobile Dropdown */}
       {open && (
-        <div className={`'md:hidden absolute top-0 text-black left-0 right-0 bg-blue-200 p-3 z-50 `}>
-          <button className='text-black' onClick={() => setOpen(!open)}>
-            {open ? <X size={28} /> : ""}
-          </button>
-          <ul className='flex flex-col gap-3  font-semibold'>
-            {navLinks.map((link) => (
-              <li
-                key={link.label}
-                onClick={() => { navigate(link.path); setOpen(false); }}
-                className='cursor-pointer hover:text-blue-500 transition-colors pb-2'
-              >
-                {link.label}
+        <div ref={menuRef}
+          className={`md:hidden border-t px-4 py-3
+            ${dark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-100"}`}>
+          <ul className="flex flex-col gap-1">
+            {navLinks.map(link => (
+              <li key={link.label}>
+                <NavLink to={link.path}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors
+                    ${isActive
+                      ? "text-blue-500 bg-blue-50 font-semibold"
+                      : dark ? "hover:bg-gray-800" : "hover:bg-gray-50 text-gray-700"}`
+                  }>
+                  {link.label}
+                </NavLink>
               </li>
             ))}
           </ul>
-
         </div>
       )}
-
-      {/* Day/Night toggle */}
-    <button
-      onClick={toggleTheme}
-      className={`cursor-pointer p-2 rounded-lg transition-colors
-                            ${theme === 'dark'
-          ? 'text-yellow-400 border  hover:bg-gray-700'   // sun icon in dark
-          : 'text-gray-700 border hover:bg-blue-50'}`}   // moon icon in light
-    >
-      {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-    </button> 
     </div>
-  )
+  );
 }
 
-export default Navbar
-
+export default Navbar;

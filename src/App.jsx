@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from './Context/Theme';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Pageloder from './Components/Pageloder';
+import { AuthProvider } from './Context/Auth';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 const HomeMusic = React.lazy(() => import('./pages/HomeMusic'));
 const CreateMusic = React.lazy(() => import('./pages/CreateMusic'));
@@ -17,30 +19,69 @@ function AppContent() {
 
   return (
 
-      <Suspense fallback={<Pageloder />}>
+    <Suspense fallback={<Pageloder />}>
 
-        <Router>
-          <Toaster
-            position="top-left"
-            reverseOrder={false}
-            />
-          <Routes>
-            <Route path='/' element={<HomeMusic />} />
-            <Route path='/create-music' element={<CreateMusic />} />
-            <Route path='/Local-feed' element={<LocalFeed />} />
-            <Route path='/your-post' element={<YourPost />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/album' element={<Album />} />
-          </Routes>
-        </Router>
-      </Suspense>
-           
+      <Router>
+        <Toaster
+          position="top-left"
+          reverseOrder={false}
+        />
+        <Routes>
+          {/* public Routes */}
+
+          {/* <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} /> */}
+
+          {/* Portected routes */}
+          <Route path='/' element={
+            <ProtectedRoute>
+              <HomeMusic />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/create-music' element={
+            <ProtectedRoute>
+              <CreateMusic />
+            </ProtectedRoute>
+
+          } />
+          <Route path='/Local-feed' element={
+            <ProtectedRoute>
+              <LocalFeed />
+            </ProtectedRoute>
+
+          } />
+
+          <Route path='/your-post' element={
+            <ProtectedRoute>
+              <YourPost />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/about' element={
+            <ProtectedRoute>
+              <About />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/album' element={
+            <ProtectedRoute>
+              <Album />
+            </ProtectedRoute>
+          } />
+
+        </Routes>
+      </Router>
+    </Suspense>
+
   );
 }
-function App(){
-  return(
+function App() {
+  return (
     <ThemeProvider>
-      <AppContent/>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </ThemeProvider>
   )
 }
