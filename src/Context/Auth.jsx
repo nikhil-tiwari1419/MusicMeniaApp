@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     async function checkAuth() {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/is-auth`, { withCredentials: true }); // cookies bhejo
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth/is-auth`, { withCredentials: true }); // cookies bhejo
 
             if (res.data.success) {
                 setUser(res.data.user); //userset karo
@@ -35,9 +35,10 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    //login page
     async function login(formData) {
         const res = await axios.post(
-            `${import.meta.env.VIT_BACKEND_URL}/auth/login`,
+            `${import.meta.env.VITE_API_URL}/auth/login`,
             formData,
             { withCredentials: true }
         );
@@ -45,9 +46,10 @@ export const AuthProvider = ({ children }) => {
         return res.data;
     }
 
+    //register page
     async function register(formData) {
         const res = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+            `${import.meta.env.VITE_API_URL}/auth/register`,
             formData,
             { withCredentials: true }
         );
@@ -55,17 +57,18 @@ export const AuthProvider = ({ children }) => {
     }
 
 
+    //logout page
     async function logout() {
         await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
+            `${import.meta.env.VITE_API_URL}/auth/logout`,
             {},
             { withCredentials: true }
         );
         setUser(null); //user clear karo
     }
     return (
-        <AuthContext.provider value={{ user, loading, login, logout, register, checkAuth }}>
+        <AuthContext.Provider value={{ user, loading, login, logout, register, checkAuth }}>
             {children}
-        </AuthContext.provider>
+        </AuthContext.Provider>
     )
 }

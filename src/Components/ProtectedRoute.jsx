@@ -6,7 +6,7 @@ function ProtectedRoute({ children }) {
 
     if (loading) return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-            <p className="text-blue-400 font-mono animate-pulse">Loading...</p>
+            <p className="text-blue-400 foont-semibold animate-pulse">Loading...</p>
         </div>
     );
 

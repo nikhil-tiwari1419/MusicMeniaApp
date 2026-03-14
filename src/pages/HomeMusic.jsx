@@ -4,7 +4,7 @@ import Footer from '../Components/Footer'
 import { useTheme } from '../Context/Theme'
 
 function HomeMusic() {
-
+  const { user } = useAuth();
   const { theme } = useTheme();
 
   const musicFeed = [
@@ -32,10 +32,10 @@ function HomeMusic() {
     <>
       <Navbar />
       {/* landing page */}
-      <div className={`min-h-screen pt-10 flex flex-col p-4 items-center  gap-6  ${theme === "dark"? "bg-gray-800 text-white":"bg-gray-50 text-black"}`}>
+      <div className={`min-h-screen pt-10 flex flex-col p-4 items-center  gap-6  ${theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-50 text-black"}`}>
         {/* for posters */}
         <div className=' overflow-auto rounded-xl w-full max-w-7xl p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center gap-6'>
-          <h1 className='text-3xl sm:text-4xl lg:text-4xl font-bold '> welcome to <span className='font-bold sm:text-4xl font-mono text-blue-400 underline underline-offset-4'> MusicMeniya</span>
+          <h1 className='text-3xl sm:text-4xl lg:text-4xl font-bold '> welcome {user?.username} to <span className='font-bold sm:text-4xl font-mono text-blue-400 underline underline-offset-4'> MusicMeniya</span>
           </h1>
           <p className='text-sm sm:text-base text-center'>
             Discover and crete a music and music playlist with other's

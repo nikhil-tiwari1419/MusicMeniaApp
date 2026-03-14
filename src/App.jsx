@@ -12,6 +12,8 @@ const LocalFeed = React.lazy(() => import('./pages/LocalFeed'));
 const YourPost = React.lazy(() => import('./pages/YourPost'));
 const About = React.lazy(() => import('./pages/About'));
 const Album = React.lazy(() => import('./pages/Album'));
+const Authpage = React.lazy(() => import('./pages/AuthPage'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
 
 function AppContent() {
@@ -29,10 +31,17 @@ function AppContent() {
         <Routes>
           {/* public Routes */}
 
-          {/* <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} /> */}
+          <Route path='/login' element={<Authpage />} />
 
           {/* Portected routes */}
+
+          {/* Artist dashboard */}
+          <Route path='/' element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          {/*  user Dashboard */}
           <Route path='/' element={
             <ProtectedRoute>
               <HomeMusic />

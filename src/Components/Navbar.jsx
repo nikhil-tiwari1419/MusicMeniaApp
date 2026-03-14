@@ -2,19 +2,21 @@ import { useState, useRef, useEffect } from 'react'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useTheme } from '../Context/Theme';
-
+import { useAuth } from '../Context/Auth';
+import UserMenu from '../Components/Usermenu';
 const navLinks = [
-  { label: 'Home',         path: '/' },
+  { label: 'Home', path: '/' },
   { label: 'Create Music', path: '/create-music' },
-  { label: 'LocalFeed',    path: '/Local-Feed' },
-  { label: 'Album',        path: '/album' },
-  { label: 'About',        path: '/about' },
+  { label: 'LocalFeed', path: '/Local-Feed' },
+  { label: 'Album', path: '/album' },
+  { label: 'About', path: '/about' },
 ];
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
   const dark = theme === "dark";
   const menuRef = useRef(null);
 
@@ -39,13 +41,13 @@ function Navbar() {
           <span className="bg-blue-400 text-black text-lg font-mono py-1 pr-3 pl-1 rounded-r-xl">Menia</span>
         </div>
 
-        {/* Desktop Links */}
+        {/* Desktop Links — Login/Signup removed, handled by UserMenu */}
         <ul className="hidden md:flex gap-1 font-medium">
           {navLinks.map(link => (
             <li key={link.label}>
               <NavLink to={link.path}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 rounded-lg  transition-colors cursor-pointer block
+                  `px-3 py-1.5 rounded-lg transition-colors cursor-pointer block
                   ${isActive
                     ? "text-blue-500 font-semibold"
                     : dark ? "hover:bg-gray-800" : "hover:bg-gray-100"}`
@@ -59,14 +61,17 @@ function Navbar() {
         {/* Right side controls */}
         <div className="flex items-center gap-2">
 
-          {/* Theme toggle — always visible */}
+          {/* Theme toggle */}
           <button onClick={toggleTheme}
             className={`p-2 rounded-full border transition-colors
-              ${dark ? "text-yellow-400 hover:bg-gray-800" : "text-gray-600 hover:bg-gray-100"}`}>
+              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-800" : "text-gray-600 border-gray-200 hover:bg-gray-100"}`}>
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          {/* Hamburger — mobile only, RIGHT next to theme toggle */}
+          {/* ✅ UserMenu — login/logout/avatar */}
+          <UserMenu />
+
+          {/* Hamburger — mobile only */}
           <button
             className={`md:hidden p-2 rounded-lg transition-colors
               ${dark ? "hover:bg-gray-800 text-white" : "hover:bg-gray-100 text-gray-800"}`}
@@ -97,6 +102,21 @@ function Navbar() {
                 </NavLink>
               </li>
             ))}
+
+            {/* Mobile — show user info or login */}
+            <li className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+              {user ? (
+                <div className={`px-3 py-2 rounded-xl text-sm ${dark ? "text-gray-300" : "text-gray-700"}`}>
+                  <p className="font-semibold">{user.username}</p>
+                  <p className="text-xs text-gray-400">{user.email}</p>
+                </div>
+              ) : (
+                <NavLink to="/login" onClick={() => setOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-sm font-medium text-blue-500 hover:bg-blue-50 transition-colors">
+                  Login / Signup
+                </NavLink>
+              )}
+            </li>
           </ul>
         </div>
       )}
