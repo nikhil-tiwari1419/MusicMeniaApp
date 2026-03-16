@@ -6,10 +6,12 @@ import { useAuth } from '../Context/Auth';
 import UserMenu from '../Components/Usermenu';
 const navLinks = [
   { label: 'Home', path: '/' },
-  { label: 'Create Music', path: '/create-music' },
-  { label: 'LocalFeed', path: '/Local-Feed' },
-  { label: 'Album', path: '/album' },
-  { label: 'About', path: '/about' },
+  { label: 'Upload Track', path: '/create-music' },
+  { label: 'Music-Feed', path: '/Local-Feed' },
+  { label: 'My-Album', path: '/album' },
+  { label: 'My-Post', path: '/album' },
+  { label: 'About-Me', path: '/about' },
+  { label: 'About Music_menia', path: '/about' },
 ];
 
 function Navbar() {

@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { useTheme } from '../Context/Theme'
 
-function HomeMusic() {
+function UserDashboard() {
   const { user } = useAuth();
   const { theme } = useTheme();
 
@@ -59,5 +59,7 @@ function HomeMusic() {
   )
 }
 
-export default HomeMusic
+export default UserDashboard
+
+
 

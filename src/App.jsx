@@ -6,14 +6,14 @@ import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 
-const HomeMusic = React.lazy(() => import('./pages/HomeMusic'));
+const UserDashboard = React.lazy(() => import('./pages/UserDashboard'));
 const CreateMusic = React.lazy(() => import('./pages/CreateMusic'));
 const LocalFeed = React.lazy(() => import('./pages/LocalFeed'));
 const YourPost = React.lazy(() => import('./pages/YourPost'));
 const About = React.lazy(() => import('./pages/About'));
 const Album = React.lazy(() => import('./pages/Album'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
-const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 
 
 function AppContent() {
@@ -38,13 +38,13 @@ function AppContent() {
           {/* Artist dashboard */}
           <Route path='/' element={
             <ProtectedRoute>
-              <Dashboard />
+              <AdminDashboard />
             </ProtectedRoute>
           } />
-          {/*  user Dashboard */}
-          <Route path='/' element={
+          {/*  user AdminDashboard */}
+          <Route path='/home' element={
             <ProtectedRoute>
-              <HomeMusic />
+              <UserDashboard />
             </ProtectedRoute>
           } />
 

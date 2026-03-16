@@ -32,7 +32,6 @@ export default function AuthPage() {
 
   // HANDLERS
 
-  // Generic input handler — name se field update karo
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
@@ -126,22 +125,20 @@ export default function AuthPage() {
     setShowPassword(false);
     setOtp(["", "", "", "", "", ""]);
   }
-
-  // ─────────────────────────────────────────
+  
   // UI
-  // ─────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4 relative overflow-hidden">
 
       {/* Background blobs — decorative only */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-green-500 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Logo */}
       <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate("/")}>
         <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-mono rounded-l-2xl">Music</span>
-        <span className="bg-green-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
+        <span className="bg-purple-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
       </div>
 
       {/* Card */}
@@ -153,14 +150,14 @@ export default function AuthPage() {
             <button
               onClick={() => isLogin || switchMode()}
               className={`flex-1 py-2 rounded-lg text-sm font-bold font-mono transition-all duration-200
-                ${isLogin ? "bg-green-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
+                ${isLogin ? "bg-purple-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
             >
               Sign In
             </button>
             <button
               onClick={() => !isLogin || switchMode()}
               className={`flex-1 py-2 rounded-lg text-sm font-bold font-mono transition-all duration-200
-                ${!isLogin ? "bg-green-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
+                ${!isLogin ? "bg-purple-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
             >
               Sign Up
             </button>
@@ -173,7 +170,7 @@ export default function AuthPage() {
             <span className="text-5xl">📬</span>
             <h2 className="text-white text-xl font-bold">Verify your email</h2>
             <p className="text-gray-400 text-sm text-center">
-              OTP sent to <span className="text-green-400 font-semibold">{registeredEmail}</span>
+              OTP sent to <span className="text-purple-400 font-semibold">{registeredEmail}</span>
             </p>
 
             {/* 6 OTP Input Boxes */}
@@ -188,8 +185,8 @@ export default function AuthPage() {
                   onChange={(e) => handleOtpChange(e.target.value, i)}
                   onKeyDown={(e) => handleOtpKeyDown(e, i)}
                   className={`w-11 h-14 text-center text-xl font-bold font-mono rounded-xl border
-                    bg-gray-950 text-white outline-none transition-all duration-200 focus:border-green-500
-                    ${val ? "border-green-500 bg-green-950" : "border-gray-700"}`}
+                    bg-gray-950 text-white outline-none transition-all duration-200 focus:border-purple-500
+                    ${val ? "border-purple-500 bg-purple-950" : "border-gray-700"}`}
                 />
               ))}
             </div>
@@ -197,7 +194,7 @@ export default function AuthPage() {
             <button
               onClick={handleVerifyOTP}
               disabled={loading}
-              className="w-full bg-green-500 hover:bg-green-600 disabled:opacity-60 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-2"
+              className="w-full bg-purple-500 hover:bg-purple-600 disabled:opacity-60 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-2"
             >
               {loading ? "Verifying..." : "Verify OTP ✓"}
             </button>
@@ -251,7 +248,7 @@ export default function AuthPage() {
                   value={form.username}
                   onChange={handleChange}
                   placeholder="your_username"
-                  className="bg-gray-950 border border-gray-700 focus:border-green-500 rounded-xl
+                  className="bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
                     px-4 py-3 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
@@ -269,7 +266,7 @@ export default function AuthPage() {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="bg-gray-950 border border-gray-700 focus:border-green-500 rounded-xl
+                  className="bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
                     px-4 py-3 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
@@ -288,7 +285,7 @@ export default function AuthPage() {
                     onClick={() => setForm({ ...form, role: "user" })}
                     className={`flex-1 py-3 rounded-xl border text-sm font-bold font-mono transition-all duration-200 cursor-pointer
                       ${form.role === "user"
-                        ? "bg-green-500 border-green-500 text-white"
+                        ? "bg-purple-500 border-purple-500 text-white"
                         : "bg-gray-950 border-gray-700 text-gray-400 hover:border-gray-500"
                       }`}
                   >
@@ -323,7 +320,7 @@ export default function AuthPage() {
                   value={form.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full bg-gray-950 border border-gray-700 focus:border-green-500 rounded-xl
+                  className="w-full bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
                     px-4 py-3 pr-12 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
                 {/* Eye icon toggle */}
@@ -342,7 +339,7 @@ export default function AuthPage() {
               <div className="flex justify-end mb-5 mt-1">
                 <span
                   onClick={() => navigate("/forgot-password")}
-                  className="text-green-400 text-xs font-mono cursor-pointer hover:text-green-300 underline underline-offset-4 transition-colors"
+                  className="text-purple-400 text-xs font-mono cursor-pointer hover:text-purple-300 underline underline-offset-4 transition-colors"
                 >
                   Forgot password?
                 </span>
@@ -353,7 +350,7 @@ export default function AuthPage() {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 disabled:opacity-60
+              className="w-full bg-purple-500 hover:bg-purple-600 active:bg-purple-700 disabled:opacity-60
                 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-3 cursor-pointer"
             >
               {loading ? "Please wait..." : isLogin ? "Sign In →" : "Create Account →"}
@@ -364,7 +361,7 @@ export default function AuthPage() {
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <span
                 onClick={switchMode}
-                className="text-green-400 hover:text-green-300 cursor-pointer font-bold underline underline-offset-4 transition-colors"
+                className="text-purple-400 hover:text-purple-300 cursor-pointer font-bold underline underline-offset-4 transition-colors"
               >
                 {isLogin ? "Sign Up" : "Sign In"}
               </span>
@@ -376,6 +373,8 @@ export default function AuthPage() {
       <p className="text-gray-700 text-xs font-mono tracking-widest mt-8 z-10">
         🎵 DISCOVER · CREATE · SHARE
       </p>
+
+      <button onClick={()=> navigate('/')}>goo to home page</button>
     </div>
   );
 }
