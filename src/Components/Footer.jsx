@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ImReddit } from "react-icons/im";
+// import { ImReddit } from "react-icons/im";
 import { Linkedin, Instagram, Facebook, Github } from 'lucide-react';
 import { useTheme } from '../Context/Theme';
 
@@ -14,7 +14,7 @@ function Footer() {
         { name: "Instagram", icon: <Instagram />, url: "https://instagram.com" },
         { name: "Facebook", icon: <Facebook />, url: "https://facebook.com" },
         { name: "Github", icon: <Github />, url: "https://github.com" },
-        { name: "Reddit", icon: <ImReddit size={27} />, url: "https://reddit.com" },
+        // { name: "Reddit", icon: <ImReddit size={27} />, url: "https://reddit.com" },
     ];
 
     const quickLinks = [
