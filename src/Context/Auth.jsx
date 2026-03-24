@@ -3,6 +3,7 @@ import { createContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate= useNavigate();
     // loading -> pehle check karo user looged in hai ya nhai 
 
     // App load hone pe check karo user looged in hai ?

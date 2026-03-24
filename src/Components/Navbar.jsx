@@ -4,15 +4,26 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { useTheme } from '../Context/Theme';
 import { useAuth } from '../Context/Auth';
 import UserMenu from '../Components/Usermenu';
-const navLinks = [
+
+const userlink = [
   { label: 'Home', path: '/' },
-  { label: 'Upload Track', path: '/create-music' },
   { label: 'Music-Feed', path: '/Local-Feed' },
+  { label: "Album'S", path: '/album' },
+  { label: 'About-Us', path: '/about' },
+  { label: 'Artist', path: '/About-Artist' }
+
+];
+
+const artistLikns = [
+  { label: 'Home', path: '/artist-Dashboard' },
+  { label: 'Upload Track', path: '/create-music' },
   { label: 'My-Album', path: '/album' },
   { label: 'My-Post', path: '/album' },
   { label: 'About-Me', path: '/about' },
   { label: 'About Music_menia', path: '/about' },
-];
+
+]
+
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -21,6 +32,9 @@ function Navbar() {
   const { user } = useAuth();
   const dark = theme === "dark";
   const menuRef = useRef(null);
+
+  const navLinks = user?.role === "artist" ? artistLikns : user?.role === "user" ? userlink : [];
+
 
   // Close on outside click
   useEffect(() => {

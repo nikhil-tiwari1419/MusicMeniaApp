@@ -67,16 +67,23 @@ export default function AuthPage() {
             ? { username: form.username }
             : { email: form.email }),
         };
-        await login(payload);
+      const data = await login(payload);
         toast.success("Welcome back! 🎵");
+
+        // role check hear 
+
+      if(data.user.role === "artist"){
+        navigate("/artist-Dashboard");
+      }else{
         navigate("/");
+      }
       } else {
         // REGISTER — role bhi bhejo
         await register({
           username: form.username,
           email: form.email,
           password: form.password,
-          role: form.role, // ✅ user ya artist
+          role: form.role, // user or artist
         });
         setRegisteredEmail(form.email);
         setShowOTP(true);
@@ -136,7 +143,7 @@ export default function AuthPage() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Logo */}
-      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate("/")}>
+      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard":"/")}>
         <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-mono rounded-l-2xl">Music</span>
         <span className="bg-purple-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
       </div>
@@ -374,7 +381,6 @@ export default function AuthPage() {
         🎵 DISCOVER · CREATE · SHARE
       </p>
 
-      <button onClick={()=> navigate('/')}>goo to home page</button>
     </div>
   );
 }

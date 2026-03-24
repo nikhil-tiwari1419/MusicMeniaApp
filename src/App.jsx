@@ -6,6 +6,7 @@ import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 
+const Home = React.lazy(() => import('./pages/Home'));
 const UserDashboard = React.lazy(() => import('./pages/UserDashboard'));
 const CreateMusic = React.lazy(() => import('./pages/CreateMusic'));
 const LocalFeed = React.lazy(() => import('./pages/LocalFeed'));
@@ -22,75 +23,74 @@ function AppContent() {
   return (
 
     <Suspense fallback={<Pageloder />}>
+      <Toaster
+        position="top-left"
+        reverseOrder={false}
+      />
+      <Routes>
+        {/* public Routes */}
 
-      <Router>
-        <Toaster
-          position="top-left"
-          reverseOrder={false}
-        />
-        <Routes>
-          {/* public Routes */}
+        <Route path='/login' element={<Authpage />} />
+        {/* Portected routes */}
 
-          <Route path='/login' element={<Authpage />} />
+        {/*  Home Page */}
+        <Route path='/unauthorized' element={<Home />} />
+        {/* Artist Dashboard */}
+        <Route path='/artist-Dashboard' element={
+          <ProtectedRoute allowedRole="artist">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
 
-          {/* Portected routes */}
+        {/*  User Dashboard */}
+        <Route path='/' element={
+          <ProtectedRoute allowedRole="user">
+            <UserDashboard />
+          </ProtectedRoute>
+        } />
 
-          {/* Artist dashboard */}
-          <Route path='/' element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          } />
-          {/*  user AdminDashboard */}
-          <Route path='/home' element={
-            <ProtectedRoute>
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
+        <Route path='/create-music' element={
+          <ProtectedRoute>
+            <CreateMusic />
+          </ProtectedRoute>
 
-          <Route path='/create-music' element={
-            <ProtectedRoute>
-              <CreateMusic />
-            </ProtectedRoute>
+        } />
+        <Route path='/Local-feed' element={
+          <ProtectedRoute>
+            <LocalFeed />
+          </ProtectedRoute>
 
-          } />
-          <Route path='/Local-feed' element={
-            <ProtectedRoute>
-              <LocalFeed />
-            </ProtectedRoute>
+        } />
 
-          } />
+        <Route path='/your-post' element={
+          <ProtectedRoute>
+            <YourPost />
+          </ProtectedRoute>
+        } />
 
-          <Route path='/your-post' element={
-            <ProtectedRoute>
-              <YourPost />
-            </ProtectedRoute>
-          } />
+        <Route path='/about' element={
+          <ProtectedRoute>
+            <About />
+          </ProtectedRoute>
+        } />
 
-          <Route path='/about' element={
-            <ProtectedRoute>
-              <About />
-            </ProtectedRoute>
-          } />
-
-          <Route path='/album' element={
-            <ProtectedRoute>
-              <Album />
-            </ProtectedRoute>
-          } />
-
-        </Routes>
-      </Router>
+        <Route path='/album' element={
+          <ProtectedRoute>
+            <Album />
+          </ProtectedRoute>
+        } />
+      </Routes>
     </Suspense>
-
   );
 }
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
+      <Router>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </Router>
     </ThemeProvider>
   )
 }
