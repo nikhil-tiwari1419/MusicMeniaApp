@@ -6,7 +6,7 @@ import { useAuth } from '../Context/Auth';
 import UserMenu from '../Components/Usermenu';
 
 const userlink = [
-  { label: 'Home', path: '/' },
+  { label: 'Home', path: '/user-Dashboard' },
   { label: 'Music-Feed', path: '/Local-Feed' },
   { label: "Album'S", path: '/album' },
   { label: 'About-Us', path: '/about' },

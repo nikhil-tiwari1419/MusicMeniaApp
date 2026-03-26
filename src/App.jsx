@@ -15,6 +15,7 @@ const About = React.lazy(() => import('./pages/About'));
 const Album = React.lazy(() => import('./pages/Album'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
+const LandingPage = React.lazy(() => import('./assets/LandingPage'))
 
 
 function AppContent() {
@@ -29,7 +30,7 @@ function AppContent() {
       />
       <Routes>
         {/* public Routes */}
-
+        <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Authpage />} />
         {/* Portected routes */}
 
@@ -43,7 +44,7 @@ function AppContent() {
         } />
 
         {/*  User Dashboard */}
-        <Route path='/' element={
+        <Route path='/user-Dashboard' element={
           <ProtectedRoute allowedRole="user">
             <UserDashboard />
           </ProtectedRoute>

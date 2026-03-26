@@ -143,7 +143,7 @@ export default function AuthPage() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Logo */}
-      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard":"/")}>
+      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard":"/user-Dashboard")}>
         <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-mono rounded-l-2xl">Music</span>
         <span className="bg-purple-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
       </div>

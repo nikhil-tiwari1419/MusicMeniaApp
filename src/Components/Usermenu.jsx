@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, ChevronDown } from 'lucide-react';
+import { LogOut, User, ChevronDown, MessageSquareHeart } from 'lucide-react';
 import { useAuth } from '../Context/Auth';
 import { useTheme } from '../Context/Theme';
 
@@ -28,7 +28,7 @@ function UserMenu() {
         setOpen(false);
         navigate('/login');
     }
-    
+
 
     // ✅ User logged in nahi hai — Login button dikhao
     if (!user) {
@@ -93,11 +93,22 @@ function UserMenu() {
                                     {user.email}
                                 </p>
                             </div>
-                        </div>
+                        </div>  
                     </div>
 
                     {/* Menu items */}
                     <div className="p-1.5">
+                        
+                        <button 
+                        onClick={()=> {navigate('/liked song'); setOpen(false); }}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm trensition-color cursor-pointer 
+                            ${dark ?
+                                "hover:bg-gray-800 text-gray-300"
+                                : "hover:bg-gray-50 text-gray-700"
+                            }`}>
+                                <MessageSquareHeart  size={15}/>
+                                Liked Song
+                        </button>
                         <button
                             onClick={() => { navigate('/your-post'); setOpen(false); }}
                             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors cursor-pointer
