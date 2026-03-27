@@ -26,7 +26,7 @@ function UserMenu() {
     async function handleLogout() {
         await logout();
         setOpen(false);
-        navigate('/login');
+        navigate('/');
     }
 
 

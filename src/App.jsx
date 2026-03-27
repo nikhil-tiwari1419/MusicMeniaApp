@@ -31,11 +31,13 @@ function AppContent() {
       <Routes>
         {/* public Routes */}
         <Route path='/' element={<LandingPage />} />
+        <Route path='/unauthorized' element={<Home />} />
+        {/*  login Page */}
         <Route path='/login' element={<Authpage />} />
+
         {/* Portected routes */}
 
-        {/*  Home Page */}
-        <Route path='/unauthorized' element={<Home />} />
+
         {/* Artist Dashboard */}
         <Route path='/artist-Dashboard' element={
           <ProtectedRoute allowedRole="artist">

@@ -11,8 +11,8 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null);    const [loading, setLoading] = useState(true);
-    const navigate= useNavigate();
+    const [user, setUser] = useState(null); const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     // loading -> pehle check karo user looged in hai ya nhai 
 
     // App load hone pe check karo user looged in hai ?
@@ -60,12 +60,18 @@ export const AuthProvider = ({ children }) => {
 
     //logout page
     async function logout() {
-        await axios.post(
-            `${import.meta.env.VITE_API_URL}/auth/logout`,
-            {},
-            { withCredentials: true }
-        );
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/logout`,
+                {},
+                { withCredentials: true }
+            );
+
+        } catch (error) {
+            console.warn("logout backend error: ", error.response?.data?.message)
+        }
         setUser(null); //user clear karo
+        navigate('/');
     }
     return (
         <AuthContext.Provider value={{ user, loading, login, logout, register, checkAuth }}>

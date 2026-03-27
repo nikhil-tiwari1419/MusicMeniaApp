@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useAuth } from "../Context/Auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -9,13 +9,20 @@ export default function AuthPage() {
   // ─────────────────────────────────────────
   // STATE
   // ─────────────────────────────────────────
+  const { user } = useAuth();
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+    }
+  }, [user])
 
-  const [isLogin, setIsLogin]           = useState(true);       // Sign In ya Sign Up tab
-  const [loading, setLoading]           = useState(false);      // button disable during API call
-  const [showOTP, setShowOTP]           = useState(false);      // OTP screen dikhao/chupao
+
+  const [isLogin, setIsLogin] = useState(true);       // Sign In ya Sign Up tab
+  const [loading, setLoading] = useState(false);      // button disable during API call
+  const [showOTP, setShowOTP] = useState(false);      // OTP screen dikhao/chupao
   const [showPassword, setShowPassword] = useState(false);      // password visible/hidden
-  const [loginBy, setLoginBy]           = useState("username"); // login: username ya email se
-  const [otp, setOtp]                   = useState(["", "", "", "", "", ""]); // 6 OTP boxes
+  const [loginBy, setLoginBy] = useState("username"); // login: username ya email se
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]); // 6 OTP boxes
   const [registeredEmail, setRegisteredEmail] = useState("");   // OTP screen pe email dikhane ke liye
 
   // Form data — sabke liye ek object
@@ -23,7 +30,7 @@ export default function AuthPage() {
     username: "",
     email: "",
     password: "",
-    role: "user", 
+    role: "user",
   });
 
   // Context se login/register/logout functions
@@ -67,16 +74,16 @@ export default function AuthPage() {
             ? { username: form.username }
             : { email: form.email }),
         };
-      const data = await login(payload);
+        const data = await login(payload);
         toast.success("Welcome back! 🎵");
 
         // role check hear 
 
-      if(data.user.role === "artist"){
-        navigate("/artist-Dashboard");
-      }else{
-        navigate("/");
-      }
+        if (data.user.role === "artist") {
+          navigate("/artist-Dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         // REGISTER — role bhi bhejo
         await register({
@@ -132,28 +139,28 @@ export default function AuthPage() {
     setShowPassword(false);
     setOtp(["", "", "", "", "", ""]);
   }
-  
+
   // UI
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4 relative overflow-hidden">
 
       {/* Background blobs — decorative only */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Logo */}
-      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard":"/user-Dashboard")}>
+      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard")}>
         <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-mono rounded-l-2xl">Music</span>
-        <span className="bg-purple-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
+        <span className="bg-green-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
       </div>
 
       {/* Card */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md p-8 shadow-2xl z-10">
+      <div className="bg-gray-100 border border-gray-800 rounded-md w-full max-w-md p-8 shadow-2xl z-10">
 
         {/* ── Sign In / Sign Up Tabs ── */}
         {!showOTP && (
-          <div className="flex bg-gray-950 rounded-xl p-1 mb-7 border border-gray-800">
+          <div className="flex bg-gray-100 rounded-xl p-1 mb-7 border border-gray-800">
             <button
               onClick={() => isLogin || switchMode()}
               className={`flex-1 py-2 rounded-lg text-sm font-bold font-mono transition-all duration-200
@@ -175,8 +182,8 @@ export default function AuthPage() {
         {showOTP ? (
           <div className="flex flex-col items-center gap-4">
             <span className="text-5xl">📬</span>
-            <h2 className="text-white text-xl font-bold">Verify your email</h2>
-            <p className="text-gray-400 text-sm text-center">
+            <h2 className="text-black text-xl font-bold">Verify your email</h2>
+            <p className="text-gray-900 text-sm text-center">
               OTP sent to <span className="text-purple-400 font-semibold">{registeredEmail}</span>
             </p>
 
@@ -192,8 +199,8 @@ export default function AuthPage() {
                   onChange={(e) => handleOtpChange(e.target.value, i)}
                   onKeyDown={(e) => handleOtpKeyDown(e, i)}
                   className={`w-11 h-14 text-center text-xl font-bold font-mono rounded-xl border
-                    bg-gray-950 text-white outline-none transition-all duration-200 focus:border-purple-500
-                    ${val ? "border-purple-500 bg-purple-950" : "border-gray-700"}`}
+                    bg-gray-50 text-black outline-none transition-all duration-200 focus:border-purple-500
+                    ${val ? "border-purple-500 bg-purple-100" : "border-gray-700"}`}
                 />
               ))}
             </div>
@@ -201,14 +208,14 @@ export default function AuthPage() {
             <button
               onClick={handleVerifyOTP}
               disabled={loading}
-              className="w-full bg-purple-500 hover:bg-purple-600 disabled:opacity-60 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-2"
+              className="w-full bg-yellow-300 hover:bg-yellow-600 disabled:opacity-60 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-2"
             >
               {loading ? "Verifying..." : "Verify OTP ✓"}
             </button>
 
             <button
               onClick={() => setShowOTP(false)}
-              className="text-gray-500 hover:text-gray-300 text-sm font-mono transition-colors mt-1 bg-transparent border-none cursor-pointer"
+              className="text-gray-900 hover:text-gray-700 text-sm font-mono transition-colors mt-1 bg-transparent border-none cursor-pointer"
             >
               ← Back
             </button>
@@ -217,7 +224,7 @@ export default function AuthPage() {
         ) : (
           /* ── Main Form ── */
           <div className="flex flex-col">
-            <h2 className="text-white text-xl font-bold mb-1">
+            <h2 className="text-blue-400 text-xl font-bold mb-1">
               {isLogin ? "Welcome back 👋" : "Join MusicMenia 🎵"}
             </h2>
             <p className="text-gray-500 text-sm mb-6">
@@ -226,18 +233,18 @@ export default function AuthPage() {
 
             {/* ── Login By Toggle (Sign In only) ── */}
             {isLogin && (
-              <div className="flex bg-gray-950 rounded-xl p-1 mb-5 border border-gray-800">
+              <div className="flex bg-gray-50 rounded-xl p-1 mb-5 border border-gray-800">
                 <button
                   onClick={() => { setLoginBy("username"); setForm({ ...form, email: "" }); }}
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-mono transition-all duration-200
-                    ${loginBy === "username" ? "bg-gray-700 text-white" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
+                    ${loginBy === "username" ? "bg-gray-500 text-black" : "text-gray-500 hover:text-gray-900 bg-transparent"}`}
                 >
                   Username
                 </button>
                 <button
                   onClick={() => { setLoginBy("email"); setForm({ ...form, username: "" }); }}
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-mono transition-all duration-200
-                    ${loginBy === "email" ? "bg-gray-700 text-white" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
+                    ${loginBy === "email" ? "bg-gray-500 text-black" : "text-gray-500 hover:text-gray-900 bg-transparent"}`}
                 >
                   Email
                 </button>
@@ -247,7 +254,7 @@ export default function AuthPage() {
             {/* ── Username Field ── */}
             {(!isLogin || loginBy === "username") && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-400 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
                   Username
                 </label>
                 <input
@@ -255,8 +262,8 @@ export default function AuthPage() {
                   value={form.username}
                   onChange={handleChange}
                   placeholder="your_username"
-                  className="bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                  className="bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
+                    px-4 py-3 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
             )}
@@ -264,7 +271,7 @@ export default function AuthPage() {
             {/* ── Email Field ── */}
             {(!isLogin || loginBy === "email") && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-400 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
                   Email
                 </label>
                 <input
@@ -273,8 +280,8 @@ export default function AuthPage() {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                  className="bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
+                    px-4 py-3 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
             )}
@@ -282,7 +289,7 @@ export default function AuthPage() {
             {/* ── Role Selection (Sign Up only) ── */}
             {!isLogin && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-400 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
                   I am a...
                 </label>
                 <div className="flex gap-3">
@@ -317,7 +324,7 @@ export default function AuthPage() {
 
             {/* ── Password Field ── */}
             <div className="flex flex-col gap-1 mb-2">
-              <label className="text-gray-400 text-xs font-mono font-semibold uppercase tracking-wider">
+              <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -327,8 +334,8 @@ export default function AuthPage() {
                   value={form.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full bg-gray-950 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 pr-12 text-white text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                  className="w-full bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
+                    px-4 py-3 pr-12 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
                 />
                 {/* Eye icon toggle */}
                 <button
