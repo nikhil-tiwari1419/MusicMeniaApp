@@ -151,8 +151,8 @@ export default function AuthPage() {
 
       {/* Logo */}
       <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard")}>
-        <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-mono rounded-l-2xl">Music</span>
-        <span className="bg-green-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-mono rounded-r-2xl">Menia</span>
+        <span className="bg-gray-600 text-white text-xl font-bold py-1 pl-4 pr-2 font-sans rounded-l-2xl">Music</span>
+        <span className="bg-green-500 text-white text-xl font-bold py-1 pr-4 pl-2 font-sans rounded-r-2xl">Menia</span>
       </div>
 
       {/* Card */}
@@ -163,14 +163,14 @@ export default function AuthPage() {
           <div className="flex bg-gray-100 rounded-xl p-1 mb-7 border border-gray-800">
             <button
               onClick={() => isLogin || switchMode()}
-              className={`flex-1 py-2 rounded-lg text-sm font-bold font-mono transition-all duration-200
+              className={`flex-1 py-2 rounded-lg text-sm font-bold font-sans transition-all duration-200
                 ${isLogin ? "bg-purple-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
             >
               Sign In
             </button>
             <button
               onClick={() => !isLogin || switchMode()}
-              className={`flex-1 py-2 rounded-lg text-sm font-bold font-mono transition-all duration-200
+              className={`flex-1 py-2 rounded-lg text-sm font-bold font-sans transition-all duration-200
                 ${!isLogin ? "bg-purple-500 text-white shadow-lg" : "text-gray-500 hover:text-gray-300 bg-transparent"}`}
             >
               Sign Up
@@ -198,7 +198,7 @@ export default function AuthPage() {
                   value={val}
                   onChange={(e) => handleOtpChange(e.target.value, i)}
                   onKeyDown={(e) => handleOtpKeyDown(e, i)}
-                  className={`w-11 h-14 text-center text-xl font-bold font-mono rounded-xl border
+                  className={`w-11 h-14 text-center text-xl font-bold font-sans rounded-xl border
                     bg-gray-50 text-black outline-none transition-all duration-200 focus:border-purple-500
                     ${val ? "border-purple-500 bg-purple-100" : "border-gray-700"}`}
                 />
@@ -208,14 +208,14 @@ export default function AuthPage() {
             <button
               onClick={handleVerifyOTP}
               disabled={loading}
-              className="w-full bg-yellow-300 hover:bg-yellow-600 disabled:opacity-60 text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-2"
+              className="w-full bg-yellow-300 hover:bg-yellow-600 disabled:opacity-60 text-white font-bold font-sans py-3 rounded-xl transition-all duration-200 mt-2"
             >
               {loading ? "Verifying..." : "Verify OTP ✓"}
             </button>
 
             <button
               onClick={() => setShowOTP(false)}
-              className="text-gray-900 hover:text-gray-700 text-sm font-mono transition-colors mt-1 bg-transparent border-none cursor-pointer"
+              className="text-gray-900 hover:text-gray-700 text-sm font-sans transition-colors mt-1 bg-transparent border-none cursor-pointer"
             >
               ← Back
             </button>
@@ -236,14 +236,14 @@ export default function AuthPage() {
               <div className="flex bg-gray-50 rounded-xl p-1 mb-5 border border-gray-800">
                 <button
                   onClick={() => { setLoginBy("username"); setForm({ ...form, email: "" }); }}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-mono transition-all duration-200
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-sans transition-all duration-200
                     ${loginBy === "username" ? "bg-gray-500 text-black" : "text-gray-500 hover:text-gray-900 bg-transparent"}`}
                 >
                   Username
                 </button>
                 <button
                   onClick={() => { setLoginBy("email"); setForm({ ...form, username: "" }); }}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-mono transition-all duration-200
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold font-sans transition-all duration-200
                     ${loginBy === "email" ? "bg-gray-500 text-black" : "text-gray-500 hover:text-gray-900 bg-transparent"}`}
                 >
                   Email
@@ -254,7 +254,7 @@ export default function AuthPage() {
             {/* ── Username Field ── */}
             {(!isLogin || loginBy === "username") && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                   Username
                 </label>
                 <input
@@ -263,7 +263,7 @@ export default function AuthPage() {
                   onChange={handleChange}
                   placeholder="your_username"
                   className="bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                    px-4 py-3 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
             )}
@@ -271,7 +271,7 @@ export default function AuthPage() {
             {/* ── Email Field ── */}
             {(!isLogin || loginBy === "email") && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                   Email
                 </label>
                 <input
@@ -281,7 +281,7 @@ export default function AuthPage() {
                   onChange={handleChange}
                   placeholder="you@example.com"
                   className="bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                    px-4 py-3 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
               </div>
             )}
@@ -289,7 +289,7 @@ export default function AuthPage() {
             {/* ── Role Selection (Sign Up only) ── */}
             {!isLogin && (
               <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
+                <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                   I am a...
                 </label>
                 <div className="flex gap-3">
@@ -297,7 +297,7 @@ export default function AuthPage() {
                   <button
                     type="button"
                     onClick={() => setForm({ ...form, role: "user" })}
-                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-mono transition-all duration-200 cursor-pointer
+                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-sans transition-all duration-200 cursor-pointer
                       ${form.role === "user"
                         ? "bg-purple-500 border-purple-500 text-white"
                         : "bg-gray-950 border-gray-700 text-gray-400 hover:border-gray-500"
@@ -310,7 +310,7 @@ export default function AuthPage() {
                   <button
                     type="button"
                     onClick={() => setForm({ ...form, role: "artist" })}
-                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-mono transition-all duration-200 cursor-pointer
+                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-sans transition-all duration-200 cursor-pointer
                       ${form.role === "artist"
                         ? "bg-orange-500 border-orange-500 text-white"
                         : "bg-gray-950 border-gray-700 text-gray-400 hover:border-gray-500"
@@ -324,7 +324,7 @@ export default function AuthPage() {
 
             {/* ── Password Field ── */}
             <div className="flex flex-col gap-1 mb-2">
-              <label className="text-gray-900 text-xs font-mono font-semibold uppercase tracking-wider">
+              <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -335,7 +335,7 @@ export default function AuthPage() {
                   onChange={handleChange}
                   placeholder="••••••••"
                   className="w-full bg-gray-50 border border-gray-700 focus:border-purple-500 rounded-xl
-                    px-4 py-3 pr-12 text-black text-sm font-mono outline-none transition-all duration-200 placeholder-gray-600"
+                    px-4 py-3 pr-12 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
                 {/* Eye icon toggle */}
                 <button
@@ -353,7 +353,7 @@ export default function AuthPage() {
               <div className="flex justify-end mb-5 mt-1">
                 <span
                   onClick={() => navigate("/forgot-password")}
-                  className="text-purple-400 text-xs font-mono cursor-pointer hover:text-purple-300 underline underline-offset-4 transition-colors"
+                  className="text-purple-400 text-xs font-sans cursor-pointer hover:text-purple-300 underline underline-offset-4 transition-colors"
                 >
                   Forgot password?
                 </span>
@@ -365,13 +365,13 @@ export default function AuthPage() {
               onClick={handleSubmit}
               disabled={loading}
               className="w-full bg-purple-500 hover:bg-purple-600 active:bg-purple-700 disabled:opacity-60
-                text-white font-bold font-mono py-3 rounded-xl transition-all duration-200 mt-3 cursor-pointer"
+                text-white font-bold font-sans py-3 rounded-xl transition-all duration-200 mt-3 cursor-pointer"
             >
               {loading ? "Please wait..." : isLogin ? "Sign In →" : "Create Account →"}
             </button>
 
             {/* ── Switch Mode ── */}
-            <p className="text-center text-gray-500 text-sm mt-5 font-mono">
+            <p className="text-center text-gray-500 text-sm mt-5 font-sans">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <span
                 onClick={switchMode}
@@ -384,7 +384,7 @@ export default function AuthPage() {
         )}
       </div>
 
-      <p className="text-gray-700 text-xs font-mono tracking-widest mt-8 z-10">
+      <p className="text-gray-700 text-xs font-sans tracking-widest mt-8 z-10">
         🎵 DISCOVER · CREATE · SHARE
       </p>
 

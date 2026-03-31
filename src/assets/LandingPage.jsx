@@ -30,7 +30,7 @@ export default function LandingPage() {
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
           <button
-            onClick={() => navigate('/User-Dashboard')}
+            onClick={() => navigate('/login')}
             className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer"
           >
             Explore Feed
@@ -108,13 +108,13 @@ export default function LandingPage() {
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
           <button
-            onClick={() => navigate('/login?role=user')}
+            onClick={() => navigate('/login')}
             className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer"
           >
             Join as Listener
           </button>
           <button
-            onClick={() => navigate('/login?role=artist')}
+            onClick={() => navigate('/login')}
             className={`border border-purple-500 px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer
               ${dark ? "text-purple-400 hover:bg-purple-950" : "text-purple-600 hover:bg-purple-100"}`}
           >
