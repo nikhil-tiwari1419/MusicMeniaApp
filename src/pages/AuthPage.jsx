@@ -9,13 +9,6 @@ export default function AuthPage() {
   // ─────────────────────────────────────────
   // STATE
   // ─────────────────────────────────────────
-  const { user } = useAuth();
-  useEffect(() => {
-    if (user) {
-      navigate(user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
-    }
-  }, [user])
-
 
   const [isLogin, setIsLogin] = useState(true);       // Sign In ya Sign Up tab
   const [loading, setLoading] = useState(false);      // button disable during API call
@@ -34,8 +27,13 @@ export default function AuthPage() {
   });
 
   // Context se login/register/logout functions
-  const { login, register } = useAuth();
+  const { user, login, register } = useAuth();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+    }
+  }, [user, navigate]);
 
   // HANDLERS
 
