@@ -23,14 +23,30 @@ export const AuthProvider = ({ children }) => {
 
     async function checkAuth() {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth/is-auth`, { withCredentials: true }); // cookies bhejo
-
+            const res = await axios.get(
+                `${import.meta.env.VITE_API_URL}/auth/is-auth`,
+                { withCredentials: true }
+            );
             if (res.data.success) {
-                setUser(res.data.user); //userset karo
+                setUser(res.data.user);
             }
-
         } catch (error) {
-            setUser(null);
+            try {
+                await axios.post(
+                    `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+                    {},
+                    { withCredentials: true }
+                );
+                const retry = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/auth/is-auth`,
+                    { withCredentials: true }
+                );
+                if (retry.data.success) {
+                    setUser(retry.data.user); 
+                }
+            } catch (refreshError) {
+                setUser(null);
+            }
         } finally {
             setLoading(false);
         }

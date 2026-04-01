@@ -6,7 +6,7 @@ import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 
-const Home = React.lazy(() => import('./pages/Home'));
+const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
 const UserDashboard = React.lazy(() => import('./pages/UserDashboard'));
 const CreateMusic = React.lazy(() => import('./pages/CreateMusic'));
 const LocalFeed = React.lazy(() => import('./pages/LocalFeed'));
@@ -31,7 +31,7 @@ function AppContent() {
       <Routes>
         {/* public Routes */}
         <Route path='/' element={<LandingPage />} />
-        <Route path='/unauthorized' element={<Home />} />
+        <Route path='/unauthorized' element={<Unauthorized />} />
         {/*  login Page */}
         <Route path='/login' element={<Authpage />} />
 

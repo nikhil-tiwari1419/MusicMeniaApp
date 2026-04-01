@@ -7,9 +7,9 @@ function ProtectedRoute({ children, allowedRole }) {
 
     if(loading) return <Pageloder/>
 
-    if (!user) return <Navigate to="/login" />;
+    if (!user) return <Navigate to="/" />;
 
-    if (allowedRole && user.role != allowedRole){
+    if (allowedRole && user.role !== allowedRole){
         return <Navigate to="/unauthorized"/>;
     }
 

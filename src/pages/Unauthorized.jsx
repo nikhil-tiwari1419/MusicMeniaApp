@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/Auth';
 
-function Home() {
+function Unauthorized() {
     const path = useNavigate();
     const { user } = useAuth();
     return (
@@ -32,4 +32,4 @@ function Home() {
     )
 }
 
-export default Home
+export default Unauthorized
