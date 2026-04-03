@@ -7,22 +7,20 @@ import UserMenu from '../Components/Usermenu';
 
 const userlink = [
   { label: 'Home', path: '/user-Dashboard' },
-  { label: 'Music-Feed', path: '/Local-Feed' },
-  { label: "Album'S", path: '/album' },
-  { label: 'About-Us', path: '/about' },
-  { label: 'Artist', path: '/About-Artist' }
-
+  { label: 'Music-Feed', path: '/Local-Feed' },//All music feed
+  { label: "Album'S", path: '/album' }, //All Album's in musicMenia
+  { label: 'About-Us', path: '/about' }, //About musicMenia
+  { label: 'Profile', path: '/user-Profile' },//About Listener
+  { label: 'Artist', path: '/About-Artist' } //About Artist in musicMenia
 ];
 
 const artistLikns = [
-  { label: 'Home', path: '/artist-Dashboard' },
-  { label: 'Upload Track', path: '/create-music' },
-  { label: 'My-Album', path: '/album' },
-  { label: 'My-Post', path: '/album' },
-  { label: 'About-Me', path: '/about' },
-  { label: 'About Music_menia', path: '/about' },
-
-]
+  { label: 'Home', path: '/artist-Dashboard' },//Artist Dashboard
+  { label: 'Upload Track', path: '/create-music' },//Create Music
+  { label: 'Albums', path: '/Artist-album' },//Artist Albums
+  { label: 'My-Post', path: '/your-post' },//Artist Post
+  { label: 'About Music_menia', path: '/about-company' },//About musicMenia
+];
 
 
 function Navbar() {
@@ -49,12 +47,19 @@ function Navbar() {
     <div className={`fixed top-0 w-full z-50 border-b
       ${dark ? "bg-gray-900 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-900"}`}>
 
-      <div className="flex items-center justify-between px-4 sm:px-8 md:px-16 py-3">
+      <div className="flex items-center justify-between px-4 sm:px-8 md:px-16 py-1">
 
         {/* Logo */}
-        <div className="flex cursor-pointer flex-shrink-0" onClick={() => navigate('/')}>
-          <span className="bg-gray-900 text-white text-lg font-mono py-1 pl-3 pr-1 rounded-l-xl">Music</span>
-          <span className="bg-blue-400 text-black text-lg font-mono py-1 pr-3 pl-1 rounded-r-xl">Menia</span>
+        <div className="flex cursor-pointer font-semibold justify-center items-center  flex-shrink-0" onClick={() => navigate('/')}>
+          <img src="/music-logo.png"
+            alt=""
+            className='sm:h-15 h-10'
+          />
+
+          <h1 className='font-semibold font-mono px-3 sm:text-2xl text-xl '>
+            <span className='text-blue-400'>Music</span>
+            <span className='text-gray-400'>Menia</span>
+          </h1>
         </div>
 
         {/* Desktop Links — Login/Signup removed, handled by UserMenu */}

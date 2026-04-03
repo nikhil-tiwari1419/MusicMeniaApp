@@ -1,8 +1,8 @@
 import React from 'react'
-import { useAuth } from '../Context/Auth'
-import Navbar from '../Components/Navbar'
-import Footer from '../Components/Footer'
-import { useTheme } from '../Context/Theme'
+import { useAuth } from "../../Context/Auth";
+import { useTheme } from "../../Context/Theme";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 
 function UserDashboard() {
   const { user } = useAuth();

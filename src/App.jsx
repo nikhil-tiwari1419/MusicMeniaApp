@@ -7,15 +7,23 @@ import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
-const UserDashboard = React.lazy(() => import('./pages/UserDashboard'));
-const CreateMusic = React.lazy(() => import('./pages/CreateMusic'));
-const LocalFeed = React.lazy(() => import('./pages/LocalFeed'));
-const YourPost = React.lazy(() => import('./pages/YourPost'));
-const About = React.lazy(() => import('./pages/About'));
-const Album = React.lazy(() => import('./pages/Album'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
-const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
-const LandingPage = React.lazy(() => import('./assets/LandingPage'))
+const LandingPage = React.lazy(() => import('./assets/LandingPage'));
+
+// Artist Pages
+const AdminDashboard = React.lazy(() => import('./pages/Artistpage/AdminDashboard'));
+const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
+const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
+const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
+
+// User Pages
+const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
+const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
+const About = React.lazy(() => import('./pages/UserPage/About'));
+const Album = React.lazy(() => import('./pages/UserPage/Album'));
+const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
+
+
 
 
 function AppContent() {
@@ -67,7 +75,7 @@ function AppContent() {
 
         <Route path='/your-post' element={
           <ProtectedRoute>
-            <YourPost />
+            <Mypost />
           </ProtectedRoute>
         } />
 

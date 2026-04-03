@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/Auth";
-import { useTheme } from "../Context/Theme";
-import Navbar from "../Components/Navbar";
+import { useAuth } from "../../Context/Auth";
+import { useTheme } from "../../Context/Theme";
+import Navbar from "../../Components/Navbar";
 import { Radio, Plus, Mic2, ListMusic, FileHeadphone } from "lucide-react";
 
 const quickActions = [

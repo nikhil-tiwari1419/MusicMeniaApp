@@ -5,7 +5,7 @@ function LocalFeed() {
   return (
     <>
       <Navbar />
-      <div className='min-h-screen '></div>
+      <div className='min-h-screen'></div>
       <Footer />
     </>
   )

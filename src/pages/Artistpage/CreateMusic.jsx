@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Navbar from '../Components/Navbar';
+import Navbar from '../../Components/Navbar';
 
 function CreateMusic() {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ function CreateMusic() {
   const [captionLength, setCaptionLength] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const maxLength = 100;
+  const maxLength = 500;
 
-  // Handles audio file selection
+  // Handles audio file selection and generates preview
   const handleAudioChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -30,40 +30,40 @@ function CreateMusic() {
     }
   };
 
-  // Tracks caption character count
+  // Tracks caption length for user feedback
   const handleCaptionChange = (e) => {
     setCaptionLength(e.target.value.length);
   };
 
   // Clears selected audio
   const clearAudio = () => {
-    setMusicPreview(null);          // ✅ was setImagePreview (wrong state name)
+    setMusicPreview(null);          
     setFileName('');
     setSelectedFile(null);
     document.getElementById('file-upload').value = '';
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();             // ✅ was e.preventdefault() — wrong casing
+    e.preventDefault();            
     setLoading(true);
 
     if (!selectedFile) {
-      toast.error('Please select an audio file!'); // ✅ was GiToaster (not defined)
+      toast.error('Please select an audio file!'); 
       setLoading(false);
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);   // ✅ key must match multer's upload.single('file')
-    formData.append('title', document.getElementById('caption').value);
+    formData.append('file', selectedFile);   // key must match multer's upload.single('file')
+    formData.append('caption', document.getElementById('caption').value);
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/music/upload`,
+        `${import.meta.env.VITE_API_URL}/api/upload/music`,
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'  // ✅ was 'multipart/from-data' (typo)
+            'Content-Type': 'multipart/form-data'  // was 'multipart/from-data' (typo)
           },
           withCredentials: true  // sends cookie/token with request
         }
