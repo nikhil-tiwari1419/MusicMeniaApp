@@ -54,7 +54,7 @@ export default function LandingPage() {
 
       {/* ── Hero ── */}
       <section className={`pt-24 pb-16  sm:px-6 text-center border-b
-        ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-200"}`}>
+        ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-50"}`}>
 
         {/* Fixed: stack on mobile, side-by-side on sm+ */}
         <div className='flex flex-col max-w-7xl mx-auto w-full items-center justify-center sm:flex-row sm:justify-between sm:px-10'>
@@ -100,38 +100,54 @@ export default function LandingPage() {
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
           What you can do
         </h2>
-        <div className="grid grid-cols-1 flex flex-col sm:flex-row sm:grid-cols-2 gap-4 px-5 sm:gap-6 max-w-3xl mx-auto">
-          {features.map((f,i) => (
+        <div className="grid grid-cols-1  gap-4 px-5 sm:gap-6 max-w-6xl mx-auto">
+          {features.map((f, i) => (
             <div
               key={f.label}
-              className={`border rounded p-5 sm:p-6 text-center transition-colors
+              className={`border rounded  p-5 sm:p-6 text-center transition-colors
                 ${dark ? "bg-gray-800 border-gray-700" : "bg-gray-50 border-gray-200"}`}
             >
-              <span className='border-emerald-400 border bg-emerald-200 text-black  px-2 py-0.5 font-bold rounded-full '>{i + 1}</span>
-              <div className="text-3xl sm:text-4xl mb-3">{f.icon}</div>
-              <img src={f.img} alt={f.label} className="w-full h-auto mb-3" />
-              <h3 className={`font-semibold sm:text-xl text-sm  mb-2 ${dark ? "text-white" : "text-gray-900"}`}>
-                {f.label}
-              </h3>
-              <p className={`sm:text-2xl text-xl py-4  leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
-                {f.desc1}
-              </p>
-              <ul className='tracking-tight text-left text-xl justify-between mt-3 list-disc px-5'>
 
-                {f.n1 && <li className={`mt-2 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n1}</li>}
-                {f.n2 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n2}</li>}
-                {f.n3 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n3}</li>}
-              </ul>
+              <div className={`flex flex-col ${i % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'} gap-4 items-center sm:gap-8`}>
+
+                <img
+                  src={f.img}
+                  alt={f.label}
+                  className="w-full  h-full sm:h-80 sm:w-80  object-cover rounded flex-shrink-0"
+                />
+
+                <div className='flex-1'>
+                  <div className='flex items-center gap-3 mb-3'>
+                    <span className="text-3xl sm:text-4xl mb-3">{f.icon}</span>
+                    <span className='bg-emerald-200 text-black  w-10 h-10 sm:w-11 sm:h-11 rounded-full font-bold py-2 px-3.5'>{i + 1}</span>
+                  </div>
+
+                  <h3 className={`font-bold underline p-3 sm:text-2xl text-xl  mb-2 ${dark ? "text-white" : "text-gray-900"}`}>
+                    {f.label}
+                  </h3>
+
+                  <p className={`sm:text-2xl text-xl py-4  leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    {f.desc1}
+                  </p>
+
+                  <ul className='tracking-tight text-left text-xl  justify-between mt-3 list-disc px-5'>
+                    {f.n1 && <li className={`mt-2 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n1}</li>}
+                    {f.n2 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n2}</li>}
+                    {f.n3 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n3}</li>}
+                  </ul>
+                </div>
+
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── How it works ── */}
-      <section className={`py-16 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
-        <h2 className={`text-center text-lg sm:text-xl font-semibold mb-10 sm:mb-12
+      {/* ── How it works  ── */}
+      <section className={`py-2 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
+        <h2 className={`text-center text-xl sm:text-2xl font-bold font-sans mb-10 sm:mb-12
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
-          How it works
+          How it works For Listeners
         </h2>
 
         {/* Fixed: 2-col grid on mobile, single row on sm+ */}

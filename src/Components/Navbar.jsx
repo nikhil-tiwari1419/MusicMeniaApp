@@ -51,15 +51,16 @@ function Navbar() {
 
         {/* Logo */}
         <div className="flex cursor-pointer font-semibold justify-center items-center  flex-shrink-0" onClick={() => navigate('/')}>
-          <img src="/music-logo.png"
+          <img src={` ${dark ? "/whitelogo.png" : "/logoo.png"}`}
             alt=""
             className='sm:h-15 h-10'
           />
 
-          <h1 className='font-semibold font-mono px-3 sm:text-2xl text-xl '>
-            <span className='text-blue-400'>Music</span>
+          {/* <h1 className='font-semibold font-mono px-3 sm:text-2xl text-xl '>
+            <span className='text-green
+            -400'>Music</span>
             <span className='text-gray-400'>Menia</span>
-          </h1>
+          </h1> */}
         </div>
 
         {/* Desktop Links — Login/Signup removed, handled by UserMenu */}
@@ -84,12 +85,12 @@ function Navbar() {
 
           {/* Theme toggle */}
           <button onClick={toggleTheme}
-            className={`p-2 rounded-full border transition-colors
-              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-800" : "text-gray-600 border-gray-200 hover:bg-gray-100"}`}>
+            className={`p-2 rounded-full border-2 transition-colors
+              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-600" : "text-gray-600 border-gray-200 hover:bg-gray-200"}`}>
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          {/* ✅ UserMenu — login/logout/avatar */}
+          {/*  UserMenu — login/logout/avatar */}
           <UserMenu />
 
           {/* Hamburger — mobile only */}

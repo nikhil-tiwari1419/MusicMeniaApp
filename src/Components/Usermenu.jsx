@@ -35,7 +35,7 @@ function UserMenu() {
         return (
             <button
                 onClick={() => navigate('/login')}
-                className="px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold font-mono rounded-lg transition-colors cursor-pointer"
+                className="px-5 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xl font-semibold font-mono rounded-lg transition-colors cursor-pointer"
             >
                 Login
             </button>
