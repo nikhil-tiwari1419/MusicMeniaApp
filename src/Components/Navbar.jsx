@@ -63,7 +63,7 @@ function Navbar() {
           </h1> */}
         </div>
 
-        {/* Desktop Links — Login/Signup removed, handled by UserMenu */}
+        {/* Desktop Links — Login/Signup */}
         <ul className="hidden md:flex gap-1 font-medium">
           {navLinks.map(link => (
             <li key={link.label}>
@@ -107,7 +107,7 @@ function Navbar() {
       {/* Mobile Dropdown */}
       {open && (
         <div ref={menuRef}
-          className={`md:hidden border-t px-4 py-3
+          className={`md:hidden border-t px-4 py-5
             ${dark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-100"}`}>
           <ul className="flex flex-col gap-1">
             {navLinks.map(link => (
@@ -115,9 +115,9 @@ function Navbar() {
                 <NavLink to={link.path}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors
+                    `block px-3 py-5 rounded-xl text-xl font-semibold transition-colors
                     ${isActive
-                      ? "text-blue-500 bg-blue-50 font-semibold"
+                      ? "text-black bg-gray-50 font-semibold"
                       : dark ? "hover:bg-gray-800" : "hover:bg-gray-50 text-gray-700"}`
                   }>
                   {link.label}
@@ -128,13 +128,13 @@ function Navbar() {
             {/* Mobile — show user info or login */}
             <li className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
               {user ? (
-                <div className={`px-3 py-2 rounded-xl text-sm ${dark ? "text-gray-300" : "text-gray-700"}`}>
+                <div className={`px-3 py-2 rounded-xl text-xl ${dark ? "text-gray-300" : "text-gray-700"}`}>
                   <p className="font-semibold">{user.username}</p>
                   <p className="text-xs text-gray-400">{user.email}</p>
                 </div>
               ) : (
                 <NavLink to="/login" onClick={() => setOpen(false)}
-                  className="block px-3 py-2.5 rounded-xl text-sm font-medium text-blue-500 hover:bg-blue-50 transition-colors">
+                  className="block px-3 py-2.5 rounded-xl text-xl font-medium text-blue-500 hover:bg-blue-50 transition-colors">
                   Login / Signup
                 </NavLink>
               )}

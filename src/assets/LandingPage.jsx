@@ -30,7 +30,7 @@ const features = [
     img: "Meryl_Akiyo_v1.jpg"
   },
   {
-    icon: <Globe strokeWidth={3} size={50} />,
+    icon: <Globe strokeWidth={2.5} size={50} />,
     label: "Prepare for release",
     desc1: "Ahead of release day, make sure to:",
     n1: "Optimize your artist profile.",
@@ -49,7 +49,7 @@ export default function LandingPage() {
   const dark = theme === "dark"
 
   return (
-    <div className={`min-h-screen ${dark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
+    <div className={`min-h-screen  ${dark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
       <Navbar />
 
       {/* ── Hero ── */}
@@ -130,7 +130,7 @@ export default function LandingPage() {
                     {f.desc1}
                   </p>
 
-                  <ul className='tracking-tight text-left text-xl  justify-between mt-3 list-disc px-5'>
+                  <ul className='tracking-tight text-left text-xl  justify-between mt-3 text-blue-500 list-disc px-5'>
                     {f.n1 && <li className={`mt-2 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n1}</li>}
                     {f.n2 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n2}</li>}
                     {f.n3 && <li className={`mt-1 ${dark ? "text-gray-300" : "text-gray-800"}`}>{f.n3}</li>}
