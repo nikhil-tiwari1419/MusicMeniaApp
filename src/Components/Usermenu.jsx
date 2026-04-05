@@ -4,6 +4,7 @@ import { LogOut, User, ChevronDown, MessageSquareHeart } from 'lucide-react';
 import { useAuth } from '../Context/Auth';
 import { useTheme } from '../Context/Theme';
 
+
 function UserMenu() {
     const { user, logout } = useAuth();
     const { theme } = useTheme();
@@ -29,8 +30,7 @@ function UserMenu() {
         navigate('/');
     }
 
-
-    // ✅ User logged in nahi hai — Login button dikhao
+    //  User logged in nahi hai — Login button dikhao
     if (!user) {
         return (
             <button
@@ -42,7 +42,7 @@ function UserMenu() {
         );
     }
 
-    // ✅ User logged in hai — Avatar + Dropdown
+    //  User logged in hai — Avatar + Dropdown
     return (
         <div className="relative" ref={menuRef}>
 

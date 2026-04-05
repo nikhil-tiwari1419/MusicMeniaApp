@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "category": "account",
+    "question": "How do I create an account?",
+    "answer": "Click 'Join Free' on the homepage and enter your email and password. You can also sign up with Google or Apple. After verifying your email, pick your role — listener or artist — and you're in."
+  },
+  {
+    "id": 2,
+    "category": "account",
+    "question": "Can I switch between listener and artist roles?",
+    "answer": "Yes. Go to Settings → Profile → Role and switch anytime. Your listening history and saved tracks are preserved when you switch to artist mode."
+  },
+  {
+    "id": 3,
+    "category": "account",
+    "question": "How do I reset my password?",
+    "answer": "Click 'Forgot Password' on the login page and enter your email. You'll receive a reset link within a few minutes. Check your spam folder if it doesn't arrive."
+  },
+  {
+    "id": 4,
+    "category": "account",
+    "question": "Can I delete my account?",
+    "answer": "Yes. Go to Settings → Account → Delete Account. This is permanent and will remove all your uploads, saved tracks, and profile data. We cannot recover deleted accounts."
+  },
+  {
+    "id": 5,
+    "category": "music",
+    "question": "What audio formats can I upload?",
+    "answer": "We accept MP3, WAV, FLAC, and AAC files up to 50MB per track. For best quality, upload lossless WAV or FLAC at 44.1kHz / 16-bit minimum. Clips must be 30 seconds to 3 minutes long."
+  },
+  {
+    "id": 6,
+    "category": "music",
+    "question": "How long until my track goes live?",
+    "answer": "Most tracks are reviewed and published within 2–4 hours. During high traffic periods this may extend to 24 hours. You'll get an email notification once your track is live."
+  },
+  {
+    "id": 7,
+    "category": "music",
+    "question": "Can I edit or delete a track after uploading?",
+    "answer": "Yes. Go to your Dashboard → My Tracks, select the track, and choose Edit or Delete. You can update the title, cover art, and description. Replacing the audio file requires re-uploading."
+  },
+  {
+    "id": 8,
+    "category": "music",
+    "question": "Why was my track rejected?",
+    "answer": "Tracks are rejected for low audio quality, copyright violations, explicit content without proper tagging, or incomplete metadata. You'll receive an email with the specific reason and can re-upload after fixing the issue."
+  },
+  {
+    "id": 9,
+    "category": "billing",
+    "question": "Is MusicMenia free to use?",
+    "answer": "Listening is completely free, forever. Artists get 5 free uploads per month. For unlimited uploads, analytics, and priority review, the Artist Pro plan is ₹299/month."
+  },
+  {
+    "id": 10,
+    "category": "billing",
+    "question": "How do I cancel my subscription?",
+    "answer": "Go to Settings → Billing → Cancel Plan. Your Pro features stay active until the end of your billing period. No cancellation fees — cancel anytime."
+  },
+  {
+    "id": 11,
+    "category": "billing",
+    "question": "What payment methods do you accept?",
+    "answer": "We accept UPI, credit/debit cards (Visa, Mastercard, RuPay), net banking, and PayPal. All payments are processed securely via Razorpay."
+  },
+  {
+    "id": 12,
+    "category": "billing",
+    "question": "Can I get a refund?",
+    "answer": "Refunds are available within 7 days of purchase if you have not used any Pro features. Contact support with your order ID and we'll process it within 3–5 business days."
+  },
+  {
+    "id": 13,
+    "category": "artist",
+    "question": "How do royalties work?",
+    "answer": "Artists earn per stream based on a revenue-share model. Payouts are processed monthly via UPI, bank transfer, or PayPal once your balance reaches ₹500. Check your dashboard for detailed earnings."
+  },
+  {
+    "id": 14,
+    "category": "artist",
+    "question": "Can I upload cover songs?",
+    "answer": "Yes, with a mechanical license. We've partnered with a licensing provider to make this easy — you'll be prompted during upload if the track is detected as a cover. Original compositions are always preferred."
+  },
+  {
+    "id": 15,
+    "category": "artist",
+    "question": "How do I get my music on the Explore feed?",
+    "answer": "New uploads are automatically eligible for the Explore feed. Tracks with complete metadata, high-quality cover art, and good early engagement are prioritized by our algorithm."
+  },
+  {
+    "id": 16,
+    "category": "artist",
+    "question": "Can I collaborate with other artists on the platform?",
+    "answer": "Yes. You can tag collaborators when uploading a track. All tagged artists will have the track appear on their profile and share in the stream count. Royalty splits must be agreed upon outside the platform for now."
+  },
+  {
+    "id": 17,
+    "category": "community",
+    "question": "How do I follow an artist?",
+    "answer": "Visit any artist's profile and click the Follow button. You'll see their new uploads in your feed and receive notifications when they go live."
+  },
+  {
+    "id": 18,
+    "category": "community",
+    "question": "Can I share tracks outside the app?",
+    "answer": "Yes. Each track has a shareable link you can copy and post anywhere. Listeners who don't have an account can still play a preview before being prompted to sign up."
+  },
+  {
+    "id": 19,
+    "category": "community",
+    "question": "How do I report inappropriate content?",
+    "answer": "Tap the three-dot menu on any track or profile and select Report. Our moderation team reviews all reports within 24 hours. Repeated violations result in account suspension."
+  },
+  {
+    "id": 20,
+    "category": "community",
+    "question": "Is there a way to message artists directly?",
+    "answer": "Not yet — direct messaging is on our roadmap. For now, you can leave comments on tracks or tag artists in the community feed to get their attention."
+  }
+]
