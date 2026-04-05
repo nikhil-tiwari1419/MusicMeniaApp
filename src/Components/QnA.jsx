@@ -2,24 +2,22 @@ import React from 'react'
 import Qna from '../assets/QnA.json';
 import { useTheme } from '../Context/Theme';
 
-function FAQItem({
-    question, answer
-}) {
-    const [open, setOpen] = React.useState(false);
+function FAQItem({ question, answer, isOpen, onToggle}) {
+    // const [open, setOpen] = React.useState(false);
     const { theme } = useTheme();
     const dark = theme === "dark"
 
     return (
         <div className={`border-b ${dark ? "border-gray-700" : "border-gray-200"}`}>
             <button
-                onClick={() => setOpen(!open)}
+                onClick={onToggle}
                 className={`w-full flex justify-between items-center py-4 px-2 text-left font-medium text-sm sm:text-base cursor-pointer ${dark ? "text-white hover:text-gray-200 " : "text-gray-800 hover:text-gray-600"}`}
             >
                 <span>{question}</span>
-                <span className={`ml-4 flex-shrink-0 text-lg transition-transform duration-300 ${open ? "rotate-45" : ""}`}>+</span>
+                <span className={`ml-4 flex-shrink-0 text-lg transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}>+</span>
             </button>
 
-            <div className={`overflow-hidden transition-all duration-300 ${open ? "max-h-96 pb-4" : "max-h-0"}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 pb-4" : "max-h-0"}`}>
                 <p className={`px-2 text-sm sm:text-base leading-relaxed ${dark ? "text-white" : "text-black"}`}>{answer}</p>
             </div>
         </div>
@@ -27,6 +25,7 @@ function FAQItem({
 }
 function QnA() {
     const [activeCategory, setActiveCategory] = React.useState("all");
+    const [openId, setOpenId] = React.useState(null);
     const { theme } = useTheme();
     const dark = theme === "dark";
 
@@ -34,7 +33,7 @@ function QnA() {
 
     const filteredQna = activeCategory === "all" ? Qna : Qna.filter(q => q.category === activeCategory)
     return (
-        <div className={` py-10 px-5 ${dark ? "bg-gray-800 text-white":"bg-white text-black"}`}>
+        <div className={` py-10 px-5 ${dark ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
             <div className='max-w-2xl mx-auto'>
 
                 <div className='mb-8 text-center'>
@@ -44,12 +43,12 @@ function QnA() {
                 </div>
 
                 {/* Category Filters */}
-                <div className='flex flex-wrap gap-12mb-8 justify-center'>
+                <div className='flex flex-wrap gap-12 mb-8 justify-center'>
                     {categories.map(cat => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`${activeCategory === cat ? "border-blue-700 border-b-2 ":""} capitalize px-2 py-1.5 text-xl`}
+                            className={`${activeCategory === cat ? "border-blue-700 border-b-2 " : ""} capitalize px-2 py-1.5 text-xl`}
                         >
                             {cat}
                         </button>
@@ -57,10 +56,16 @@ function QnA() {
                 </div>
                 {/* FAQ list */}
                 <div
-                    className={`rounded-2xl overflow-x-auto h-90 no-scrollbar text-center ${dark ? "bg-gray-800" : "bg-white"}`}
+                    className={`rounded-2xl overflow-x-auto  no-scrollbar text-center ${dark ? "bg-gray-800" : "bg-white"}`}
                 >
                     {filteredQna.length > 0 ? filteredQna.map(q => (
-                        <FAQItem key={q.id} question={q.question} answer={q.answer} />
+                        <FAQItem
+                            key={q.id}
+                            question={q.question}
+                            answer={q.answer}
+                            isOpen={openId === q.id}
+                            onToggle={() => setOpenId(openId === q.id ? null : q.id)}
+                        />
                     )) : (
                         <p>No questions in this category found.</p>
                     )}

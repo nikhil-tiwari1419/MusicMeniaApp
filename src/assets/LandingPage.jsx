@@ -119,7 +119,7 @@ export default function LandingPage() {
                 <img
                   src={f.img}
                   alt={f.label}
-                  className="w-full max-w-full h-64 md:h-80 md:w-80 md:max-w-80 object-cover rounded flex-shrink-0"
+                  className=" sm:h-80 md:h-90 w-auto  object-cover rounded flex-shrink-0"
                 />
               </div>
 
@@ -189,11 +189,11 @@ export default function LandingPage() {
           </section>
 
       <section className={`py-16 sm:py-20 px-4 sm:px-6 text-center
-        ${dark ? "bg-gray-900" : "bg-purple-50 border-t border-purple-100"}`}>
+        ${dark ? "bg-gray-700" : "bg-purple-50 border-t border-purple-100"}`}>
         <h2 className={`text-xl sm:text-2xl font-bold mb-3 ${dark ? "text-white" : "text-gray-900"}`}>
           Ready to start?
         </h2>
-        <p className={`mb-8 sm:mb-10 text-sm sm:text-base ${dark ? "text-blue-300" : "text-yellow-500"}`}>
+        <p className={`mb-8 sm:mb-10 text-xl font-semibold ${dark ? "text-blue-300" : "text-yellow-500"}`}>
           Join thousands of listeners and artists on MusicMenia
         </p>
         <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
@@ -213,12 +213,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className={`py-6 text-center text-xs tracking-widest
-        ${dark ? "bg-gray-800 text-gray-600" : "bg-gray-100 text-gray-400"}`}>
-        <LandingFooter/>
-        🎵 DISCOVER · CREATE · SHARE
-      </footer>
+      <LandingFooter/>
     </div>
   )
 }

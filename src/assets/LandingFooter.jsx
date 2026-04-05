@@ -1,35 +1,102 @@
 import React from 'react'
-import { useTheme } from '../Context/Theme';
+import { useTheme } from '../Context/Theme'
+
 function LandingFooter() {
+    const { theme } = useTheme()
+    const dark = theme === "dark"
 
-    const usefulLinks = [
-        {
-            id: 1,
-            brand: "MusicMenia",
-            label: [
-                { id: 1, link: "Terms and condition's", url: "" },
-                { id: 2, link: "Privacy Policy", url: "" },
-                { id: 3, link: "About-Us", desc: "We are a team of music enthusiasts dedicated to providing the best music experience.In A free version of song " },
-                { id: 4, link: "Contact", desc: "Address: 123 Music Street, Tune City Maharastra, India" },
-            ]
-        }
-    ];
+    const links = [
+        { id: 1, label: "Terms & Conditions", url: "/" },
+        { id: 2, label: "Privacy Policy", url: "/" },
+        { id: 3, label: "FAQ", url: "/" },
+        { id: 4, label: "Contact", url: "/" },
+    ]
 
-    const { theme } = useTheme();
-    const dark = theme === "dark";
+    const socials = [
+        { label: "Instagram", url: "/" },
+        { label: "Twitter / X", url: "/" },
+        { label: "YouTube", url: "/" },
+        { label: "Spotify", url: "/" },
+    ]
+
     return (
-        <div className={`py-10 px-5 ${dark ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
-            <div className='grid grid-cols-2  max-w-7xl md:max-w-xl mx-auto gap-10'>
-                {usefulLinks.map(link => (
-                    <div key={link.id}
-                    className={`font-semibold ${dark ? "":""}`}
-                    >
-                        <h1>{link.brand}</h1>
+        <footer className={`${dark ? "bg-gray-950 text-white border-gray-800" : "bg-gray-50 text-gray-900 border-gray-200"} border-t`}>
+
+            {/* Main footer grid */}
+            <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                {/* Brand */}
+                <div className="lg:col-span-2">
+                    <div className="flex items-center gap-3 mb-4">
+                        <img
+                            src="/music.png"
+                            alt="MusicMenia"
+                            className="h-10 w-10 object-contain"
+                        />
+                        <span className="text-2xl font-bold tracking-tight">MusicMenia</span>
                     </div>
-                ))}
+                    <p className={`text-sm leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                        We are a team of music enthusiasts dedicated to providing the best music experience — discover, upload, and share short clips from artists around you.
+                    </p>
+                    <p className={`text-sm mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
+                        📍 123 Music Street, Tune City, Maharashtra, India
+                    </p>
+                </div>
+
+                {/* Quick Links */}
+                <div>
+                    <h3 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                        Quick Links
+                    </h3>
+                    <ul className="space-y-3">
+                        {links.map(l => (
+                            <li key={l.id}>
+                            <a
+                                    href={l.url}
+                                    className={`text-sm transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                >
+                                    {l.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Socials */}
+                <div>
+                    <h3 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                        Follow Us
+                    </h3>
+                    <ul className="space-y-3">
+                        {socials.map(s => (
+                            <li key={s.label}>
+                                
+                                <a
+                                    href={s.url}
+                                    className={`text-sm transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                >
+                                    {s.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+            </div> {/* ✅ Fix 3: </div> was commented out as </di/v> — grid was never closed */}
+
+            {/* Bottom bar */}
+            <div className={`border-t ${dark ? "border-gray-800" : "border-gray-200"}`}>
+                <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p className={`text-xs ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                        © {new Date().getFullYear()} MusicMenia. All rights reserved.
+                    </p>
+                    <p className={`text-xs tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                        🎵 DISCOVER · CREATE · SHARE
+                    </p>
+                </div>
             </div>
 
-        </div>
+        </footer>
     )
 }
 
