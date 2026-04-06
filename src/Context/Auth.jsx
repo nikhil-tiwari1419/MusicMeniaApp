@@ -20,7 +20,26 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         checkAuth();
+
+        const interval = setInterval(() => {
+            refreshToken();
+        }, 14 * 60 * 1000); // 14 min ke baad token refresh karna hai
+
+        return () => clearInterval(interval);
     }, []);
+
+    async function refreshToken() {
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+                {},
+                { withCredentials: true }
+            )
+        } catch (error) {
+            setUser(null);
+            navigate('/');
+        }
+    }
 
     async function checkAuth() {
         try {
@@ -28,30 +47,57 @@ export const AuthProvider = ({ children }) => {
                 `${import.meta.env.VITE_API_URL}/auth/is-auth`,
                 { withCredentials: true }
             );
+
             if (res.data.success) {
                 setUser(res.data.user);
             }
         } catch (error) {
             try {
-                await axios.post(
+                await  axios.post(
                     `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );
-                const retry = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/auth/is-auth`,
-                    { withCredentials: true }
-                );
-                if (retry.data.success) {
-                    setUser(retry.data.user); 
+                if(retry.data.success){
+                    setUser(retry.data.user);
                 }
-            } catch (refreshError) {
+            } catch (error) {
                 setUser(null);
             }
-        } finally {
+        } finally{
             setLoading(false);
         }
     }
+    // async function checkAuth() {
+    //     try {
+    //         const res = await axios.get(
+    //             `${import.meta.env.VITE_API_URL}/auth/is-auth`,
+    //             { withCredentials: true }
+    //         );
+    //         if (res.data.success) {
+    //             setUser(res.data.user);
+    //         }
+    //     } catch (error) {
+    //         try {
+    //             await axios.post(
+    //                 `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+    //                 {},
+    //                 { withCredentials: true }
+    //             );
+    //             const retry = await axios.get(
+    //                 `${import.meta.env.VITE_API_URL}/auth/is-auth`,
+    //                 { withCredentials: true }
+    //             );
+    //             if (retry.data.success) {
+    //                 setUser(retry.data.user); 
+    //             }
+    //         } catch (refreshError) {
+    //             setUser(null);
+    //         }
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
     //login page
     async function login(formData) {
