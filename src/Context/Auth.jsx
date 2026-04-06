@@ -53,52 +53,25 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             try {
-                await  axios.post(
+                await axios.post(
                     `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );
-                if(retry.data.success){
+                const retry = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/auth/is-auth`,
+                    { withCredentials: true }
+                );
+                if (retry.data.success) {
                     setUser(retry.data.user);
                 }
             } catch (error) {
                 setUser(null);
             }
-        } finally{
+        } finally {
             setLoading(false);
         }
     }
-    // async function checkAuth() {
-    //     try {
-    //         const res = await axios.get(
-    //             `${import.meta.env.VITE_API_URL}/auth/is-auth`,
-    //             { withCredentials: true }
-    //         );
-    //         if (res.data.success) {
-    //             setUser(res.data.user);
-    //         }
-    //     } catch (error) {
-    //         try {
-    //             await axios.post(
-    //                 `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
-    //                 {},
-    //                 { withCredentials: true }
-    //             );
-    //             const retry = await axios.get(
-    //                 `${import.meta.env.VITE_API_URL}/auth/is-auth`,
-    //                 { withCredentials: true }
-    //             );
-    //             if (retry.data.success) {
-    //                 setUser(retry.data.user); 
-    //             }
-    //         } catch (refreshError) {
-    //             setUser(null);
-    //         }
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-
     //login page
     async function login(formData) {
         const res = await axios.post(

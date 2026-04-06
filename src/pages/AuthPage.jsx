@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../Context/Auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -80,7 +80,7 @@ export default function AuthPage() {
         if (data.user.role === "artist") {
           navigate("/artist-Dashboard");
         } else {
-          navigate("/");
+          navigate("/user-Dashboard");
         }
       } else {
         // REGISTER — role bhi bhejo
@@ -95,7 +95,12 @@ export default function AuthPage() {
         toast.success("OTP sent to your email!");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Something went wrong");
+      const errors = err?.response?.data?.errors;
+      if (errors) {
+        errors.forEach(e => toast.error(e.msg));
+      } else {
+        toast.error(err?.response?.data?.message || "Something went wrong");
+      }
     } finally {
       setLoading(false);
     }
@@ -148,10 +153,15 @@ export default function AuthPage() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Logo */}
-      <div className="flex cursor-pointer mb-8 z-10" onClick={() => navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard")}>
-       <img src="/logoo.png" alt="logo"
-       className="h-20 sm:h-50 w--auto"
-       />
+      <div
+        className="flex cursor-pointer mb-8 z-10"
+        onClick={() => {
+          if (user) navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard")
+          else navigate("/")
+        }}>
+        <img src="/logoo.png" alt="logo"
+          className="h-20 sm:h-50 w--auto"
+        />
       </div>
 
       {/* Card */}
@@ -336,6 +346,27 @@ export default function AuthPage() {
                   className="w-full bg-gray-50 border border-gray-700 focus:border-green-500 rounded-xl
                     px-4 py-3 pr-12 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
+
+                {!isLogin && (
+                  <ul className="text-xs text-gray-500 mt-1 space-y-1">
+                    <li className={form.password.length >= 13 ? "text-green-500" : ""}>
+                      ✔️ At least 13 characters
+                    </li>
+                    <li className={/[A-Z]/.test(form.password) ? "text-green-500" : ""}>
+                      ✔️ At least one uppercase letter
+                    </li>
+                    <li className={/[a-z]/.test(form.password) ? "text-green-500" : ""}>
+                      ✔️ At least one lowercase letter
+                    </li>
+                    <li className={/\d/.test(form.password) ? "text-green-500" : ""}>
+                      ✔️ At least one number
+                    </li>
+                    <li className={/[@$!%*&]/.test(form.password) ? "text-green-500" : ""}>
+                      ✔️ At least one special character
+                    </li>
+                  </ul>
+                )}
+
                 {/* Eye icon toggle */}
                 <button
                   type="button"
