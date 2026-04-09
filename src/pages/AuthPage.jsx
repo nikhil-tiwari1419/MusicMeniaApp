@@ -3,6 +3,10 @@ import { useAuth } from "../Context/Auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+
+// ✅ Extract once — not repeated in every call
+const API = import.meta.env.VITE_API_URL;
 
 export default function AuthPage() {
 
@@ -10,145 +14,173 @@ export default function AuthPage() {
   // STATE
   // ─────────────────────────────────────────
 
-  const [isLogin, setIsLogin] = useState(true);       // Sign In ya Sign Up tab
-  const [loading, setLoading] = useState(false);      // button disable during API call
-  const [showOTP, setShowOTP] = useState(false);      // OTP screen dikhao/chupao
-  const [showPassword, setShowPassword] = useState(false);      // password visible/hidden
-  const [loginBy, setLoginBy] = useState("username"); // login: username ya email se
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]); // 6 OTP boxes
-  const [registeredEmail, setRegisteredEmail] = useState("");   // OTP screen pe email dikhane ke liye
+  const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginBy, setLoginBy] = useState("username");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [registeredEmail, setRegisteredEmail] = useState("");
 
-  // Form data — sabke liye ek object
+  // ✅ Removed role from form state — backend hardcodes role: 'user'
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
-    role: "user",
   });
 
-  // Context se login/register/logout functions
-  const { user, login, register } = useAuth();
+  const { user, loading: authLoading, login, register } = useAuth();
   const navigate = useNavigate();
+
+  // ✅ Added authLoading guard — don't redirect while auth check is still running
   useEffect(() => {
-    if (user) {
+    if (!authLoading && user) {
       navigate(user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
     }
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
+  // ─────────────────────────────────────────
   // HANDLERS
+  // ─────────────────────────────────────────
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  // OTP box mein ek digit type hone pe
   function handleOtpChange(value, index) {
-    if (!/^\d*$/.test(value)) return; // sirf numbers allow karo
+    if (!/^\d*$/.test(value)) return;
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-    // Auto focus next box
     if (value && index < 5) {
       document.getElementById(`otp-${index + 1}`)?.focus();
     }
   }
 
-  // Backspace pe previous box pe focus
   function handleOtpKeyDown(e, index) {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       document.getElementById(`otp-${index - 1}`)?.focus();
     }
   }
 
-  // Sign In ya Sign Up button click
+  // ✅ OTP paste support — users can paste OTP from email
+  function handleOtpPaste(e) {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    if (!pasted) return;
+    const newOtp = [...otp];
+    pasted.split("").forEach((char, i) => { newOtp[i] = char; });
+    setOtp(newOtp);
+    document.getElementById(`otp-${Math.min(pasted.length, 5)}`)?.focus();
+  }
+
+  // ✅ Fixed: checks result.success instead of try/catch (login/register no longer throw)
+  // ✅ Fixed: role removed from register payload
+  // ✅ Fixed: navigation uses result.data.user.role (correct shape)
   async function handleSubmit() {
     setLoading(true);
     try {
       if (isLogin) {
-        // LOGIN — username ya email se
         const payload = {
           password: form.password,
           ...(loginBy === "username"
             ? { username: form.username }
             : { email: form.email }),
         };
-        const data = await login(payload);
-        toast.success("Welcome back! 🎵");
 
-        // role check hear 
+        const result = await login(payload);
 
-        if (data.user.role === "artist") {
-          navigate("/artist-Dashboard");
-        } else {
-          navigate("/user-Dashboard");
+        if (!result.success) {
+          // Handle validation errors array from express-validator
+          if (result.errors) {
+            result.errors.forEach(e => toast.error(e.msg));
+          } else {
+            toast.error(result.message || "Login failed");
+          }
+          return;
         }
+
+        toast.success("Welcome back! 🎵");
+        navigate(result.data.user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+
       } else {
-        // REGISTER — role bhi bhejo
-        await register({
+        // ✅ Role NOT sent — backend hardcodes role: 'user'
+        const result = await register({
           username: form.username,
           email: form.email,
           password: form.password,
-          role: form.role, // user or artist
         });
+
+        if (!result.success) {
+          if (result.errors) {
+            result.errors.forEach(e => toast.error(e.msg));
+          } else {
+            toast.error(result.message || "Registration failed");
+          }
+          return;
+        }
+
         setRegisteredEmail(form.email);
         setShowOTP(true);
         toast.success("OTP sent to your email!");
       }
-    } catch (err) {
-      const errors = err?.response?.data?.errors;
-      if (errors) {
-        errors.forEach(e => toast.error(e.msg));
-      } else {
-        toast.error(err?.response?.data?.message || "Something went wrong");
-      }
     } finally {
       setLoading(false);
     }
   }
 
-  // OTP verify karo
+  // ✅ Fixed: uses axios instead of fetch (consistent with rest of app)
   async function handleVerifyOTP() {
-    const otpValue = otp.join(""); // ["1","2","3","4","5","6"] → "123456"
+    const otpValue = otp.join("");
     if (otpValue.length < 6) return toast.error("Enter full OTP");
+
     setLoading(true);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/verify-email`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: registeredEmail, otp: otpValue }),
-          credentials: "include",
-        }
+      await axios.post(
+        `${API}/auth/verify-email`,
+        { email: registeredEmail, otp: otpValue },
+        { withCredentials: true }
       );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
       toast.success("Email verified! Please login. ✅");
       setShowOTP(false);
-      setIsLogin(true); // verify ke baad Sign In tab pe le jao
+      setIsLogin(true);
       setOtp(["", "", "", "", "", ""]);
     } catch (err) {
-      toast.error(err.message || "Invalid OTP");
+      toast.error(err.response?.data?.message || "Invalid OTP");
     } finally {
       setLoading(false);
     }
   }
 
-  // Tab switch karne pe form reset
+  // ✅ Removed role from reset — role no longer in form state
   function switchMode() {
     setIsLogin(!isLogin);
-    setForm({ username: "", email: "", password: "", role: "user" });
+    setForm({ username: "", email: "", password: "" });
     setShowOTP(false);
     setShowPassword(false);
     setOtp(["", "", "", "", "", ""]);
   }
 
+  // ─────────────────────────────────────────
+  // PASSWORD STRENGTH CHECKS
+  // ─────────────────────────────────────────
+
+  const passwordChecks = [
+    { label: "At least 8 characters", valid: form.password.length >= 8 },
+    { label: "At least one uppercase letter", valid: /[A-Z]/.test(form.password) },
+    { label: "At least one lowercase letter", valid: /[a-z]/.test(form.password) },
+    { label: "At least one number", valid: /\d/.test(form.password) },
+    { label: "At least one special character (@$!%*&)", valid: /[@$!%*&]/.test(form.password) },
+  ];
+
+  // ─────────────────────────────────────────
   // UI
+  // ─────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4 relative overflow-hidden">
 
-      {/* Background blobs — decorative only */}
+      {/* Background blobs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
@@ -156,18 +188,17 @@ export default function AuthPage() {
       <div
         className="flex cursor-pointer mb-8 z-10"
         onClick={() => {
-          if (user) navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard")
-          else navigate("/")
-        }}>
-        <img src="/logoo.png" alt="logo"
-          className="h-20 sm:h-50 w--auto"
-        />
+          if (user) navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+          else navigate("/");
+        }}
+      >
+        <img src="/logoo.png" alt="logo" className="h-20 sm:h-50 w-auto" />
       </div>
 
       {/* Card */}
       <div className="bg-gray-100 rounded-md w-full max-w-md p-8 shadow-2xl z-10">
 
-        {/* ── Sign In / Sign Up Tabs ── */}
+        {/* Tabs */}
         {!showOTP && (
           <div className="flex bg-gray-100 rounded-xl p-1 mb-7 border border-gray-800">
             <button
@@ -187,7 +218,7 @@ export default function AuthPage() {
           </div>
         )}
 
-        {/* ── OTP Screen ── */}
+        {/* OTP Screen */}
         {showOTP ? (
           <div className="flex flex-col items-center gap-4">
             <span className="text-5xl">📬</span>
@@ -203,10 +234,13 @@ export default function AuthPage() {
                   key={i}
                   id={`otp-${i}`}
                   type="text"
+                  inputMode="numeric"
                   maxLength={1}
                   value={val}
                   onChange={(e) => handleOtpChange(e.target.value, i)}
                   onKeyDown={(e) => handleOtpKeyDown(e, i)}
+                  // ✅ Paste handler only on first box
+                  onPaste={i === 0 ? handleOtpPaste : undefined}
                   className={`w-11 h-14 text-center text-xl font-bold font-sans rounded-xl border
                     bg-gray-50 text-black outline-none transition-all duration-200 focus:border-green-500
                     ${val ? "border-green-500 bg-green-100" : "border-gray-700"}`}
@@ -214,10 +248,11 @@ export default function AuthPage() {
               ))}
             </div>
 
+            {/* ✅ Fixed contrast: dark text on yellow background */}
             <button
               onClick={handleVerifyOTP}
               disabled={loading}
-              className="w-full bg-yellow-300 hover:bg-yellow-600 disabled:opacity-60 text-white font-bold font-sans py-3 rounded-xl transition-all duration-200 mt-2"
+              className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 text-gray-900 font-bold font-sans py-3 rounded-xl transition-all duration-200 mt-2"
             >
               {loading ? "Verifying..." : "Verify OTP ✓"}
             </button>
@@ -231,7 +266,7 @@ export default function AuthPage() {
           </div>
 
         ) : (
-          /* ── Main Form ── */
+          /* Main Form */
           <div className="flex flex-col">
             <h2 className="text-blue-600 text-xl font-semibold mb-1">
               {isLogin ? "Welcome back 👋" : "Join MusicMenia 🎵"}
@@ -240,7 +275,7 @@ export default function AuthPage() {
               {isLogin ? "Sign in to continue your journey" : "Create your account today"}
             </p>
 
-            {/* ── Login By Toggle (Sign In only) ── */}
+            {/* Login By Toggle */}
             {isLogin && (
               <div className="flex bg-gray-50 rounded-xl p-1 mb-5 border border-gray-800">
                 <button
@@ -260,7 +295,7 @@ export default function AuthPage() {
               </div>
             )}
 
-            {/* ── Username Field ── */}
+            {/* Username Field */}
             {(!isLogin || loginBy === "username") && (
               <div className="flex flex-col gap-1 mb-4">
                 <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
@@ -277,7 +312,7 @@ export default function AuthPage() {
               </div>
             )}
 
-            {/* ── Email Field ── */}
+            {/* Email Field */}
             {(!isLogin || loginBy === "email") && (
               <div className="flex flex-col gap-1 mb-4">
                 <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
@@ -295,43 +330,12 @@ export default function AuthPage() {
               </div>
             )}
 
-            {/* ── Role Selection (Sign Up only) ── */}
-            {!isLogin && (
-              <div className="flex flex-col gap-1 mb-4">
-                <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
-                  I am a...
-                </label>
-                <div className="flex gap-3">
-                  {/* User role */}
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, role: "user" })}
-                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-sans transition-all duration-200 cursor-pointer
-                      ${form.role === "user"
-                        ? "bg-green-500 border-green-500 text-white"
-                        : "bg-gray-950 border-gray-700 text-gray-400 hover:border-gray-500"
-                      }`}
-                  >
-                    🎧 Listener
-                  </button>
+            {/* ✅ Role selection UI REMOVED — backend hardcodes role: 'user'
+                Artists are promoted by admin via PATCH /api/admin/promote/:userId
+                Showing this UI was misleading and a security risk */}
 
-                  {/* Artist role */}
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, role: "artist" })}
-                    className={`flex-1 py-3 rounded-xl border text-sm font-bold font-sans transition-all duration-200 cursor-pointer
-                      ${form.role === "artist"
-                        ? "bg-orange-500 border-orange-500 text-white"
-                        : "bg-gray-950 border-gray-700 text-gray-400 hover:border-gray-500"
-                      }`}
-                  >
-                    🎤 Artist
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* ── Password Field ── */}
+            {/* Password Field */}
+            {/* ✅ Fixed: relative wrapper only around input, hints rendered outside */}
             <div className="flex flex-col gap-1 mb-2">
               <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                 Password
@@ -346,28 +350,7 @@ export default function AuthPage() {
                   className="w-full bg-gray-50 border border-gray-700 focus:border-green-500 rounded-xl
                     px-4 py-3 pr-12 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
-
-                {!isLogin && (
-                  <ul className="text-xs text-gray-500 mt-1 space-y-1">
-                    <li className={form.password.length >= 13 ? "text-green-500" : ""}>
-                      ✔️ At least 13 characters
-                    </li>
-                    <li className={/[A-Z]/.test(form.password) ? "text-green-500" : ""}>
-                      ✔️ At least one uppercase letter
-                    </li>
-                    <li className={/[a-z]/.test(form.password) ? "text-green-500" : ""}>
-                      ✔️ At least one lowercase letter
-                    </li>
-                    <li className={/\d/.test(form.password) ? "text-green-500" : ""}>
-                      ✔️ At least one number
-                    </li>
-                    <li className={/[@$!%*&]/.test(form.password) ? "text-green-500" : ""}>
-                      ✔️ At least one special character
-                    </li>
-                  </ul>
-                )}
-
-                {/* Eye icon toggle */}
+                {/* ✅ Eye icon stays correctly positioned — relative div only wraps input now */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -376,9 +359,20 @@ export default function AuthPage() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+
+              {/* Password strength hints — outside relative div so eye icon stays in place */}
+              {!isLogin && form.password.length > 0 && (
+                <ul className="text-xs text-gray-500 mt-2 space-y-1">
+                  {passwordChecks.map(({ label, valid }) => (
+                    <li key={label} className={valid ? "text-green-500" : "text-gray-500"}>
+                      {valid ? "✔️" : "○"} {label}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
-            {/* ── Forgot Password (Sign In only) ── */}
+            {/* Forgot Password */}
             {isLogin && (
               <div className="flex justify-end mb-5 mt-1">
                 <span
@@ -390,7 +384,7 @@ export default function AuthPage() {
               </div>
             )}
 
-            {/* ── Submit Button ── */}
+            {/* Submit Button */}
             <button
               onClick={handleSubmit}
               disabled={loading}
@@ -400,7 +394,7 @@ export default function AuthPage() {
               {loading ? "Please wait..." : isLogin ? "Sign In →" : "Create Account →"}
             </button>
 
-            {/* ── Switch Mode ── */}
+            {/* Switch Mode */}
             <p className="text-center text-gray-500 text-sm mt-5 font-sans">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <span
@@ -417,7 +411,7 @@ export default function AuthPage() {
       <p className="text-gray-700 text-xs font-sans tracking-widest mt-8 z-10">
         🎵 DISCOVER · CREATE · SHARE
       </p>
-
     </div>
   );
 }
+

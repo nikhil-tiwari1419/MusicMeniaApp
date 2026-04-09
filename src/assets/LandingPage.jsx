@@ -102,7 +102,7 @@ export default function LandingPage() {
       <section className={`py-16 md:py-20 px-4 md:px-6 ${dark ? "bg-gray-900" : "bg-white"}`}>
         <h2 className={`text-center font-bold font-mono text-4xl md:text-6xl lg:text-5xl mb-8 md:mb-10
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
-          What you can do
+          How Artist Can Publish Their Music On MusicMenia
         </h2>
 
         <div className="grid grid-cols-1 gap-4 md:gap-6 max-w-6xl mx-auto">

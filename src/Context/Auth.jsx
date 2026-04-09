@@ -1,16 +1,12 @@
 import axios from 'axios';
-import { createContext } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useContext } from 'react';
+import { createContext, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API = import.meta.env.VITE_API_URL;
 const AuthContext = createContext(null);
-
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -21,50 +17,33 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         checkAuth();
 
-        const interval = setInterval(() => {
-            refreshToken();
-        }, 14 * 60 * 1000); // 14 min ke baad token refresh karna hai
-
-        return () => clearInterval(interval);
     }, []);
 
-    async function refreshToken() {
-        try {
-            await axios.post(
-                `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
-                {},
-                { withCredentials: true }
-            )
-        } catch (error) {
-            setUser(null);
-            navigate('/');
-        }
+    useEffect(() => {
+        if (!user) return;
+
+        const interval = setInterval(refreshToken, 14 * 60 * 1000); // 14 min ke baad token refresh karna hai
+        return () => clearInterval(interval);
+    }, [user])
+
+    async function fetchUser() {
+        const res = await axios.get(`${API}/auth/is-auth`,
+            { withCredentials: true }
+        );
+        if (res.data.success) setUser(res.data.user);
     }
 
     async function checkAuth() {
         try {
-            const res = await axios.get(
-                `${import.meta.env.VITE_API_URL}/auth/is-auth`,
-                { withCredentials: true }
-            );
-
-            if (res.data.success) {
-                setUser(res.data.user);
-            }
+            await fetchUser();
         } catch (error) {
             try {
-                await axios.post(
-                    `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+                //access tken is expire try to refresh
+                await axios.post(`${API}/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );
-                const retry = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/auth/is-auth`,
-                    { withCredentials: true }
-                );
-                if (retry.data.success) {
-                    setUser(retry.data.user);
-                }
+                await fetchUser();  // retry after refresh token 
             } catch (error) {
                 setUser(null);
             }
@@ -72,33 +51,59 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
+
+    async function refreshToken() {
+        try {
+            await axios.post(
+                `${API}/auth/refresh-token`,
+                {},
+                { withCredentials: true }
+            )
+        } catch (error) {
+            if (user) {
+                setUser(null);
+                navigate('/');
+            }
+        }
+    }
+
     //login page
     async function login(formData) {
-        const res = await axios.post(
-            `${import.meta.env.VITE_API_URL}/auth/login`,
-            formData,
-            { withCredentials: true }
-        );
-        setUser(res.data.user); // user state update karo 
-        return res.data;
+        try {
+            const res = await axios.post(
+                `${API}/auth/login`,
+                formData,
+                { withCredentials: true }
+            );
+            setUser(res.data.user); // user state update karo 
+            return { success: true, data: res.data };
+
+        } catch (error) {
+            const message = error.response?.data?.message || "Login failed";
+            return { success: false, message };
+        }
     }
 
     //register page
     async function register(formData) {
-        const res = await axios.post(
-            `${import.meta.env.VITE_API_URL}/auth/register`,
-            formData,
-            { withCredentials: true }
-        );
-        return res.data;
+        try {
+            const res = await axios.post(
+                `${API}/auth/register`,
+                formData,
+                { withCredentials: true }
+            );
+            return { success: true, data: res.data };
+        } catch (error) {
+            const message = error.response?.data?.message || "Registration failed";
+            return { success: false, message }
+        }
     }
 
-
-    //logout page
+    //logout state
     async function logout() {
         try {
             await axios.post(
-                `${import.meta.env.VITE_API_URL}/auth/logout`,
+                `${API}/auth/logout`,
                 {},
                 { withCredentials: true }
             );
@@ -115,3 +120,4 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+
