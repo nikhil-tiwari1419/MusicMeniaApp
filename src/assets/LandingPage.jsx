@@ -63,7 +63,7 @@ export default function LandingPage() {
         ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-50"}`}>
 
         <div className='flex flex-col max-w-7xl mx-auto w-full items-center justify-center sm:flex-row sm:justify-between sm:px-10 gap-6'>
-          <span className="text-4xl sm:text-5xl lg:text-8xl font-mono font-bold tracking-tight text-left">
+          <span className="text-5xl sm:text-5xl lg:text-8xl font-mono font-bold tracking-tight text-left">
             <h1>Discover</h1>
             <h1>Create</h1>
             <h1>Share Music</h1>
@@ -84,13 +84,13 @@ export default function LandingPage() {
         <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
           <button
             onClick={() => navigate('/login')}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-sm sm:text-base"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
           >
             Explore Feed
           </button>
           <button
             onClick={() => navigate('/login')}
-            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-sm sm:text-base
+            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
               ${dark ? "text-green-400 hover:bg-green-950" : "text-green-600 hover:bg-green-50"}`}
           >
             Join Free
@@ -189,23 +189,24 @@ export default function LandingPage() {
           </section>
 
       <section className={`py-16 sm:py-20 px-4 sm:px-6 text-center
-        ${dark ? "bg-gray-700" : "bg-purple-50 border-t border-purple-100"}`}>
-        <h2 className={`text-xl sm:text-2xl font-bold mb-3 ${dark ? "text-white" : "text-gray-900"}`}>
-          Ready to start?
+        ${dark ? "bg-gray-700" : "bg-gray-50 border-t border-gray-100"}`}>
+        <h2 className={`text-2xl sm:text-4xl font-bold mb-3 font-sans ${dark ? "text-white" : "text-gray-900"}`}>
+          Ready to Dive In? Join MusicMenia Today!
         </h2>
-        <p className={`mb-8 sm:mb-10 text-xl font-semibold ${dark ? "text-blue-300" : "text-yellow-500"}`}>
+        <p className={`mb-8 sm:mb-10 text-2xl font-semibold ${dark ? "text-blue-300" : "text-green-500"}`}>
           Join thousands of listeners and artists on MusicMenia
         </p>
         <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
           <button
             onClick={() => navigate('/login')}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-sm sm:text-base"
+            className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-8 py-3 rounded-full items-center flex font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
           >
-            Join as Listener
+            Join as Listener 
           </button>
+          <span className='items-center justify-center flex font-bold'> OR</span>
           <button
             onClick={() => navigate('/login')}
-            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-sm sm:text-base
+            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
               ${dark ? "text-green-400 hover:bg-green-950" : "text-green-600 hover:bg-green-100"}`}
           >
             Join as Artist

@@ -35,17 +35,17 @@ function LandingFooter() {
                         />
                         <span className="text-2xl font-bold tracking-tight">MusicMenia</span>
                     </div>
-                    <p className={`text-sm leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <p className={`text-2xl leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         We are a team of music enthusiasts dedicated to providing the best music experience — discover, upload, and share short clips from artists around you.
                     </p>
-                    <p className={`text-sm mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
+                    <p className={`text-2xl mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
                         📍 123 Music Street, Tune City, Maharashtra, India
                     </p>
                 </div>
 
                 {/* Quick Links */}
                 <div>
-                    <h3 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <h3 className={`text-2xl font-semibold uppercase inline-block border-blue-500 border-b-2 tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         Quick Links
                     </h3>
                     <ul className="space-y-3">
@@ -53,7 +53,7 @@ function LandingFooter() {
                             <li key={l.id}>
                             <a
                                     href={l.url}
-                                    className={`text-sm transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                    className={`text-2xl transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
                                 >
                                     {l.label}
                                 </a>
@@ -64,7 +64,7 @@ function LandingFooter() {
 
                 {/* Socials */}
                 <div>
-                    <h3 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <h3 className={`text-2xl font-semibold uppercase inline-block border-blue-500 border-b-2  tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         Follow Us
                     </h3>
                     <ul className="space-y-3">
@@ -73,7 +73,7 @@ function LandingFooter() {
                                 
                                 <a
                                     href={s.url}
-                                    className={`text-sm transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                    className={`text-2xl transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
                                 >
                                     {s.label}
                                 </a>
@@ -82,15 +82,15 @@ function LandingFooter() {
                     </ul>
                 </div>
 
-            </div> {/* ✅ Fix 3: </div> was commented out as </di/v> — grid was never closed */}
+            </div> 
 
             {/* Bottom bar */}
             <div className={`border-t ${dark ? "border-gray-800" : "border-gray-200"}`}>
                 <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <p className={`text-xs ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                    <p className={`text-xl md:text-2xl ${dark ? "text-gray-600" : "text-gray-400"}`}>
                         © {new Date().getFullYear()} MusicMenia. All rights reserved.
                     </p>
-                    <p className={`text-xs tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                    <p className={`text-xl md:text-2xl tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
                         🎵 DISCOVER · CREATE · SHARE
                     </p>
                 </div>
@@ -101,3 +101,4 @@ function LandingFooter() {
 }
 
 export default LandingFooter
+
