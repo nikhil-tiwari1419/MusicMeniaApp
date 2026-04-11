@@ -71,22 +71,25 @@ function Navbar() {
                 {link.label}
               </NavLink>
             </li>
+
           ))}
+          {/* Theme toggle */}
+          <button onClick={toggleTheme}
+            className={`p-2 rounded-full whitespace-nowrap  border-2 transition-colors
+              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-600" : "text-gray-600 border-gray-200 hover:bg-gray-200"}`}>
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </ul>
 
         {/* Right side controls */}
         <div className="flex items-center gap-2">
-
-
-
           {/*  UserMenu — login/logout/avatar */}
           <UserMenu />
-
           {/* Hamburger — mobile only */}
           <button
             className={`md:hidden p-2 rounded-lg transition-colors
               ${dark ? "hover:bg-gray-800 text-white" : "hover:bg-gray-100 text-gray-800"}`}
-              onClick={() => setOpen(!open)}>
+            onClick={() => setOpen(!open)}>
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
 
@@ -96,7 +99,7 @@ function Navbar() {
       {/* Mobile Dropdown */}
       {open && (
         <div ref={menuRef}
-        className={`md:hidden border-t px-4 py-5
+          className={`md:hidden border-t px-4 py-5
           ${dark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-100"}`}>
           <ul className="flex flex-col gap-1">
             {navLinks.map(link => (
@@ -106,8 +109,8 @@ function Navbar() {
                   className={({ isActive }) =>
                     `block px-3 py-5 rounded-xl text-xl font-semibold transition-colors
                   ${isActive
-                    ? "text-black bg-gray-50 font-semibold"
-                    : dark ? "hover:bg-gray-800" : "hover:bg-gray-50 text-gray-700"}`
+                      ? "text-black bg-gray-50 font-semibold"
+                      : dark ? "hover:bg-gray-800" : "hover:bg-gray-50 text-gray-700"}`
                   }>
                   {link.label}
                 </NavLink>
@@ -121,7 +124,6 @@ function Navbar() {
 
               </li>
             ))}
-
 
 
             <li className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
