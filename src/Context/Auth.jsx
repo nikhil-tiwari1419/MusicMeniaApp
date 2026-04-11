@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createContext, useEffect, useState, useContext } from 'react';
+import { createContext, useEffect, useState, useContext, useRef, use } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const API = import.meta.env.VITE_API_URL;
@@ -10,21 +10,26 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    // loading -> pehle check karo user looged in hai ya nhai 
+    const userRef = useRef(null);
 
+    // loading -> pehle check karo user looged in hai ya nhai -> agar hai to user data set karo -> agar nhai to user null set karo -> loading false set karo taki app render ho sake
     // App load hone pe check karo user looged in hai ?
 
     useEffect(() => {
-        checkAuth();
-
-    }, []);
+  userRef.current = user;
+    }, [user]);
 
     useEffect(() => {
-        if (!user) return;
 
-        const interval = setInterval(refreshToken, 14 * 60 * 1000); // 14 min ke baad token refresh karna hai
+        checkAuth();
+
+        const interval = setInterval(()=>{
+            if(!useRef.current) return;
+            refreshToken();
+        }, 14 * 60 * 1000);
+
         return () => clearInterval(interval);
-    }, [user])
+    }, []);
 
     async function fetchUser() {
         const res = await axios.get(`${API}/auth/is-auth`,
@@ -59,8 +64,9 @@ export const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             )
+            await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
         } catch (error) {
-            if (user) {
+            if (userRef.current) {
                 setUser(null);
                 navigate('/');
             }
