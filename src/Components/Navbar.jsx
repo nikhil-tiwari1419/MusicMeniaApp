@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, use } from 'react'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useTheme } from '../Context/Theme';
@@ -25,6 +25,8 @@ const artistLikns = [
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+
+
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
@@ -33,6 +35,16 @@ function Navbar() {
 
   const navLinks = user?.role === "artist" ? artistLikns : user?.role === "user" ? userlink : [];
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    }
+  }, [open]);
 
   // Close on outside click
   useEffect(() => {
@@ -96,11 +108,25 @@ function Navbar() {
         </div>
       </div>
 
+      {open && (
+        <div
+          className='fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden'
+          onClick={() => setOpen(false)}
+        />
+      )}
       {/* Mobile Dropdown */}
       {open && (
         <div ref={menuRef}
-          className={`md:hidden border-t px-4 py-5
+          className={`md:hidden border-t top-0 px-4 py-5 relative z-50
           ${dark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-100"}`}>
+          {/* Hamburger — mobile only */}
+          <button
+            className={`md:hidden p-2 rounded-lg transition-colors
+              ${dark ? "hover:bg-gray-800 text-white" : "hover:bg-gray-100 text-gray-800"}`}
+            onClick={() => setOpen(!open)}>
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
           <ul className="flex flex-col gap-1">
             {navLinks.map(link => (
               <li key={link.label}>
