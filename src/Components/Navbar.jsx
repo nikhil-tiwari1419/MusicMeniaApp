@@ -115,16 +115,16 @@ function Navbar() {
                   {link.label}
                 </NavLink>
 
-                {/* Theme toggle */}
-                <button onClick={toggleTheme}
-                  className={`p-2 rounded-full whitespace-nowrap  border-2 transition-colors
-              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-600" : "text-gray-600 border-gray-200 hover:bg-gray-200"}`}>
-                  {dark ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
-
               </li>
             ))}
 
+
+            {/* Theme toggle */}
+            <button onClick={toggleTheme}
+              className={`p-2 rounded-full whitespace-nowrap  border-2 transition-colors
+              ${dark ? "text-yellow-400 border-gray-700 hover:bg-gray-600" : "text-gray-600 border-gray-200 hover:bg-gray-200"}`}>
+              {dark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
 
             <li className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
               {user ? (
