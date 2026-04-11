@@ -7,13 +7,13 @@ import LandingFooter from './LandingFooter'
 
 const features = [
   {
-    icon: <Frame strokeWidth={3} size={50} />,
+    // icon: <Frame strokeWidth={3} size={50} />,
     label: "Choose A Distributer",
     desc1: "Music gets uploaded to Spotify via a distributor. For a fee or commission, distributors will handle the licensing and distribution to Spotify and other streaming services, and pay you royalties when listeners stream.Check out our directory for our preferred and recommended providers:",
     img: "distributer.png"
   },
   {
-    icon: <Headset strokeWidth={3} size={50} />,
+    // icon: <Headset strokeWidth={3} size={50} />,
     label: "Upload Your music",
     desc1: "Make sure your music is release-ready before uploading via your distributor.",
     n1: "Export the highest quality lossless files of your music and follow your chosen distributor's guidelines for uploading.",
@@ -22,7 +22,7 @@ const features = [
     img: "Leith_v1.jpg"
   },
   {
-    icon: <LayoutDashboard strokeWidth={2.5} size={50} />,
+    // icon: <LayoutDashboard strokeWidth={2.5} size={50} />,
     label: "Access your Dashboard",
     desc1: "Give a face and name to your music by setting up your profile",
     n1: "Once your music is on Spotify you can access your artist profile and your Spotify for Artists dashboard, where you can track performance and manage your content.",
@@ -31,7 +31,7 @@ const features = [
     img: "Meryl_Akiyo_v1.jpg"
   },
   {
-    icon: <Globe strokeWidth={2.5} size={50} />,
+    // icon: <Globe strokeWidth={2.5} size={50} />,
     label: "Prepare for release",
     desc1: "Ahead of release day, make sure to:",
     n1: "Optimize your artist profile.",
@@ -43,9 +43,9 @@ const features = [
 
 const steps = [
   { label: "Sign Up", img: "/loginImg.png" },
-  { label: "Pick your role", img: "/roleImg.png" },
-  { label: "Explore or Upload", img: "/exploreImg.png" },
-  { label: "Connect & Grow", img: "/growImg.png" }
+  { label: "Be As an User", img: "/roleImg.png" },
+  { label: "Explore Music", img: "/exploreImg.png" },
+  { label: "Grow Your Audience", img: "/growImg.png" },
 ]
 
 export default function LandingPage() {
@@ -54,7 +54,7 @@ export default function LandingPage() {
   const dark = theme === "dark"
 
   return (
-    // ✅ Fix 1: overflow-x-hidden on root
+
     <div className={`min-h-screen overflow-x-hidden ${dark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
       <Navbar />
 
@@ -63,13 +63,14 @@ export default function LandingPage() {
         ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-50"}`}>
 
         <div className='flex flex-col max-w-7xl mx-auto w-full items-center justify-center sm:flex-row sm:justify-between sm:px-10 gap-6'>
-          <span className="text-5xl sm:text-5xl lg:text-8xl font-mono font-bold tracking-tight text-left">
-            <h1>Discover</h1>
-            <h1>Create</h1>
-            <h1>Share Music</h1>
+          <span className="text-5xl sm:text-5xl lg:text-8xl font-bold tracking-tight text-left">
+            <h1>Get Your</h1>
+            <h1>Music</h1>
+            <h1>On Musicmenia</h1>
+            <h1 className='font-semibold text-2xl md:text-4xl'>Reach millions of listeners and find your fans around the world.</h1>
           </span>
 
-          {/* ✅ Fix 2: added max-w-sm to cap hero image width */}
+        
           <img
             src="/spotify img.png"
             alt="Hero"
@@ -100,16 +101,16 @@ export default function LandingPage() {
 
       {/* ── Features ── */}
       <section className={`py-16 md:py-20 px-4 md:px-6 ${dark ? "bg-gray-900" : "bg-white"}`}>
-        <h2 className={`text-center font-bold font-mono text-4xl md:text-6xl lg:text-5xl mb-8 md:mb-10
+        <h2 className={`text-center font-bold text-4xl md:text-6xl lg:text-5xl mb-8 md:mb-10
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
           How Artist Can Publish Their Music On MusicMenia
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 md:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-4 md:gap-6">
           {features.map((f, i) => (
             <div
               key={f.label}
-              className={`rounded p-5 md:p-6 transition-colors
+              className={`rounded p-5 md:p-6  transition-colors
                 ${dark ? "bg-gray-800" : "bg-gray-50"}`}
             >
               <div className={`flex flex-col gap-4 md:gap-8 items-center
@@ -119,25 +120,25 @@ export default function LandingPage() {
                 <img
                   src={f.img}
                   alt={f.label}
-                  className=" sm:h-80 md:h-90 w-auto  object-cover rounded flex-shrink-0"
+                  className="md:h-90  w-auto  object-cover rounded flex-shrink-0"
                 />
               </div>
 
                 <div className="flex-1 min-w-0"> {/* ✅ Fix 4: min-w-0 prevents flex child overflow */}
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-3xl md:text-4xl">{f.icon}</span>
-                    <span className="bg-emerald-200 text-black w-10 h-10 md:w-11 md:h-11 rounded-full font-bold flex items-center justify-center flex-shrink-0">
+                    <span className="bg-black text-white w-10 h-10 md:w-11 md:h-11 rounded-full font-bold flex items-center justify-center flex-shrink-0">
                       {i + 1}
                     </span>
                   </div>
 
-                  <h3 className={`font-bold underline p-3 text-xl md:text-2xl mb-2
+                  <h3 className={`font-bold p-3 text-xl md:text-4xl mb-2
                     ${dark ? "text-white" : "text-gray-900"}`}>
                     {f.label}
                   </h3>
 
                   <p className={`text-xl md:text-2xl py-4 leading-relaxed
-                    ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    ${dark ? "text-white" : "text-black"}`}>
                     {f.desc1}
                   </p>
 
@@ -156,28 +157,30 @@ export default function LandingPage() {
 
       {/* ── How it works ── */}
       <section className={`py-12 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
-        <h2 className={`text-center text-xl sm:text-2xl font-bold font-sans mb-10 sm:mb-12
+        <h2 className={`text-center text-xl sm:text-2xl font-bold mb-10 sm:mb-12
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
           How it works For Listeners
         </h2>
 
-        {/* ✅ Fix 5: grid cols on mobile, flex row on sm+ — images constrained */}
         <div className="grid grid-cols-1
-         md:grid-cols-4 gap-26 max-w-4xl mx-auto">
+         md:grid-cols-4 gap-26 max-w-4xl mx-auto items-center justify-center">
           {steps.map((step, i) => (
             <div key={step.label} className="flex flex-col items-center gap-10">
               <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-blue-800 flex items-center justify-center font-bold text-white text-sm sm:text-base flex-shrink-0">
                 {i + 1}
               </div>
-              <span className={`text-xl text-center ${dark ? "text-gray-400" : "text-gray-500"}`}>
+              <span className={`text-xl flex whitespace-nowrap text-center ${dark ? "text-gray-400" : "text-gray-500"}`}>
                 {step.label}
               </span>
-          
+          <div className='items-center flex justify-center'>
+
               <img
                 src={step.img}
                 alt={step.label}
-                className=" max-w-full md:h-auto h-50 items-center object-cover rounded"
-              />
+                className=" max-w-full  md:h-auto h-auto w-80  object-cover rounded"
+                />
+          </div>
+             
             </div>
           ))}
         </div>
@@ -190,7 +193,7 @@ export default function LandingPage() {
 
       <section className={`py-16 sm:py-20 px-4 sm:px-6 text-center
         ${dark ? "bg-gray-700" : "bg-gray-50 border-t border-gray-100"}`}>
-        <h2 className={`text-2xl sm:text-4xl font-bold mb-3 font-sans ${dark ? "text-white" : "text-gray-900"}`}>
+        <h2 className={`text-2xl sm:text-4xl font-bold mb-3  ${dark ? "text-white" : "text-gray-900"}`}>
           Ready to Dive In? Join MusicMenia Today!
         </h2>
         <p className={`mb-8 sm:mb-10 text-2xl font-semibold ${dark ? "text-blue-300" : "text-green-500"}`}>
