@@ -8,26 +8,43 @@ function CreateMusic() {
   const navigate = useNavigate();
 
   const [musicPreview, setMusicPreview] = useState(null);
-  const [filename, setFileName] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
+  // const [filename, setFileName] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [captionLength, setCaptionLength] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const maxLength = 500;
+  const [audioFileName, setAudioFileName] = useState('');
+  const [imageFileName, setImageFileName] = useState('');
+
+  const maxLength = 100;
+
+  // handel image file selection and generate preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image must be under 10 Mb');
+      e.target.value = '';
+      return;
+    }
+    setImageFileName(file.name);
+    setImagePreview(URL.createObjectURL(file));
+
+  };
 
   // Handles audio file selection and generates preview
   const handleAudioChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFileName(file.name);
-      setSelectedFile(file);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setMusicPreview(reader.result); // base64 audio preview
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { //5mb
+      toast.error('Audio File must be under 5mb');
+      e.target.value = '';
+      return;
     }
+    setAudioFileName(file.name);
+    setSelectedFile(file);
+    setMusicPreview(URL.createObjectURL(file));
   };
 
   // Tracks caption length for user feedback
@@ -37,29 +54,35 @@ function CreateMusic() {
 
   // Clears selected audio
   const clearAudio = () => {
-    setMusicPreview(null);          
-    setFileName('');
+    setMusicPreview(null);
+    setAudioFileName('');
     setSelectedFile(null);
     document.getElementById('file-upload').value = '';
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();            
+    e.preventDefault();
     setLoading(true);
 
     if (!selectedFile) {
-      toast.error('Please select an audio file!'); 
+      toast.error('Please select an audio file!');
       setLoading(false);
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);   // key must match multer's upload.single('file')
-    formData.append('caption', document.getElementById('caption').value);
+    formData.append('audio', selectedFile);   // key must match multer's upload.single('file')
+    formData.append('title', document.getElementById('caption').value);
+
+    const thumbnailImput = document.getElementById('thumbnail-upload');
+    if (thumbnailImput.files[0]) {
+      formData.append('thumbnail', thumbnailImput.files[0]);
+    }
+
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/upload/music`,
+        `${import.meta.env.VITE_API_URL}/music/upload/music`,
         formData,
         {
           headers: {
@@ -72,10 +95,11 @@ function CreateMusic() {
       if (response.data.success || response.status === 201) {
         toast.success('Music created successfully 🎉');
         setMusicPreview(null);
-        setFileName('');
+        setImagePreview(null);
+        setAudioFileName('');
+        setImageFileName('')
         setSelectedFile(null);
         setCaptionLength(0);
-        navigate('/');
       }
 
     } catch (error) {
@@ -87,9 +111,15 @@ function CreateMusic() {
     }
   };
 
+  const clearImg = () => {
+    setImagePreview(null);
+    setImageFileName('');
+    document.getElementById('thumbnail').value = '';
+  }
+
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <section className='bg-gray-300 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center pt-4  sm:pt-10 lg:pt-8'>
         <div className='w-full max-w-2xl'>
           <div className='text-center mb-8'>
@@ -127,7 +157,7 @@ function CreateMusic() {
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='8' d='M6 18L18 6M6 6l12 12' />
                       </svg>
                     </button>
-                    <p className='mt-2 text-sm text-gray-600'>📁 {filename}</p>
+                    <p className='mt-2 text-sm text-gray-600'>📁 {audioFileName}</p>
                   </div>
                 ) : (
                   <div className='relative'>
@@ -141,7 +171,7 @@ function CreateMusic() {
                       required
                     />
                     <label htmlFor="file-upload"
-                      className='flex justify-center w-full h-64 sm:h-80 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors'>
+                      className='flex justify-center w-full h-16 sm:h-80 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors'>
                       <div className='flex flex-col items-center justify-center pt-5 pb-6'>
                         <svg className='w-12 h-12 sm:w-16 sm:h-16 mb-4 text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                           <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12' />
@@ -154,10 +184,65 @@ function CreateMusic() {
                 )}
               </div>
 
+              {/* thumbnail */}
+              <div className='space-y-2'>
+                <label htmlFor="thumbnail"
+                  className='block text-sm font-semibold text-gray-700'>
+                  Upload Thumbnail
+                </label>
+                {imagePreview ? (
+                  <div className='relative'>
+                    <img src={imagePreview} alt="Thumbnail Preview" className='w-full h-64 object-cover rounded-xl' />
+                    <button
+                      type='button'
+                      onClick={clearImg}
+                      className='absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors'
+                    >
+                      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                      </svg>
+                    </button>
+                    <p className='mt-2 text-sm text-gray-600'>
+                      📁 {imageFileName}
+                    </p>
+                  </div>
+                ) : (
+                  <div className='relative'>
+                    <input
+                      type='file'
+                      name="thumbnail"
+                      accept='image/*'
+                      onChange={handleImageChange}
+                      className='hidden'
+                      id='thumbnail-upload'
+                      required
+                    />
+                    <label
+                      htmlFor='thumbnail-upload'
+                      className='flex justify-center w-full h-64 sm:h-80 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors'
+                    >
+                      <div className='flex flex-col items-center justify-center pt-5 pb-6'>
+                        <svg className='w-16 h-16 sm:w-16 sm:h-16 mb-4 text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12' />
+                        </svg>
+                        <p className='mb-2 text-sm sm:text-base text-gray-600 font-medium'>
+                          Click to upload or drag and drop
+                        </p>
+                        <p className='text-xs sm:text-sm text-gray-500'>
+                          PNG, JPG, GIF up to 10MB
+                        </p>
+                      </div>
+                    </label>
+
+                  </div>
+                )}
+
+              </div>
+
               {/* Caption */}
               <div className='space-y-2'>
                 <label htmlFor="caption" className='block text-sm font-semibold text-gray-700'>
-                  Music Description 
+                  Music Description
                 </label>
                 <textarea
                   name="caption"
@@ -170,14 +255,14 @@ function CreateMusic() {
                   className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none text-gray-900 placeholder-gray-400'
                 />
                 <p className={`text-xs ${captionLength > maxLength * 0.9 ? 'text-red-500' : 'text-gray-500'}`}>
-                  {captionLength}/{maxLength} characters  {/* ✅ was setCaptionLength (setter, not value) */}
+                  {captionLength}/{maxLength} characters
                 </p>
               </div>
 
               {/* Submit Button */}
               <div>
                 <button
-                  type='submit'                   // ✅ was type='button' so form never submitted
+                  type='submit'
                   disabled={loading}
                   className='w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed'>
                   {loading ? (

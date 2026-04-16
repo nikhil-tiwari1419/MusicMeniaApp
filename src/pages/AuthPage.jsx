@@ -239,7 +239,7 @@ export default function AuthPage() {
                   value={val}
                   onChange={(e) => handleOtpChange(e.target.value, i)}
                   onKeyDown={(e) => handleOtpKeyDown(e, i)}
-                  // ✅ Paste handler only on first box
+                  //  Paste handler only on first box
                   onPaste={i === 0 ? handleOtpPaste : undefined}
                   className={`w-11 h-14 text-center text-xl font-bold font-sans rounded-xl border
                     bg-gray-50 text-black outline-none transition-all duration-200 focus:border-green-500
@@ -248,7 +248,7 @@ export default function AuthPage() {
               ))}
             </div>
 
-            {/* ✅ Fixed contrast: dark text on yellow background */}
+            {/* Fixed contrast: dark text on yellow background */}
             <button
               onClick={handleVerifyOTP}
               disabled={loading}
@@ -330,12 +330,7 @@ export default function AuthPage() {
               </div>
             )}
 
-            {/* ✅ Role selection UI REMOVED — backend hardcodes role: 'user'
-                Artists are promoted by admin via PATCH /api/admin/promote/:userId
-                Showing this UI was misleading and a security risk */}
-
             {/* Password Field */}
-            {/* ✅ Fixed: relative wrapper only around input, hints rendered outside */}
             <div className="flex flex-col gap-1 mb-2">
               <label className="text-gray-900 text-xs font-sans font-semibold uppercase tracking-wider">
                 Password
@@ -350,7 +345,7 @@ export default function AuthPage() {
                   className="w-full bg-gray-50 border border-gray-700 focus:border-green-500 rounded-xl
                     px-4 py-3 pr-12 text-black text-sm font-sans outline-none transition-all duration-200 placeholder-gray-600"
                 />
-                {/* ✅ Eye icon stays correctly positioned — relative div only wraps input now */}
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -414,3 +409,4 @@ export default function AuthPage() {
     </div>
   );
 }
+
