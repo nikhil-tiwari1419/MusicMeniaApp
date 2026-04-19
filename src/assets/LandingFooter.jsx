@@ -38,7 +38,7 @@ function LandingFooter() {
                     <p className={`text-xl leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         We are a team of music enthusiasts dedicated to providing the best music experience — discover, upload, and share short clips from artists around you.
                     </p>
-                    <p className={`text-2xl mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
+                    <p className={`text-xl mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
                         📍 123 Music Street, Tune City, Maharashtra, India
                     </p>
                 </div>
@@ -90,7 +90,7 @@ function LandingFooter() {
                     <p className={`text-base md:text-2xl ${dark ? "text-gray-600" : "text-gray-400"}`}>
                         © {new Date().getFullYear()} MusicMenia. All rights reserved.
                     </p>
-                    <p className={`text-base md:text-2xl tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                    <p className={`text-base md:text-xl tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
                         🎵 DISCOVER · CREATE · SHARE
                     </p>
                 </div>

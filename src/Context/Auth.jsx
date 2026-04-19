@@ -32,7 +32,13 @@ export const AuthProvider = ({ children }) => {
         const res = await axios.get(`${API}/auth/is-auth`,
             { withCredentials: true }
         );
-        if (res.data.success) setUser(res.data.user);
+        if (res.data.success) {
+
+            setUser(res.data.user);
+        } else {
+            setUser(null); // explicitly set null
+        }
+
     }
     async function checkAuth() {
         try {
@@ -93,8 +99,12 @@ export const AuthProvider = ({ children }) => {
             );
             return { success: true, data: res.data };
         } catch (error) {
-            const message = error.response?.data?.message || "Registration failed";
-            return { success: false, message }
+            const message = error.response?.data;
+            return {
+                success: false,
+                message: data?.message || "Register failed",
+                errors: data?.erors || null 
+            }
         }
     }
     //logout state
