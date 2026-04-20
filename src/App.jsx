@@ -1,108 +1,126 @@
-import React, { Suspense } from 'react'
-import { Toaster } from 'react-hot-toast'
+import React, { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './Context/Theme';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
+import { useAuth } from './Context/Auth';
 
-const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
-const Authpage = React.lazy(() => import('./pages/AuthPage'));
-const LandingPage = React.lazy(() => import('./assets/LandingPage'));
+const Unauthorized  = React.lazy(() => import('./pages/Unauthorized'));
+const Authpage      = React.lazy(() => import('./pages/AuthPage'));
+const LandingPage   = React.lazy(() => import('./assets/LandingPage'));
 
-// Artist Pages
-const AdminDashboard = React.lazy(() => import('./pages/Artistpage/AdminDashboard'));
-const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
-const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
-const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
+// Admin page
+const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 
-// User Pages
+// Artist pages
+const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashboard'));
+const Albums          = React.lazy(() => import('./pages/Artistpage/Albums'));
+const CreateMusic     = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
+const Mypost          = React.lazy(() => import('./pages/Artistpage/Mypost'));
+
+// User pages
 const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
-const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
-const About = React.lazy(() => import('./pages/UserPage/About'));
-const Album = React.lazy(() => import('./pages/UserPage/Album'));
-const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
+const LocalFeed     = React.lazy(() => import('./pages/UserPage/LocalFeed'));
+const About         = React.lazy(() => import('./pages/UserPage/About'));
+const Album         = React.lazy(() => import('./pages/UserPage/Album'));
+const Profile       = React.lazy(() => import('./pages/UserPage/Profile'));
 
-
-
+// Admin-only protected route
+function AdminRoute({ children }) {
+    const { user, loading } = useAuth();
+    if (loading) return <Pageloder />;
+    if (!user) return <Navigate to="/login" />;
+    if (user.role !== 'admin') return <Navigate to="/unauthorized" />;
+    return children;
+}
 
 function AppContent() {
+    return (
+        <Suspense fallback={<Pageloder />}>
+            <Toaster position="top-left" reverseOrder={false} />
+            <Routes>
 
+                {/* Public routes */}
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/unauthorized' element={<Unauthorized />} />
+                <Route path='/login' element={<Authpage />} />
 
-  return (
+                {/* ✅ Admin route */}
+                <Route path='/admin-dashboard' element={
+                    <AdminRoute>
+                        <AdminDashboard />
+                    </AdminRoute>
+                } />
 
-    <Suspense fallback={<Pageloder />}>
-      <Toaster
-        position="top-left"
-        reverseOrder={false}
-      />
-      <Routes>
-        {/* public Routes */}
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/unauthorized' element={<Unauthorized />} />
-        {/*  login Page */}
-        <Route path='/login' element={<Authpage />} />
+                {/* Artist routes */}
+                <Route path='/artist-Dashboard' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <ArtistDashboard />  {/* ✅ renamed */}
+                    </ProtectedRoute>
+                } />
 
-        {/* Portected routes */}
+                <Route path='/create-music' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <CreateMusic />
+                    </ProtectedRoute>
+                } />
 
+                <Route path='/your-post' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <Mypost />
+                    </ProtectedRoute>
+                } />
 
-        {/* Artist Dashboard */}
-        <Route path='/artist-Dashboard' element={
-          <ProtectedRoute allowedRole="artist">
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
+                <Route path='/album' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <Albums />
+                    </ProtectedRoute>
+                } />
 
-        {/*  User Dashboard */}
-        <Route path='/user-Dashboard' element={
-          <ProtectedRoute allowedRole="user">
-            <UserDashboard />
-          </ProtectedRoute>
-        } />
+                {/* User routes */}
+                <Route path='/user-Dashboard' element={
+                    <ProtectedRoute allowedRole="user">
+                        <UserDashboard />
+                    </ProtectedRoute>
+                } />
 
-        <Route path='/create-music' element={
-          <ProtectedRoute>
-            <CreateMusic />
-          </ProtectedRoute>
+                <Route path='/Local-feed' element={
+                    <ProtectedRoute>
+                        <LocalFeed />
+                    </ProtectedRoute>
+                } />
 
-        } />
-        <Route path='/Local-feed' element={
-          <ProtectedRoute>
-            <LocalFeed />
-          </ProtectedRoute>
+                <Route path='/about' element={
+                    <ProtectedRoute>
+                        <About />
+                    </ProtectedRoute>
+                } />
 
-        } />
+                <Route path='/profile' element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                } />
 
-        <Route path='/your-post' element={
-          <ProtectedRoute>
-            <Mypost />
-          </ProtectedRoute>
-        } />
+             
 
-        <Route path='/about' element={
-          <ProtectedRoute>
-            <About />
-          </ProtectedRoute>
-        } />
-
-        <Route path='/album' element={
-          <ProtectedRoute>
-            <Album />
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </Suspense>
-  );
+            </Routes>
+        </Suspense>
+    );
 }
+
 function App() {
-  return (
-    <ThemeProvider>
-      <Router>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
-      </Router>
-    </ThemeProvider>
-  )
+    return (
+        <ThemeProvider>
+            <Router>
+                <AuthProvider>
+                    <AppContent />
+                </AuthProvider>
+            </Router>
+        </ThemeProvider>
+    );
 }
-export default App
+
+export default App;

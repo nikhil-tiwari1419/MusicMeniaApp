@@ -32,7 +32,7 @@ const Views = [
 ]
 
 // ─── Main Dashboard ────────────────────────────────────────
-export default function AdminDashboard() {
+export default function ArtistDashboard() {
   const { user } = useAuth();
   const { theme } = useTheme();
   const dark = theme === "dark";

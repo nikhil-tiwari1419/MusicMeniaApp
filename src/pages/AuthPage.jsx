@@ -101,7 +101,10 @@ export default function AuthPage() {
         }
 
         toast.success("Welcome back! 🎵");
-        navigate(result.data.user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+        const { role } = result.data.user;
+        if(role=== "admin") navigate("/admin-dashboard");
+        else if (role === "artist") navigate("/artist-Dashboard")
+        else navigate("/user-Dashboard")
 
       } else {
         // ✅ Role NOT sent — backend hardcodes role: 'user'

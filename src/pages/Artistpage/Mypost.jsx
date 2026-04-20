@@ -60,13 +60,14 @@ function Mypost() {
       {/* fixed min-h-Screen → min-h-screen */}
 
       <div className='max-w-7xl mx-auto mb-4'>
-        <h1 className='py-4 text-center sm:text-4xl text-2xl font-bold'>Music's</h1>
+        <h1 className='py-4 text-center sm:text-4xl text-2xl font-bold'>Your uploaded Music's</h1>
       </div>
 
       <button className='px-2 bg-blue-100 rounded-xl my-2'
 
         onClick={() => navigate('/artist-Dashboard')}>Back</button>
-      <div className='max-w-7xl mx-auto'>
+      <div className='max-w-7xl
+       mx-auto'>
 
         {/* Error */}
         {error && (
