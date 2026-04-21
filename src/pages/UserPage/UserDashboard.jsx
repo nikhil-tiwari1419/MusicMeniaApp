@@ -12,18 +12,18 @@ function UserDashboard() {
     {
       id: 1,
       name: "playlist",
-      img: "image.png",
+      img: "music-logo.png",
     },
     {
       id: 2,
       name: "playlist",
-      img: "image.png",
+      img: "music-logo.png",
 
     },
     {
       id: 3,
       name: "playlist",
-      img: "image.png",
+      img: "music-logo.png",
 
     },
 
@@ -61,6 +61,4 @@ function UserDashboard() {
 }
 
 export default UserDashboard
-
-
 

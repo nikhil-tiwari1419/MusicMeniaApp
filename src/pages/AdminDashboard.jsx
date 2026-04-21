@@ -85,7 +85,7 @@ export default function AdminDashboard() {
         setActionLoading(userId);
         try {
             const res = await axios.delete(
-                `${API}/admin/user/${userId}`,
+                `${API}/admin/delete/${userId}`,
                 { withCredentials: true }
             );
             toast.success(res.data.message);
@@ -119,9 +119,7 @@ export default function AdminDashboard() {
             <div className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-                    <p className="text-sm text-gray-500">Logged in as 
-                        <span className="font-semibold text-red-500"> {user?.username}</span>
-                    </p>
+                    <p className="text-sm text-gray-500">Logged in as <span className="font-semibold text-red-500">{user?.username}</span></p>
                 </div>
                 <button
                     onClick={logout}
