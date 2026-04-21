@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, use } from 'react'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useTheme } from '../Context/Theme';
-import { useAuth } from '../Context/Auth';
+import { useAuth } from '../Context/useAuth';
 import UserMenu from '../Components/Usermenu';
 
 const userlink = [

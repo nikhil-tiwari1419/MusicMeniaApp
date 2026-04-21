@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../Context/Auth';
+import { useAuth } from '../Context/useAuth';
 
 function Unauthorized() {
     const path = useNavigate();
@@ -33,3 +33,4 @@ function Unauthorized() {
 }
 
 export default Unauthorized
+

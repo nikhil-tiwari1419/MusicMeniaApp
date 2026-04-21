@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../Context/Auth";
+import { useAuth } from "../Context/useAuth";
 import Pageloder from "./Pageloder";
 
 function ProtectedRoute({ children, allowedRole }) {
@@ -7,7 +7,7 @@ function ProtectedRoute({ children, allowedRole }) {
 
     if(loading) return <Pageloder/>
 
-    if (!user) return <Navigate to="/" />;
+    if (!user) return <Navigate to="/login" />;
 
     if (allowedRole && user.role !== allowedRole){
         return <Navigate to="/unauthorized"/>;

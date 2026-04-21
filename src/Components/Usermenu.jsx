@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, User, ChevronDown, MessageSquareHeart } from 'lucide-react';
-import { useAuth } from '../Context/Auth';
+import { useAuth } from '../Context/useAuth';
 import { useTheme } from '../Context/Theme';
 
 

@@ -5,36 +5,28 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
-import { useAuth } from './Context/Auth';
 
-const Unauthorized  = React.lazy(() => import('./pages/Unauthorized'));
-const Authpage      = React.lazy(() => import('./pages/AuthPage'));
-const LandingPage   = React.lazy(() => import('./assets/LandingPage'));
+
+const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
+const Authpage = React.lazy(() => import('./pages/AuthPage'));
+const LandingPage = React.lazy(() => import('./assets/LandingPage'));
 
 // Admin page
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 
 // Artist pages
 const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashboard'));
-const Albums          = React.lazy(() => import('./pages/Artistpage/Albums'));
-const CreateMusic     = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
-const Mypost          = React.lazy(() => import('./pages/Artistpage/Mypost'));
+const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
+const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
+const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
 
 // User pages
 const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
-const LocalFeed     = React.lazy(() => import('./pages/UserPage/LocalFeed'));
-const About         = React.lazy(() => import('./pages/UserPage/About'));
-const Album         = React.lazy(() => import('./pages/UserPage/Album'));
-const Profile       = React.lazy(() => import('./pages/UserPage/Profile'));
+const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
+const About = React.lazy(() => import('./pages/UserPage/About'));
+const Album = React.lazy(() => import('./pages/UserPage/Album'));
+const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
 
-// Admin-only protected route
-function AdminRoute({ children }) {
-    const { user, loading } = useAuth();
-    if (loading) return <Pageloder />;
-    if (!user) return <Navigate to="/login" />;
-    if (user.role !== 'admin') return <Navigate to="/unauthorized" />;
-    return children;
-}
 
 function AppContent() {
     return (
@@ -47,17 +39,17 @@ function AppContent() {
                 <Route path='/unauthorized' element={<Unauthorized />} />
                 <Route path='/login' element={<Authpage />} />
 
-                {/* ✅ Admin route */}
+                {/* Admin route */}
                 <Route path='/admin-dashboard' element={
-                    <AdminRoute>
+                    <ProtectedRoute allowedRole="admin">
                         <AdminDashboard />
-                    </AdminRoute>
+                    </ProtectedRoute>
                 } />
 
                 {/* Artist routes */}
                 <Route path='/artist-Dashboard' element={
                     <ProtectedRoute allowedRole="artist">
-                        <ArtistDashboard />  {/* ✅ renamed */}
+                        <ArtistDashboard />  {/* renamed */}
                     </ProtectedRoute>
                 } />
 
@@ -103,9 +95,7 @@ function AppContent() {
                         <Profile />
                     </ProtectedRoute>
                 } />
-
-             
-
+                <Route path='*' element={<Navigate to="/" />} />
             </Routes>
         </Suspense>
     );

@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { createContext, useEffect, useState, useContext, useRef } from 'react';
+import { createContext, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const API = import.meta.env.VITE_API_URL;
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -40,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         }
 
     }
+
     async function checkAuth() {
         try {
             await fetchUser();
@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
+
     async function refreshToken() {
         try {
             await axios.post(
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
     }
+
     //login page
     async function login(formData) {
         try {
@@ -81,6 +83,8 @@ export const AuthProvider = ({ children }) => {
                 formData,
                 { withCredentials: true }
             );
+            console.log("LOGIN RESPONSE", res.data);
+
             setUser(res.data.user); // user state update karo 
             return { success: true, data: res.data };
 
@@ -99,7 +103,7 @@ export const AuthProvider = ({ children }) => {
             );
             return { success: true, data: res.data };
         } catch (error) {
-            const message = error.response?.data;
+            const data = error.response?.data;
             return {
                 success: false,
                 message: data?.message || "Register failed",
@@ -107,6 +111,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
     }
+
     //logout state
     async function logout() {
         try {

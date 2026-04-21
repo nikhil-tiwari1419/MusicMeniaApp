@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../Context/Auth";
+import { useAuth } from "../Context/useAuth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
-// ✅ Extract once — not repeated in every call
+//  Extract once — not repeated in every call
 const API = import.meta.env.VITE_API_URL;
 
 export default function AuthPage() {
@@ -22,7 +22,7 @@ export default function AuthPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [registeredEmail, setRegisteredEmail] = useState("");
 
-  // ✅ Removed role from form state — backend hardcodes role: 'user'
+  //  Removed role from form state — backend hardcodes role: 'user'
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -32,10 +32,12 @@ export default function AuthPage() {
   const { user, loading: authLoading, login, register } = useAuth();
   const navigate = useNavigate();
 
-  // ✅ Added authLoading guard — don't redirect while auth check is still running
+  //  Added authLoading guard — don't redirect while auth check is still running
   useEffect(() => {
     if (!authLoading && user) {
-      navigate(user.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
+     if(user.role === "admin") navigate("/admin-dashboard");
+     else if(user.role === "artist") navigate("/artist-Dashboard");
+     else navigate("/user-Dashboard")
     }
   }, [user, authLoading, navigate]);
 
@@ -63,7 +65,7 @@ export default function AuthPage() {
     }
   }
 
-  // ✅ OTP paste support — users can paste OTP from email
+  //  OTP paste support — users can paste OTP from email
   function handleOtpPaste(e) {
     e.preventDefault();
     const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
@@ -74,9 +76,9 @@ export default function AuthPage() {
     document.getElementById(`otp-${Math.min(pasted.length, 5)}`)?.focus();
   }
 
-  // ✅ Fixed: checks result.success instead of try/catch (login/register no longer throw)
-  // ✅ Fixed: role removed from register payload
-  // ✅ Fixed: navigation uses result.data.user.role (correct shape)
+  //  Fixed: checks result.success instead of try/catch (login/register no longer throw)
+  //  Fixed: role removed from register payload
+  //  Fixed: navigation uses result.data.user.role (correct shape)
   async function handleSubmit() {
     setLoading(true);
     try {
@@ -107,7 +109,7 @@ export default function AuthPage() {
         else navigate("/user-Dashboard")
 
       } else {
-        // ✅ Role NOT sent — backend hardcodes role: 'user'
+        //  Role NOT sent — backend hardcodes role: 'user'
         const result = await register({
           username: form.username,
           email: form.email,
@@ -132,7 +134,7 @@ export default function AuthPage() {
     }
   }
 
-  // ✅ Fixed: uses axios instead of fetch (consistent with rest of app)
+  //  Fixed: uses axios instead of fetch (consistent with rest of app)
   async function handleVerifyOTP() {
     const otpValue = otp.join("");
     if (otpValue.length < 6) return toast.error("Enter full OTP");
@@ -155,7 +157,7 @@ export default function AuthPage() {
     }
   }
 
-  // ✅ Removed role from reset — role no longer in form state
+  //  Removed role from reset — role no longer in form state
   function switchMode() {
     setIsLogin(!isLogin);
     setForm({ username: "", email: "", password: "" });
@@ -191,8 +193,10 @@ export default function AuthPage() {
       <div
         className="flex cursor-pointer mb-8 z-10"
         onClick={() => {
-          if (user) navigate(user?.role === "artist" ? "/artist-Dashboard" : "/user-Dashboard");
-          else navigate("/");
+          if (!user) return navigate('/');
+          if (user.role === "admin") navigate("/admin-dashboard");
+          else if (user.role === "artist") navigate("/artist-dashboard");
+          else navigate("/user-dashboard");
         }}
       >
         <img src="/logoo.png" alt="logo" className="h-20 sm:h-50 w-auto" />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth } from "../../Context/Auth";
+import { useAuth } from "../../Context/useAuth";
 import { useTheme } from "../../Context/Theme";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
