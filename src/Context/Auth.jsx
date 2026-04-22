@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
                 formData,
                 { withCredentials: true }
             );
-            console.log("LOGIN RESPONSE", res.data);
+          
 
             setUser(res.data.user); // user state update karo 
             return { success: true, data: res.data };
