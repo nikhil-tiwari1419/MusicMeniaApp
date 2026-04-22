@@ -42,7 +42,7 @@ function Mypost() {
     if (!window.confirm('Are you sure you want to delete this post?')) return;
 
     try {
-      const response = await axios.delete(`${API}/music/delete/${postId}`, {
+      const response = await axios.delete(`${API}/music/delete-music/${postId}`, {
         withCredentials: true
       });
       if (response.data.success) {
