@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Navbar from '../../Components/Navbar';
-import Footer from '../../Components/Footer';
 import { useTheme } from '../../Context/Theme';
 
 const API = import.meta.env.VITE_API_URL;
@@ -435,8 +434,6 @@ export default function LocalFeed() {
                     )}
                 </div>
             </main>
-
-            <Footer />
         </>
     );
 }

@@ -9,6 +9,7 @@ import ProtectedRoute from './Components/ProtectedRoute';
 
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
+const Forgotpass = React.lazy(() => import('./Components/ForgotPass'))
 const LandingPage = React.lazy(() => import('./assets/LandingPage'));
 
 // Admin page
@@ -38,6 +39,7 @@ function AppContent() {
                 <Route path='/' element={<LandingPage />} />
                 <Route path='/unauthorized' element={<Unauthorized />} />
                 <Route path='/login' element={<Authpage />} />
+                <Route path='/forgot-password' element={<Forgotpass />} />
 
                 {/* Admin route */}
                 <Route path='/admin-dashboard' element={
