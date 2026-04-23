@@ -68,9 +68,12 @@ export const AuthProvider = ({ children }) => {
             );
             await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
         } catch {
-            if (userRef.current) {
-                setUser(null);
-                navigate('/');
+            const status = error.response?.status;
+            if(status == 401|| status == 403){
+                if (userRef.current) {
+                    setUser(null);
+                    navigate('/');
+                }
             }
         }
     }
