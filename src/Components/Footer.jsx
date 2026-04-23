@@ -17,12 +17,12 @@ function Footer() {
         // { name: "Reddit", icon: <ImReddit size={27} />, url: "https://reddit.com" },
     ];
 
-    const quickLinks = [
-        { label: "Home", path: "/" },
-        { label: "Create Music", path: "/create-music" },
-        { label: "Create Playlist", path: "/album" },
-        { label: "About", path: "/about" },
-    ];
+    // const quickLinks = [
+    //     { label: "Home", path: "/" },
+    //     { label: "Create Music", path: "/create-music" },
+    //     { label: "Create Playlist", path: "/album" },
+    //     { label: "About", path: "/about" },
+    // ];
 
     const supportLinks = [
         { label: "FAQ", path: "/faq" },
@@ -65,7 +65,7 @@ function Footer() {
                     </div>
 
                     {/* Quick Links */}
-                    <div className='flex flex-col gap-3'>
+                    {/* <div className='flex flex-col gap-3'>
                         <h3 className='text-lg font-semibold text-yellow-300'>Quick Links</h3>
                         <ul className='flex flex-col gap-2'>
                             {quickLinks.map((link, idx) => (
@@ -78,7 +78,7 @@ function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </div> */}
 
                     {/* Support Links */}
                     <div className='flex flex-col gap-3'>

@@ -18,7 +18,7 @@ function MusicCard({ music, isPlaying, onPlay, dark }) {
         if (!audio) return;
 
         if (isPlaying) {
-            audio.play().catch(() => {});
+            audio.play().catch(() => { });
         } else {
             audio.pause();
         }
@@ -196,10 +196,10 @@ function SkeletonCard({ dark }) {
 
 // ─── Main Component ──────────────────────────────────────────────────
 export default function LocalFeed() {
-    const { theme } = useTheme();                         
+    const { theme } = useTheme();
     const dark = theme === 'dark';
 
-    const [musics, setMusics] = useState([]);             
+    const [musics, setMusics] = useState([]);
     const [musicLoad, setMusicLoad] = useState(true);
     const [error, setError] = useState(null);
     const [playingId, setPlayingId] = useState(null);
@@ -207,7 +207,7 @@ export default function LocalFeed() {
     const [pagination, setPagination] = useState(null);
     const [search, setSearch] = useState('');
 
-    
+
     useEffect(() => {
         fetchMusic();
     }, [page]);
@@ -216,11 +216,11 @@ export default function LocalFeed() {
         try {
             setMusicLoad(true);
             setError(null);
-            const res = await axios.get(                    
+            const res = await axios.get(
                 `${API}/music/get-music?page=${page}&limit=12`,
                 { withCredentials: true }
             );
-            if (res.data.musics) {                        
+            if (res.data.musics) {
                 setMusics(res.data.musics);
                 setPagination(res.data.pagination);
             }
@@ -309,9 +309,9 @@ export default function LocalFeed() {
                             <div className={`mb-6 px-5 py-3 rounded-2xl flex items-center gap-4 border
                                 ${dark ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-emerald-50 border-emerald-200'}`}>
                                 <div className="flex gap-0.5 items-end h-5">
-                                    {[1,2,3,4].map(i => (
+                                    {[1, 2, 3, 4].map(i => (
                                         <div key={i} className="w-1 bg-emerald-500 rounded-full"
-                                            style={{ animation: `musicBar${i} 0.8s ease-in-out infinite`, animationDelay: `${i*0.1}s`, height: `${8+i*4}px` }} />
+                                            style={{ animation: `musicBar${i} 0.8s ease-in-out infinite`, animationDelay: `${i * 0.1}s`, height: `${8 + i * 4}px` }} />
                                     ))}
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -389,8 +389,8 @@ export default function LocalFeed() {
                                             dark={dark}
                                         />
                                     </div>
-                                ))}
-                            </div>
+                                ))}                            
+                             </div>
 
                             {/* ── Pagination ── */}
                             {pagination && pagination.totalPages > 1 && (

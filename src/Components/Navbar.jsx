@@ -8,16 +8,16 @@ import UserMenu from '../Components/Usermenu';
 const userlink = [
   { label: 'Home', path: '/user-Dashboard' },
   { label: 'Music-Feed', path: '/Local-Feed' },//All music feed
-  { label: "Album'S", path: '/album' }, //All Album's in musicMenia
-  { label: 'About-Us', path: '/about' }, //About musicMenia
-  { label: 'Profile', path: '/user-Profile' },//About Listener
-  { label: 'Artist', path: '/About-Artist' } //About Artist in musicMenia
+  { label: 'About', path: '/about' }, //About musicMenia
+  { label: "Album", path: '/album' }, //All Album's in musicMenia
+  { label: 'Profile', path: '/Profile' },//About Listener
+  { label: 'Artist', path: '/artist' } //About Artist in musicMenia
 ];
 
 const artistLikns = [
   { label: 'Home', path: '/artist-Dashboard' },//Artist Dashboard
   { label: 'Upload Track', path: '/create-music' },//Create Music
-  { label: 'Albums', path: '/Artist-album' },//Artist Albums
+  { label: 'Album', path: '/Admin-album' },//Artist Albums
   { label: 'My-Post', path: '/your-post' },//Artist Post
   { label: 'About Music_menia', path: '/about-company' },//About musicMenia
 ];

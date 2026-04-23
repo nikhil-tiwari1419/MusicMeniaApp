@@ -27,6 +27,7 @@ const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
 const About = React.lazy(() => import('./pages/UserPage/About'));
 const Album = React.lazy(() => import('./pages/UserPage/Album'));
 const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
+const Artist = React.lazy(()=> import('./pages/UserPage/Artist'))
 
 
 function AppContent() {
@@ -67,7 +68,7 @@ function AppContent() {
                     </ProtectedRoute>
                 } />
 
-                <Route path='/album' element={
+                <Route path='/Admin-album' element={
                     <ProtectedRoute allowedRole="artist">
                         <Albums />
                     </ProtectedRoute>
@@ -92,9 +93,21 @@ function AppContent() {
                     </ProtectedRoute>
                 } />
 
-                <Route path='/profile' element={
+                <Route path='/album' element={
+                    <ProtectedRoute>
+                        <Album />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/Profile' element={
                     <ProtectedRoute>
                         <Profile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/artist' element={
+                    <ProtectedRoute>
+                        <Artist />
                     </ProtectedRoute>
                 } />
                 <Route path='*' element={<Navigate to="/" />} />
