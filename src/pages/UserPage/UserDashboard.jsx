@@ -3,6 +3,7 @@ import { useAuth } from "../../Context/useAuth";
 import { useTheme } from "../../Context/Theme";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import MusicUIUser from '../../Components/MusicUIUser';
 
 function UserDashboard() {
   const { user } = useAuth();
@@ -53,6 +54,7 @@ function UserDashboard() {
               </div>
             ))}
           </div>
+          <MusicUIUser/>
         </div>
       </div>
       <Footer />
