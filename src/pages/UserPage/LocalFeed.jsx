@@ -1,106 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import axios from 'axios';
+import { useAudio } from "../../Context/AudioContext";
 import { useTheme } from '../../Context/Theme';
+import axios from 'axios';
 import Navbar from '../../Components/Navbar';
 import DesktopMusicLayout from "../../Components/DesktopMusicLayout";
-import { Import } from "lucide-react";
 import MobileMusicLayout from "../../Components/MobileMusicLayout";
 
 const API = import.meta.env.VITE_API_URL;
-
-
-function useAudioEngine(musics) {
-    const audioRef = useRef(null);
-
-    //which current id is playing (null = niothing playing)
-    const [playingId, setplayingId] = useState(null);
-
-    // seek bar position  traking 
-    const [progress, setProgress] = useState(0);
-
-    //Raw current time of audio  diaplay
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-
-    //volume 0-1
-    const [volume, setVolume] = useState(1);
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        if (!playingId) {
-            audio.pause();
-            return;
-        }
-
-        const track = musics.find(m => m._id === playingId);
-        if (!track) return;
-
-        if (audio.src !== track.url) {
-            audio.src = track.url;
-            audio.load();
-        }
-        audio.play().catch(() => { });
-    }, [playingId, musics]);
-
-    function onTimeUpdate() {
-        const a = audioRef.current;
-        if (!a) return;
-        setCurrentTime(a.currentTime);
-        setProgress((a.currentTime / a.duration) * 100 || 0);
-    }
-
-    function onLoadedMetadata() {
-        setDuration(audioRef.current?.duration || 0);
-    }
-
-    function onEnded() {
-        setplayingId(null);
-        setProgress(0);
-        setCurrentTime(0);
-    }
-
-    // public control
-    function handleSeek(val) {
-        const a = audioRef.current;
-        if (!a || !a.duration) return;
-        a.currentTime = (val / 100) * a.duration;
-        setProgress(val);
-    }
-
-    //volume: val is 0-1
-    function handleVolume(val) {
-        setVolume(val);
-        if (audioRef.current) audioRef.current.volume = val;
-    }
-
-    function togglePlay(id) {
-        setplayingId(prev => (prev === id ? null : id));
-    }
-
-    const audioElement = (
-        <audio
-            ref={audioRef}
-            onTimeUpdate={onTimeUpdate}
-            onLoadedMetadata={onLoadedMetadata}
-            onEnded={onEnded}
-        />
-    );
-
-    return {
-        audioElement,
-        playingId,
-        togglePlay,
-        progress,
-        currentTime,
-        duration,
-        volume,
-        handleSeek,
-        handleVolume,
-    };
-}
-
 
 export default function LocalFeed() {
     const { theme } = useTheme();
@@ -115,20 +21,23 @@ export default function LocalFeed() {
     // ui state
     const [search, setSearch] = useState('');
 
-    //single audio for whole page
+    //Globle audio engine from context 
     const {
-        audioElement,
-        playingId,
+        playingTrack,
+        isPlaying,
         togglePlay,
         progress,
         currentTime,
         duration,
-        volume,
         handleSeek,
         handleVolume,
-    } = useAudioEngine(musics);
+        volume } = useAudio();
+
+        // Derive playingId from the full track object
+        const playingId = playingTrack?._id || null;
 
 
+        // fetch music
     useEffect(() => { fetchMusic(); }, [page]);
 
     async function fetchMusic() {
@@ -155,8 +64,6 @@ export default function LocalFeed() {
         m.artist?.username?.toLowerCase().includes(search.toLowerCase())
     );
 
-    // Derive the full playing track object ( used in banners / bars)
-    const playingTrack = musics.find(m => m._id === playingId) || null;
 
     const bg = dark ? 'bg-gray-950' : 'bg-gray-50';
     const text = dark ? 'text-white' : 'text-gray-900';
@@ -192,6 +99,7 @@ export default function LocalFeed() {
         handleSeek,
         handleVolume,
         volume,
+        isPlaying,
     };
 
     return (
@@ -214,9 +122,6 @@ export default function LocalFeed() {
                 }
                 .fade-up { animation: fadeUp 0.32s ease forwards; opacity:0; }
             `}</style>
-
-            {/* Invisible <audio> element — must be in the DOM */}
-            {audioElement}
 
             <Navbar />
 

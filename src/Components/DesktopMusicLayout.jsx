@@ -1,18 +1,4 @@
 import { Play, Pause, Music2, Volume2 } from 'lucide-react';
-
-/* ════════════════════════════════════════════════════════════════
-   DESKTOP MUSIC LAYOUT
-   - Grid of album-art cards (2 → 5 columns depending on screen)
-   - Hover reveals play button over thumbnail
-   - Animated bars badge on playing card
-   - Now Playing banner at top
-   - Full seekbar + volume slider in card footer
-   Props received from LocalFeed (via sharedProps spread):
-     dark, musicLoad, error, filtered, playingId, playingTrack,
-     togglePlay, page, setPage, setSearch, pagination, search,
-     fetchMusic, progress, currentTime, duration, handleSeek, handleVolume, volume
-════════════════════════════════════════════════════════════════ */
-
 /* ── Animated equaliser bars ── */
 function EqBars({ size = 'sm' }) {
     const w = size === 'lg' ? 'w-1' : 'w-[3px]';
@@ -43,22 +29,9 @@ function fmt(s) {
     return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   DESKTOP MUSIC CARD
-   Shows thumbnail, title, artist. When playing shows full controls.
-   Props:
-     music       – the track object { _id, title, thumbnail, artist, url }
-     isPlaying   – boolean, true if this card's track is the active one
-     onPlay      – fn(id) toggles play/pause for this track
-     dark        – boolean theme flag
-     progress    – 0-100 seekbar value (only meaningful when isPlaying)
-     currentTime – seconds elapsed
-     duration    – total seconds
-     onSeek      – fn(val 0-100) seeks audio
-     volume      – 0-1 float
-     onVolume    – fn(val 0-1) changes volume
-════════════════════════════════════════════════════════════════ */
-function DesktopMusicCard({ music, isPlaying, onPlay, dark, progress, currentTime, duration, onSeek, volume, onVolume }) {
+/*   DESKTOP MUSIC CARD*/
+
+function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, progress, currentTime, duration, onSeek, volume, onVolume }) {
     const card = dark ? 'bg-gray-900 border-gray-700/40' : 'bg-white border-gray-200';
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
     const trackBg = dark ? 'bg-gray-700' : 'bg-gray-200';
@@ -83,7 +56,7 @@ function DesktopMusicCard({ music, isPlaying, onPlay, dark, progress, currentTim
 
                 {/* Play overlay — visible on hover, or always when playing */}
                 <div
-                    onClick={() => onPlay(music._id)}
+                    onClick={() => onPlay(music)}
                     className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-all duration-250
                         ${isPlaying ? 'bg-black/25' : 'bg-black/0 group-hover:bg-black/45'}`}
                 >
@@ -94,14 +67,16 @@ function DesktopMusicCard({ music, isPlaying, onPlay, dark, progress, currentTim
                                 ? 'opacity-100 scale-100'
                                 : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'
                             }`}
-                        style={{ width: 52, height: 52 }}
+                            style={{ width: 52, height: 52 }}
+                            
                     >
-                        {isPlaying
-                            ? <Pause size={20} className="text-white fill-white" />
+                        {isActuallyPlaying
+                            ? <Pause size={20} className="text-white fill-white" /> 
                             : <Play size={20} className="text-white fill-white ml-0.5" />
                         }
                     </button>
                 </div>
+
 
                 {/* Eq badge top-right when playing */}
                 {isPlaying && (
@@ -186,12 +161,10 @@ function DesktopSkeletonCard({ dark }) {
     );
 }
 
-/* ════════════════════════════════════════════════════════════════
-   MAIN DESKTOP LAYOUT EXPORT
-   Rendered inside LocalFeed only on desktop (hidden sm:block wrapper there)
-════════════════════════════════════════════════════════════════ */
+// MAIN DESKTOP LAYOUT EXPORT
+
 export default function DesktopMusicLayout({
-    dark, musicLoad, error, filtered, playingId, playingTrack,
+    dark, musicLoad, error, filtered, playingId, playingTrack, isPlaying,
     togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
     progress, currentTime, duration, handleSeek, handleVolume, volume
 }) {
@@ -215,11 +188,13 @@ export default function DesktopMusicLayout({
                         </p>
                     </div>
                     <button
-                        onClick={() => togglePlay(playingId)}
+                        onClick={() => togglePlay(playingTrack)}
                         className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-semibold transition
                             ${dark ? 'border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/15' : 'border-emerald-300 text-emerald-600 hover:bg-emerald-100'}`}
                     >
-                        <Pause size={12} className="fill-current" /> Stop
+                        {isPlaying
+                            ? <> <Pause size={12} className="fill-current" />Pause</>
+                            : <> <Play size={12} className="fill-current" /> Play</>}
                     </button>
                 </div>
             )}
@@ -266,7 +241,7 @@ export default function DesktopMusicLayout({
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         {filtered.map((music, i) => (
                             <div
-                                key={music._id}
+                                key={String(music._id)}
                                 className="fade-up"
                                 style={{ animationDelay: `${i * 45}ms` }}
                             >
@@ -277,7 +252,8 @@ export default function DesktopMusicLayout({
                                 */}
                                 <DesktopMusicCard
                                     music={music}
-                                    isPlaying={playingId === music._id}
+                                    isPlaying={String(playingId) === String(music._id)}
+                                    isActuallyPlaying={isPlaying && String(playingId) === String(music._id)}
                                     onPlay={togglePlay}
                                     dark={dark}
                                     progress={progress}
@@ -304,7 +280,7 @@ export default function DesktopMusicLayout({
                             </button>
                             <div className="flex gap-1">
                                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(p => (
-                                    <button key={p} onClick={() => setPage(p)}
+                                    <button key={`page-${p}`} onClick={() => setPage(p)}
                                         className={`w-9 h-9 rounded-xl text-sm font-bold transition
                                             ${page === p ? 'bg-emerald-500 text-white' : dark ? 'text-gray-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-gray-100'}`}>
                                         {p}

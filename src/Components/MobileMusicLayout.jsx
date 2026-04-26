@@ -28,7 +28,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index }) {
 
     return (
         <button
-            onClick={() => onPlay(music._id)}
+            onClick={() => onPlay(music)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150 text-left ${rowBg}`}
         >
             {/* Track number or animated bars */}
@@ -144,7 +144,7 @@ function MobilePlayerBar({ track, isPlaying, onToggle, progress, currentTime, du
 
                 {/* Play / Pause button */}
                 <button
-                    onClick={() => onToggle(track._id)}
+                    onClick={() => onToggle(track)}
                     className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform shadow-lg shadow-emerald-500/30"
                 >
                     {isPlaying
@@ -221,7 +221,7 @@ export default function MobileMusicLayout({
 
                     <div className="px-1">
                         {filtered.map((music, i) => (
-                            <div key={music._id}>
+                            <div key={String(music._id)}>
                                 <MobileTrackRow
                                     music={music}
                                     isPlaying={playingId === music._id}

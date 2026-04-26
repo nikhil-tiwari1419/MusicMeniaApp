@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
+import { AudioProvider } from './Context/AudioContext';
 
 
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
@@ -27,7 +28,7 @@ const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
 const About = React.lazy(() => import('./pages/UserPage/About'));
 const Album = React.lazy(() => import('./pages/UserPage/Album'));
 const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
-const Artist = React.lazy(()=> import('./pages/UserPage/Artist'))
+const Artist = React.lazy(() => import('./pages/UserPage/Artist'))
 
 
 function AppContent() {
@@ -121,7 +122,9 @@ function App() {
         <ThemeProvider>
             <Router>
                 <AuthProvider>
-                    <AppContent />
+                    <AudioProvider>
+                        <AppContent />
+                    </AudioProvider>
                 </AuthProvider>
             </Router>
         </ThemeProvider>
