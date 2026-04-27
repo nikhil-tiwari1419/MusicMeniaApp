@@ -132,7 +132,7 @@ export default function LocalFeed() {
                     Lives here (not in layouts) because it's truly
                     shared and must not duplicate.
                 ════════════════════════════════════════════════ */}
-                <div className={`sticky top-0 z-20 backdrop-blur-lg border-b ${headerBg}`}>
+                <div className={`sticky top-13 z-20 backdrop-blur-lg border-b ${headerBg}`}>
                     <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                             <h1 className={`text-2xl font-bold tracking-tight ${text}`}>

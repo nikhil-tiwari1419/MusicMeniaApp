@@ -238,7 +238,7 @@ export default function DesktopMusicLayout({
             {/* ── Cards grid ── */}
             {!musicLoad && !error && filtered.length > 0 && (
                 <>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    <div className="grid pt-10 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         {filtered.map((music, i) => (
                             <div
                                 key={String(music._id)}

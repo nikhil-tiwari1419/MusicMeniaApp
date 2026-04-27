@@ -213,7 +213,7 @@ export default function MobileMusicLayout({
             {!musicLoad && !error && filtered.length > 0 && (
                 <>
                     {/* Section label */}
-                    <div className="px-4 pt-4 pb-1">
+                    <div className="px-4 pt-10 pb-1">
                         <p className={`text-[10px] font-bold uppercase tracking-widest ${sub}`}>
                             {filtered.length} tracks
                         </p>
