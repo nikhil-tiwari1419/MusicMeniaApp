@@ -20,7 +20,7 @@ function PlayingBars({ dark }) {
 }
 
 /* ── Single track row ── */
-function MobileTrackRow({ music, isPlaying, onPlay, dark, index }) {
+function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlaying }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
     const rowBg = isPlaying
         ? dark ? 'bg-emerald-500/10' : 'bg-emerald-50'
@@ -63,7 +63,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index }) {
 
             {/* Play / Pause icon on right */}
             <div className="flex-shrink-0 w-6 flex items-center justify-center">
-                {isPlaying
+                {isActuallyPlaying
                     ? <Pause size={15} className="text-emerald-500 fill-emerald-500" />
                     : <Play size={15} className={`${sub} opacity-40`} />
                 }
@@ -88,7 +88,7 @@ function MobileSkeletonRow({ dark }) {
 }
 
 /* ── Sticky bottom player bar (shown when a track is playing) ── */
-function MobilePlayerBar({ track, isPlaying, onToggle, progress, currentTime, duration, onSeek, dark }) {
+function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, currentTime, duration, onSeek, dark }) {
     if (!track) return null;
 
     function fmt(s) {
@@ -147,7 +147,7 @@ function MobilePlayerBar({ track, isPlaying, onToggle, progress, currentTime, du
                     onClick={() => onToggle(track)}
                     className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform shadow-lg shadow-emerald-500/30"
                 >
-                    {isPlaying
+                    {isActuallyPlaying
                         ? <Pause size={18} className="text-white fill-white" />
                         : <Play size={18} className="text-white fill-white ml-0.5" />
                     }
@@ -164,7 +164,7 @@ function MobilePlayerBar({ track, isPlaying, onToggle, progress, currentTime, du
 export default function MobileMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack,
     togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
-    progress, currentTime, duration, handleSeek
+    progress, currentTime, duration, handleSeek, isPlaying
 }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
 
@@ -224,7 +224,8 @@ export default function MobileMusicLayout({
                             <div key={String(music._id)}>
                                 <MobileTrackRow
                                     music={music}
-                                    isPlaying={playingId === music._id}
+                                    isPlaying={String(playingId) === String(music._id)}
+                                    isActuallyPlaying={isPlaying && String(playingId)=== String(music._id)}
                                     onPlay={togglePlay}
                                     dark={dark}
                                     index={i}
@@ -267,7 +268,8 @@ export default function MobileMusicLayout({
             {/* Bottom sticky player — always rendered, hidden when no track */}
             <MobilePlayerBar
                 track={playingTrack}
-                isPlaying={!!playingId}
+                // isPlaying={String(playingId) === String(music._id)}
+                isActuallyPlaying={!!playingId && isPlaying}
                 onToggle={togglePlay}
                 progress={progress}
                 currentTime={currentTime}
