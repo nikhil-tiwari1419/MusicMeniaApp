@@ -35,13 +35,13 @@ function UserMenu() {
             <>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-5 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sx font-semibold font-mono rounded-full transition-colors cursor-pointer"
+                    className="px-2  border border-none bg-blue-200 hover:bg-blue-600 text-black md:text-sx text-sm font-semibold font-mono rounded-full transition-colors cursor-pointer"
                 >
                     Login
                 </button>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-5 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sx font-semibold font-mono rounded-full transition-colors cursor-pointer"
+                    className="px-3  border border-none bg-blue-200 hover:bg-blue-600 text-black md:text-sx text-sm font-semibold font-mono rounded-full transition-colors cursor-pointer"
                 >
                     Get Access
                 </button>
