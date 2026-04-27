@@ -1,124 +1,150 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { ImReddit } from "react-icons/im";
-import { Linkedin, Instagram, Facebook, Github } from 'lucide-react';
-import { useTheme } from '../Context/Theme';
+import { Linkedin, Instagram, Facebook, Github, Music2, Mail, ArrowRight } from 'lucide-react'
+import { useTheme } from '../Context/Theme'
+import { useState } from 'react'
 
-function Footer() {
+const SOCIAL = [
+    { icon: Linkedin,  url: 'https://linkedin.com',  label: 'LinkedIn'  },
+    { icon: Instagram, url: 'https://instagram.com', label: 'Instagram' },
+    { icon: Facebook,  url: 'https://facebook.com',  label: 'Facebook'  },
+    { icon: Github,    url: 'https://github.com',    label: 'Github'    },
+]
 
-    const { theme } = useTheme();
-    const navigate = useNavigate();
+const SUPPORT = [
+    { label: 'FAQ',              path: '/faq'     },
+    { label: 'Contact Us',       path: '/contact' },
+    { label: 'Privacy Policy',   path: '/privacy' },
+    { label: 'Terms of Service', path: '/terms'   },
+]
 
-    const socialLinks = [
-        { name: "LinkedIn", icon: <Linkedin />, url: "https://linkedin.com" },
-        { name: "Instagram", icon: <Instagram />, url: "https://instagram.com" },
-        { name: "Facebook", icon: <Facebook />, url: "https://facebook.com" },
-        { name: "Github", icon: <Github />, url: "https://github.com" },
-        // { name: "Reddit", icon: <ImReddit size={27} />, url: "https://reddit.com" },
-    ];
+const EXPLORE = [
+    { label: 'Home',             path: '/'             },
+    { label: 'Music Feed',       path: '/music-feed'   },
+    { label: 'Album',            path: '/album'        },
+    { label: 'About',            path: '/about'        },
+]
 
-    // const quickLinks = [
-    //     { label: "Home", path: "/" },
-    //     { label: "Create Music", path: "/create-music" },
-    //     { label: "Create Playlist", path: "/album" },
-    //     { label: "About", path: "/about" },
-    // ];
+export default function Footer() {
+    const { theme }   = useTheme()
+    const navigate    = useNavigate()
+    const dark        = theme === 'dark'
+    const [email, setEmail] = useState('')
 
-    const supportLinks = [
-        { label: "FAQ", path: "/faq" },
-        { label: "Contact Us", path: "/contact" },
-        { label: "Privacy Policy", path: "/privacy" },
-        { label: "Terms of Service", path: "/terms" },
-    ];
+    const bg      = dark ? 'bg-gray-950'  : 'bg-gray-50'
+    const border  = dark ? 'border-gray-800' : 'border-gray-200'
+    const text    = dark ? 'text-white'   : 'text-gray-900'
+    const sub     = dark ? 'text-gray-400': 'text-gray-500'
+    const linkHov = dark ? 'hover:text-white' : 'hover:text-gray-900'
+    const inputCl = dark
+        ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-emerald-500'
+        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-emerald-500'
 
     return (
-        <footer className={`border-t border-dashed mt-auto ${theme === "dark" ? " text-white" : " bg-gray-100 text-black"} `}>
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
+        <footer className={`${bg} border-t ${border} transition-colors duration-200`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
 
-                    {/* Brand */}
-                    <div className='flex flex-col gap-3'>
-                        <button
-                            className='text-2xl font-semibold text-left font-mono'
-                            onClick={() => navigate('/')}
-                        >
-                            <span className='bg-gray-900 text-white py-1 px-2 rounded-l-xl'>Music</span>
-                            <span className='bg-blue-500  py-1 px-2 rounded-r-xl'>Menia</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                    {/* ── Brand ── */}
+                    <div className="flex flex-col gap-4">
+                        <button onClick={() => navigate('/')} className="flex items-center gap-2 w-fit">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
+                                <Music2 size={16} className="text-white" />
+                            </div>
+                            <span className={`text-lg font-bold tracking-tight ${text}`}>MusicMenia</span>
                         </button>
-                        <p className={`text-sm text-gray-500 ${theme === "dark" ? "text-white" : "text-black"}`}>Discover and share amazing audio files with others.</p>
 
-                        {/* Social Icons */}
-                        <div className='flex gap-3 mt-2 flex-wrap'>
-                            {socialLinks.map((item, idx) => (
-                                <a
-                                    key={idx}
-                                    href={item.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`sm:text-xl md:text-sm text-sm lg:text-base hover:text-blue-400  hover:scale-110 transition-transform ${theme === "dark" ? "text-white" : "text-black"}`}
-                                >
-                                    {item.icon}
-                                    {item.name}
+                        <p className={`text-sm leading-relaxed ${sub}`}>
+                            Discover, share, and celebrate music. A space where artists and fans come together.
+                        </p>
+
+                        {/* Social icons */}
+                        <div className="flex gap-2 mt-1">
+                            {SOCIAL.map(({ icon: Icon, url, label }) => (
+                                <a key={label} href={url} target="_blank" rel="noopener noreferrer"
+                                    aria-label={label}
+                                    className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-150
+                                        ${dark
+                                            ? 'border-gray-700 text-gray-400 hover:border-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10'
+                                            : 'border-gray-200 text-gray-500 hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50'
+                                        }`}>
+                                    <Icon size={15} />
                                 </a>
                             ))}
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    {/* <div className='flex flex-col gap-3'>
-                        <h3 className='text-lg font-semibold text-yellow-300'>Quick Links</h3>
-                        <ul className='flex flex-col gap-2'>
-                            {quickLinks.map((link, idx) => (
-                                <li
-                                    key={idx}
-                                    onClick={() => navigate(link.path)}
-                                    className={`cursor-pointer hover:translate-x-1 transition-transform text-sm ${theme === "dark" ? "text-white  " : "text-black"}`}
-                                >
-                                    → {link.label}
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
-
-                    {/* Support Links */}
-                    <div className='flex flex-col gap-3'>
-                        <h3 className='text-lg font-semibold text-yellow-300'>Support</h3>
-                        <ul className='flex flex-col gap-2'>
-                            {supportLinks.map((link, idx) => (
-                                <li
-                                    key={idx}
-                                    onClick={() => navigate(link.path)}
-                                    className=' cursor-pointer hover:translate-x-1 transition-transform text-sm'
-                                >
-                                    → {link.label}
+                    {/* ── Explore ── */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Explore</h3>
+                        <ul className="flex flex-col gap-2">
+                            {EXPLORE.map(({ label, path }) => (
+                                <li key={label}>
+                                    <button
+                                        onClick={() => navigate(path)}
+                                        className={`text-sm transition-colors duration-150 ${sub} ${linkHov}`}
+                                    >
+                                        {label}
+                                    </button>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Newsletter */}
-                    <div className='flex flex-col gap-3'>
-                        <h3 className='text-lg font-semibold text-yellow-300'>Stay Updated</h3>
-                        <p className={`text-sm ${theme === "dark" ? "text-white" : "text-black"}`}>Subscribe to get the latest music updates.</p>
-                        <input
-                            type="email"
-                            placeholder='Enter your email'
-                            className='focus:outline-none border border-blue-400  px-3 py-2 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500'
-                        />
-                        <button className='bg-blue-500 hover:bg-blue-600 py-2 rounded-lg text-sm font-semibold transition-colors'>
-                            Subscribe
-                        </button>
+                    {/* ── Support ── */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Support</h3>
+                        <ul className="flex flex-col gap-2">
+                            {SUPPORT.map(({ label, path }) => (
+                                <li key={label}>
+                                    <button
+                                        onClick={() => navigate(path)}
+                                        className={`text-sm transition-colors duration-150 ${sub} ${linkHov}`}
+                                    >
+                                        {label}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* ── Newsletter ── */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Stay Updated</h3>
+                        <p className={`text-sm ${sub}`}>Get the latest drops and artist news in your inbox.</p>
+
+                        <div className="flex flex-col gap-2 mt-1">
+                            <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all ${inputCl}`}>
+                                <Mail size={14} className="text-gray-400 flex-shrink-0" />
+                                <input
+                                    type="email"
+                                    placeholder="your@email.com"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                    className="flex-1 bg-transparent outline-none text-sm"
+                                />
+                            </div>
+                            <button
+                                className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-colors duration-150"
+                            >
+                                Subscribe <ArrowRight size={14} />
+                            </button>
+                        </div>
                     </div>
 
                 </div>
 
-                {/* Bottom Bar */}
-                <div className='border-t border-gray-600 mt-8 pt-8 text-center text-sm'>
-                    <p>&copy; {new Date().getFullYear()} <span className='font-mono font-bold text-blue-900 bg-gray-300 rounded-xl px-2'>MusicMeniya</span>. All rights reserved.</p>
+                {/* ── Bottom bar ── */}
+                <div className={`border-t ${border} mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2`}>
+                    <p className={`text-xs ${sub}`}>
+                        © {new Date().getFullYear()} MusicMenia. All rights reserved.
+                    </p>
+                    <p className={`text-xs ${sub}`}>
+                        Made with <span className="text-emerald-500">♪</span> for music lovers
+                    </p>
                 </div>
+
             </div>
         </footer>
     )
 }
-
-export default Footer

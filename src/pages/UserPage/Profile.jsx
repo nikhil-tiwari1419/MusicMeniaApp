@@ -42,7 +42,7 @@ export default function Profile() {
 
       <Navbar />
 
-      <main className={`min-h-screen py-15 px-4 transition-colors ${dark ? 'bg-gray-950' : 'bg-gray-50'}`}>
+      <main className={`min-h-screen py-15 pt-20 px-4 transition-colors ${dark ? 'bg-gray-950' : 'bg-gray-50'}`}>
 
         {/* bg glow */}
         <div className={`fixed top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full blur-[120px] pointer-events-none
