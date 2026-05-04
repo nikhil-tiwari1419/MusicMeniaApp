@@ -171,7 +171,7 @@ export default function DesktopMusicLayout({
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
 
     return (
-        <div className="hidden sm:block max-w-7xl mx-auto px-4 py-8">
+        <div className="hidden sm:block max-w-7xl mx-auto px-4 py-18">
 
             {/* ── Now Playing banner (desktop only) ── */}
             {playingId && playingTrack && (

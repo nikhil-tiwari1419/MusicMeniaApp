@@ -23,6 +23,11 @@ export function AudioProvider({ children }) {
         }
 
         function onLoadeMetadata() { setDuration(audio.duration || 0); }
+        function onCanPlay(){
+            setDuration(audio.duration||0);
+            audio.play().catch(()=> {});
+        }
+
         function onEnded() {
             setPlayingTrack(null);
             setProgress(0);
@@ -30,7 +35,8 @@ export function AudioProvider({ children }) {
         }
 
         audio.addEventListener('timeupdate', onTimeUpdate);
-        audio.addEventListener('loadedmetadeta', onLoadeMetadata);
+        audio.addEventListener('loadedmetadata', onLoadeMetadata);
+        audio.addEventListener('canplay', onCanPlay);    
         audio.addEventListener('ended', onEnded);
 
         // clean up only when entire app unmount
@@ -38,6 +44,7 @@ export function AudioProvider({ children }) {
         return () => {
             audio.removeEventListener('timeupdate', onTimeUpdate);
             audio.removeEventListener('loadedmetadata', onLoadeMetadata);
+            audio.removeEventListener('canplay', onCanPlay);
             audio.removeEventListener('ended', onEnded);
         };
 
@@ -61,6 +68,8 @@ export function AudioProvider({ children }) {
 
     function togglePlay(track) {
         const audio = audioRef.current;
+        if(!audio) return;
+
         if (playingTrack?._id === track._id) {
             if (audio.paused) {
                 audio.play().catch(() => {});
@@ -71,10 +80,11 @@ export function AudioProvider({ children }) {
             // Different track → switch
             audio.src = track.url;
             audio.load();
-            audio.play().catch(() => {});
+            // audio.play().catch(() => {});
             setPlayingTrack(track);
             setProgress(0);
             setCurrentTime(0);
+            setDuration(0);
         }
     }
 
