@@ -7,7 +7,7 @@ A full-stack music streaming web application where artists can upload music and 
 ## 🚀 Live Demo
 
 - **Frontend:** [MusicMenia App](https://music-menia-app.vercel.app)
-- **Backend API:** [musicmenia.onrender.com](https://musicmenia.onrender.com)
+- **Backend API:** [musicmenia.onrender.com](https://musicmenia.onrender.com) [repo](https://github.com/nikhil-tiwari1419/MusicMenia)
 
 ---
 
