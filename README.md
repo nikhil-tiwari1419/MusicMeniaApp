@@ -60,9 +60,10 @@ A full-stack music streaming web application where artists can upload music and 
 | Mongoose | ODM |
 | JWT | Authentication |
 | Multer | File Upload Handling |
-| Cloudinary | Audio & Image Storage |
+| Imagekit | Audio & Image Storage |
 | Brevo API | Transactional Emails |
 | FFmpeg | Audio Compression |
+| Helmet| to secure web applications by setting various HTTP security headers |
 | express-rate-limit | Rate Limiting |
 
 ---
