@@ -5,17 +5,15 @@ import Pageloder from "./Pageloder";
 function ProtectedRoute({ children, allowedRole }) {
     const { user, loading } = useAuth();
 
-    if(loading) return <Pageloder/>
+    if (loading) return <Pageloder />;
 
     if (!user) return <Navigate to="/login" replace />;
 
-    if (allowedRole && (user.role || user.role !== allowedRole)){
+    if (allowedRole && (!user.role || user.role !== allowedRole)) {
         return <Navigate to="/unauthorized" replace />;
     }
-
+   
     return children;
 }
 
-
 export default ProtectedRoute;
-
