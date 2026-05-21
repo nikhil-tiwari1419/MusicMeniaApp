@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const userRef = useRef(null);
+    const isRefreshing = useRef(false);
 
     // loading -> pehle check karo user looged in hai ya nhai -> agar hai to user data set karo -> agar nhai to user null set karo -> loading false set karo taki app render ho sake
     // App load hone pe check karo user looged in hai ?
@@ -17,14 +18,32 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         userRef.current = user;
     }, [user]);
+
     useEffect(() => {
+        const interceptor = axios.interceptors.response.use(
+            response => response,
+            async (error) => {
+                if (error.response?.status === 401) {
+                    if (!isRefreshing.current) {
+                        setUser(null);
+                        navigate('/login');
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
         checkAuth();
         const interval = setInterval(() => {
             if (!userRef.current) return;
+            if (isRefreshing.current) return;
             refreshToken();
         }, 14 * 60 * 1000);
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval)
+            axios.interceptors.response.eject(interceptor);
+        };
     }, []);
 
     async function fetchUser() {
@@ -60,6 +79,9 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function refreshToken() {
+        if (isRefreshing.current) return; // already refreshing, skip
+        isRefreshing.current = true;
+
         try {
             await axios.post(
                 `${API}/auth/refresh-token`,
@@ -67,14 +89,17 @@ export const AuthProvider = ({ children }) => {
                 { withCredentials: true }
             );
             await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
-        } catch {
+        } catch (error) {
             const status = error.response?.status;
-            if(status == 401|| status == 403){
+            if (status == 401 || status == 403) {
                 if (userRef.current) {
                     setUser(null);
                     navigate('/');
                 }
             }
+        }
+        finally {
+            isRefreshing.current = false;
         }
     }
 
@@ -86,7 +111,7 @@ export const AuthProvider = ({ children }) => {
                 formData,
                 { withCredentials: true }
             );
-          
+
 
             setUser(res.data.user); // user state update karo 
             return { success: true, data: res.data };
@@ -110,7 +135,7 @@ export const AuthProvider = ({ children }) => {
             return {
                 success: false,
                 message: data?.message || "Register failed",
-                errors: data?.erors || null 
+                errors: data?.errors || null
             }
         }
     }
