@@ -3,7 +3,7 @@ import { useAuth } from "../Context/useAuth";
 import Pageloder from "./Pageloder";
 
 function ProtectedRoute({ children, allowedRole }) {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
 
     if(loading) return <Pageloder/>
 
