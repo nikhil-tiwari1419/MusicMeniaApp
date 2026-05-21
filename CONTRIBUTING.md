@@ -179,8 +179,4 @@ MusicMeniaApp/
 
 ---
 
-## Questions?
-
-Open a [Discussion](https://github.com/nikhil-tiwari1419/MusicMeniaApp/discussions) or raise an issue.
-
 **Happy Contributing! 🚀🎵**
