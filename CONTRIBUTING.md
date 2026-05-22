@@ -88,10 +88,23 @@ Visit `http://localhost:5173`
 
 ### Find an Issue
 - Browse [open issues](https://github.com/nikhil-tiwari1419/MusicMeniaApp/issues)
-- Look for `good first issue` label if you're new
+- Look for the `good first issue` label if you're new
 - Comment **"I'd like to work on this"** and wait for assignment
-- **Do NOT submit a PR for an unassigned issue**
+- Please discuss major changes before starting work
+- Contributors must wait for issue assignment/maintainer approval before submitting a PR
+- Pull requests created without an assigned issue may be closed
+- Do not work on issues already assigned to someone else
+- Keep PRs focused and limited to a single feature/fix
+- Do **NOT** submit a PR for an unassigned issue
 
+### Before Opening a Pull Request
+
+Make sure:
+- The issue is assigned to you
+- Your branch is updated with the latest `main`
+- The application runs locally without errors
+- You have tested your changes properly
+  
 ### Create a Branch
 ```bash
 git checkout -b fix/issue-title
