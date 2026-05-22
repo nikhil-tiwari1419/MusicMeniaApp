@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useAudio } from "../../Context/AudioContext";
 import { useTheme } from '../../Context/Theme';
 import axios from 'axios';
@@ -20,6 +20,7 @@ export default function LocalFeed() {
 
     // ui state
     const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
 
     //Globle audio engine from context 
     const {
@@ -39,6 +40,14 @@ export default function LocalFeed() {
 
         // fetch music
     useEffect(() => { fetchMusic(); }, [page]);
+
+    // Debounce search input
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [search]);
 
     async function fetchMusic() {
         try {
@@ -60,8 +69,8 @@ export default function LocalFeed() {
     }
     //client side filter search
     const filtered = musics.filter(m =>
-        m.title?.toLowerCase().includes(search.toLowerCase()) ||
-        m.artist?.username?.toLowerCase().includes(search.toLowerCase())
+        m.title?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        m.artist?.username?.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
 
 
