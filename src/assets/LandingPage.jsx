@@ -59,7 +59,7 @@ export default function LandingPage() {
       <Navbar />
 
       {/* ── Hero ── */}
-      <section className={`pt-24 pb-16 px-4 sm:px-6 text-center border-b
+      <section id="home" className={`pt-24 pb-16 px-4 sm:px-6 text-center border-b
         ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-50"}`}>
 
         <div className='flex flex-col max-w-7xl mx-auto w-full items-center justify-center sm:flex-row sm:justify-between sm:px-10 gap-6'>
@@ -100,7 +100,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Features ── */}
-      <section className={`py-16 md:py-20 px-4 md:px-6 ${dark ? "bg-gray-900" : "bg-white"}`}>
+      <section id="artist-workflow" className={`py-16 md:py-20 px-4 md:px-6 ${dark ? "bg-gray-900" : "bg-white"}`}>
         <h2 className={`text-center font-bold text-4xl md:text-6xl lg:text-5xl mb-8 md:mb-10
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
           How Artist Can Publish Their Music On MusicMenia
@@ -156,7 +156,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── How it works ── */}
-      <section className={`py-12 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section id="listener-workflow" className={`py-12 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
         <h2 className={`text-center text-xl sm:text-2xl font-bold mb-10 sm:mb-12
           ${dark ? "text-gray-100" : "text-gray-800"}`}>
           How it works For Listeners
@@ -187,7 +187,7 @@ export default function LandingPage() {
       </section>
 
           {/* Qna section */}
-          <section> 
+          <section id="faqs"> 
             <QnA/>
           </section>
 
