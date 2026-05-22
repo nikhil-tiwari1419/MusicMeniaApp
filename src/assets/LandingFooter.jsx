@@ -20,7 +20,7 @@ function LandingFooter() {
     ]
 
     return (
-        <footer className={`${dark ? "bg-gray-950 text-white border-gray-800" : "bg-gray-50 text-gray-900 border-gray-200"} border-t`}>
+        <footer className={`${dark ? "bg-gray-900 text-white border-gray-800" : "bg-gray-50 text-gray-900 border-gray-200"} border-t`}>
 
             {/* Main footer grid */}
             <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -87,10 +87,14 @@ function LandingFooter() {
             {/* Bottom bar */}
             <div className={`border-t ${dark ? "border-gray-800" : "border-gray-200"}`}>
                 <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <p className={`text-base md:text-2xl ${dark ? "text-gray-600" : "text-gray-400"}`}>
-                        © {new Date().getFullYear()} MusicMenia. All rights reserved.
+                    <p className={`text-base md:text-xl ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                        © {new Date().getFullYear()} MusicMenia. All rights reserved. 
                     </p>
-                    <p className={`text-base md:text-xl tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                        <a href="http://linkedin.com/in/nikhil-tiwari-53743b339" target="_blank" rel="noopener noreferrer"
+                        className={`text-sm md:text-md underline underline-offset-4 tracking-widest ${dark ? "text-gray-400 hover:text-gray-400" : "text-gray-700 hover:text-gray-900"} transition-colors`}>
+                            Developed by Nikhil Tiwari.
+                        </a>
+                    <p className={`text-sm md:text-md tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
                         🎵 DISCOVER · CREATE · SHARE
                     </p>
                 </div>
@@ -101,4 +105,5 @@ function LandingFooter() {
 }
 
 export default LandingFooter
+
 

@@ -45,7 +45,7 @@ const steps = [
   { label: "Sign Up", img: "/loginImg.png" },
   { label: "Be As an User", img: "/roleImg.png" },
   { label: "Explore Music", img: "/exploreImg.png" },
-  { label: "Grow Your Audience", img: "/growImg.png" },
+  { label: "Explore Artists", img: "/growImg.png" },
 ]
 
 export default function LandingPage() {
@@ -202,14 +202,14 @@ export default function LandingPage() {
         <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
           <button
             onClick={() => navigate('/login')}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-8 py-3 rounded-full items-center flex font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
+            className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-8 py-3 rounded items-center flex font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
           >
             Join as Listener 
           </button>
-          <span className='items-center justify-center flex font-bold'> OR</span>
+          {/* <span className='items-center justify-center flex font-bold'> OR</span> */}
           <button
             onClick={() => navigate('/login')}
-            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
+            className={`border border-green-500 px-6 sm:px-8 py-3 rounded font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
               ${dark ? "text-green-400 hover:bg-green-950" : "text-green-600 hover:bg-green-100"}`}
           >
             Join as Artist
