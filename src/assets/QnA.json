@@ -118,5 +118,9 @@
     "category": "community",
     "question": "Is there a way to message artists directly?",
     "answer": "Not yet — direct messaging is on our roadmap. For now, you can leave comments on tracks or tag artists in the community feed to get their attention."
-  }
+  },
+{
+  "question": "Can I create my own playlists?",
+  "answer": "Yes, users can create and manage personalized playlists easily."
+}
 ]
