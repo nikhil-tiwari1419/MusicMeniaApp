@@ -42,6 +42,10 @@ export function AudioProvider({ children }) {
         // clean up only when entire app unmount
 
         return () => {
+            if (audio) {
+                audio.pause();
+                audio.src = '';
+            }
             audio.removeEventListener('timeupdate', onTimeUpdate);
             audio.removeEventListener('loadedmetadata', onLoadeMetadata);
             audio.removeEventListener('canplay', onCanPlay);
