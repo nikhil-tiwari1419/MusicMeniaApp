@@ -7,10 +7,10 @@ import MusicUIUser from '../../Components/MusicUIUser'
 import { Music2, Headphones, Radio, ListMusic, Play, TrendingUp, Users } from 'lucide-react'
 
 const STATS = [
-    { icon: ListMusic,  label: 'Playlists',       value: 'Loading..'    },
-    { icon: Headphones, label: 'Hours Listened',   value: 'Loading..'   },
-    { icon: TrendingUp, label: 'Songs Saved',      value: 'Loading..'  },
-    { icon: Users,      label: 'Artists Followed', value: 'Loading..'   },
+    { icon: ListMusic,  label: 'Playlists',       value: '0' },
+    { icon: Headphones, label: 'Hours Listened',  value: '0' },
+    { icon: TrendingUp, label: 'Songs Saved',     value: '0' },
+    { icon: Users,      label: 'Artists Followed',value: '0' },
 ]
 
 const QUICK = [
