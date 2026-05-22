@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
                 if (error.response?.status === 401) {
                     if (!isRefreshing.current) {
                         setUser(null);
-                        navigate('/login');
+                        
                     }
                 }
                 return Promise.reject(error);
