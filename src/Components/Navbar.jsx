@@ -1,9 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 import { Menu, X, Sun, Moon, Music2 } from 'lucide-react'
-import { useNavigate, NavLink } from 'react-router-dom'
+import { useNavigate, NavLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../Context/Theme'
 import { useAuth } from '../Context/useAuth'
 import UserMenu from '../Components/Usermenu'
+
+const PUBLIC_LINKS = [
+    { label: 'Home', section: 'home' },
+    { label: 'Workflow for Artists', section: 'artist-workflow' },
+    { label: 'Workflow for Listeners', section: 'listener-workflow' },
+    { label: 'FAQs', section: 'faqs' },
+]
 
 const USER_LINKS = [
     { label: 'Home',       path: '/user-Dashboard' },
@@ -23,14 +30,77 @@ const ARTIST_LINKS = [
 ]
 
 export default function Navbar() {
-    const [open, setOpen]        = useState(false)
+    const [open, setOpen] = useState(false)
+    const [activeSection, setActiveSection] = useState('home')
     const drawerRef              = useRef(null)
     const navigate               = useNavigate()
+    const location               = useLocation()
     const { theme, toggleTheme } = useTheme()
     const { user }               = useAuth()
     const dark                   = theme === 'dark'
+    const isPublicNav            = !user
 
-    const navLinks = user?.role === 'artist' ? ARTIST_LINKS : user?.role === 'user' ? USER_LINKS : []
+    const navLinks = user
+        ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS
+        : PUBLIC_LINKS
+
+    function scrollToSection(sectionId) {
+        const scroll = () => {
+            const element = document.getElementById(sectionId)
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+        }
+
+        if (window.location.pathname !== '/') {
+            navigate(`/#${sectionId}`)
+            setOpen(false)
+            setTimeout(() => {
+                scroll()
+                setActiveSection(sectionId)
+            }, 150)
+            return
+        }
+
+        setActiveSection(sectionId)
+        scroll()
+        setOpen(false)
+    }
+
+    useEffect(() => {
+        if (!isPublicNav) return
+        const hash = location.hash.replace('#', '')
+        if (hash) setActiveSection(hash)
+    }, [location.hash, isPublicNav])
+
+    useEffect(() => {
+        if (!isPublicNav || location.pathname !== '/') return
+
+        const sections = PUBLIC_LINKS
+            .map(link => document.getElementById(link.section))
+            .filter(Boolean)
+
+        if (!sections.length) return
+
+        const observer = new IntersectionObserver(
+            entries => {
+                const visible = entries
+                    .filter(entry => entry.isIntersecting)
+                    .sort((a, b) => (a.intersectionRatio > b.intersectionRatio ? -1 : 1))
+
+                if (visible.length) {
+                    setActiveSection(visible[0].target.id)
+                }
+            },
+            {
+                rootMargin: '-35% 0% -55% 0%',
+                threshold: [0.3, 0.6],
+            }
+        )
+
+        sections.forEach(section => observer.observe(section))
+        return () => observer.disconnect()
+    }, [isPublicNav, location.pathname])
 
     // Lock body scroll when drawer open
     useEffect(() => {
@@ -87,15 +157,29 @@ export default function Navbar() {
                     {/* Desktop nav links */}
                     <nav className="hidden md:flex items-center gap-0.5">
                         {navLinks.map(link => (
-                            <NavLink key={link.label} to={link.path}
-                                className={({ isActive }) =>
-                                    `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
-                                    ${isActive
-                                        ? 'text-emerald-500 bg-emerald-500/10'
-                                        : `${sub} ${hov}`}`
-                                }>
-                                {link.label}
-                            </NavLink>
+                            isPublicNav ? (
+                                <button
+                                    key={link.label}
+                                    type="button"
+                                    onClick={() => scrollToSection(link.section)}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
+                                        ${activeSection === link.section
+                                            ? 'text-emerald-500 bg-emerald-500/10'
+                                            : `${sub} ${hov}`}`}
+                                >
+                                    {link.label}
+                                </button>
+                            ) : (
+                                <NavLink key={link.label} to={link.path}
+                                    className={({ isActive }) =>
+                                        `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
+                                        ${isActive
+                                            ? 'text-emerald-500 bg-emerald-500/10'
+                                            : `${sub} ${hov}`}`
+                                    }>
+                                    {link.label}
+                                </NavLink>
+                            )
                         ))}
                     </nav>
 
@@ -158,16 +242,30 @@ export default function Navbar() {
                 {/* Nav links */}
                 <nav className="flex-1 overflow-y-auto px-3 py-4 flex flex-col gap-0.5">
                     {navLinks.map(link => (
-                        <NavLink key={link.label} to={link.path}
-                            onClick={() => setOpen(false)}
-                            className={({ isActive }) =>
-                                `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                                ${isActive
-                                    ? 'text-emerald-500 bg-emerald-500/10'
-                                    : `${text} ${hov}`}`
-                            }>
-                            {link.label}
-                        </NavLink>
+                        isPublicNav ? (
+                            <button
+                                key={link.label}
+                                type="button"
+                                onClick={() => scrollToSection(link.section)}
+                                className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                                    ${activeSection === link.section
+                                        ? 'text-emerald-500 bg-emerald-500/10'
+                                        : `${text} ${hov}`}`}
+                            >
+                                {link.label}
+                            </button>
+                        ) : (
+                            <NavLink key={link.label} to={link.path}
+                                onClick={() => setOpen(false)}
+                                className={({ isActive }) =>
+                                    `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                                    ${isActive
+                                        ? 'text-emerald-500 bg-emerald-500/10'
+                                        : `${text} ${hov}`}`
+                                }>
+                                {link.label}
+                            </NavLink>
+                        )
                     ))}
                 </nav>
 
