@@ -58,7 +58,7 @@ CLIENT_URL=http://localhost:5173
 
 Create a `.env` file inside `client/`:
 ```
-VITE_API_URL=http://localhost:3000
+VITE_API_URL=http://localhost:5173
 ```
 
 ### 5. Run the App
@@ -69,6 +69,11 @@ cd server
 npm run dev
 ```
 
+Visit `http://localhost:3000`
+
+```
+
+```
 Frontend:
 ```bash
 cd client
@@ -169,7 +174,6 @@ MusicMeniaApp/
 │   ├── routes/              # Express routes
 │   ├── utils/
 │   │   ├── sendEmail.js     # Brevo email utility
-│   │   └── compressAudio.js # FFmpeg audio compression
 │   └── package.json
 │
 ├── README.md
