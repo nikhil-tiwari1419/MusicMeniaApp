@@ -7,29 +7,29 @@ import MusicUIUser from '../../Components/MusicUIUser'
 import { Music2, Headphones, Radio, ListMusic, Play, TrendingUp, Users } from 'lucide-react'
 
 const STATS = [
-    { icon: ListMusic,  label: 'Playlists',       value: 'Loading..'    },
-    { icon: Headphones, label: 'Hours Listened',   value: 'Loading..'   },
-    { icon: TrendingUp, label: 'Songs Saved',      value: 'Loading..'  },
-    { icon: Users,      label: 'Artists Followed', value: 'Loading..'   },
+    { icon: ListMusic, label: 'Playlists', value: '0' },
+    { icon: Headphones, label: 'Hours Listened', value: '0' },
+    { icon: TrendingUp, label: 'Songs Saved', value: '0' },
+    { icon: Users, label: 'Artists Followed', value: '0' },
 ]
 
 const QUICK = [
-    { icon: Radio,     label: 'Music Feed',  path: '/Local-Feed',  desc: 'Discover local tracks'   },
-    { icon: ListMusic, label: 'My Albums',   path: '/album',       desc: 'Browse your collections' },
-    { icon: Users,     label: 'Artists',     path: '/artist',      desc: 'Follow your favourites'  },
-    { icon: Music2,    label: 'Profile',     path: '/Profile',     desc: 'Manage your account'     },
+    { icon: Radio, label: 'Music Feed', path: '/Local-Feed', desc: 'Discover local tracks' },
+    { icon: ListMusic, label: 'My Albums', path: '/album', desc: 'Browse your collections' },
+    { icon: Users, label: 'Artists', path: '/artist', desc: 'Follow your favourites' },
+    { icon: Music2, label: 'Profile', path: '/Profile', desc: 'Manage your account' },
 ]
 
 export default function UserDashboard() {
-    const { user }   = useAuth()
-    const { theme }  = useTheme()
-    const navigate   = useNavigate()
-    const dark       = theme === 'dark'
+    const { user } = useAuth()
+    const { theme } = useTheme()
+    const navigate = useNavigate()
+    const dark = theme === 'dark'
 
-    const bg    = dark ? 'bg-gray-950' : 'bg-gray-50'
-    const text  = dark ? 'text-white'  : 'text-gray-900'
-    const sub   = dark ? 'text-gray-400' : 'text-gray-500'
-    const card  = dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
+    const bg = dark ? 'bg-gray-950' : 'bg-gray-50'
+    const text = dark ? 'text-white' : 'text-gray-900'
+    const sub = dark ? 'text-gray-400' : 'text-gray-500'
+    const card = dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
 
     return (
         <>
