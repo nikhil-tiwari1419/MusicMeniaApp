@@ -3,7 +3,6 @@ import Qna from '../assets/QnA.json';
 import { useTheme } from '../Context/Theme';
 
 function FAQItem({ question, answer, isOpen, onToggle}) {
-    // const [open, setOpen] = React.useState(false);
     const { theme } = useTheme();
     const dark = theme === "dark"
 
