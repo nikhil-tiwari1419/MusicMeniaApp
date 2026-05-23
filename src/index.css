@@ -1,21 +1,41 @@
 @import "tailwindcss";
+
 :root {
+  /* Core Typography & Layout */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Color Scheme Setup */
   color-scheme: light dark;
+  
+  /* 
+    NOTE: Hardcoding a white text color here will cause invisible text in light mode. 
+    It is highly recommended to manage text colors using Tailwind classes on your layout 
+    (e.g., class="text-neutral-900 dark:text-neutral-100") instead of the root rule below.
+  */
   color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
 
+  /* Performance & Rendering Optimizations */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
 }
-.no-scrollbar{
-  scrollbar-width: thin;
-  scrollbar-color:rgba(0,0,0,0.1) transparent
+
+/* 
+  Utility: Completely hides the scrollbar while maintaining scroll functionality.
+  Fixed to support WebKit (Chrome, Safari, Edge) and Firefox flawlessly.
+*/
+.no-scrollbar {
+  /* IE and Legacy Edge */
+  -ms-overflow-style: none;  
+  /* Firefox */
+  scrollbar-width: none;  
 }
 
+/* Chrome, Safari, Opera, and New Edge */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
