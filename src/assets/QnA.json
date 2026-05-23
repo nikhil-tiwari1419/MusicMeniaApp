@@ -3,120 +3,114 @@
     "id": 1,
     "category": "account",
     "question": "How do I create an account?",
-    "answer": "Click 'Join Free' on the homepage and enter your email and password. You can also sign up with Google or Apple. After verifying your email, pick your role — listener or artist — and you're in."
+    "answer": "Click 'Join Free' on the homepage, enter your email and password, verify your email via OTP, and choose whether you want to join as a listener or an artist."
   },
   {
     "id": 2,
     "category": "account",
     "question": "Can I switch between listener and artist roles?",
-    "answer": "Yes. Go to Settings → Profile → Role and switch anytime. Your listening history and saved tracks are preserved when you switch to artist mode."
+    "answer": "Yes. You can switch between listener and artist roles from your profile settings."
   },
   {
     "id": 3,
     "category": "account",
     "question": "How do I reset my password?",
-    "answer": "Click 'Forgot Password' on the login page and enter your email. You'll receive a reset link within a few minutes. Check your spam folder if it doesn't arrive."
+    "answer": "Click 'Forgot Password' on the login screen, enter your registered email, and we'll send you an OTP to reset your password."
   },
   {
     "id": 4,
     "category": "account",
-    "question": "Can I delete my account?",
-    "answer": "Yes. Go to Settings → Account → Delete Account. This is permanent and will remove all your uploads, saved tracks, and profile data. We cannot recover deleted accounts."
+    "question": "Can I permanently delete my account?",
+    "answer": "Yes. Go to Settings → Account → Delete Account. This permanently removes your profile and all uploaded content."
   },
   {
     "id": 5,
-    "category": "music",
-    "question": "What audio formats can I upload?",
-    "answer": "We accept MP3, WAV, FLAC, and AAC files up to 50MB per track. For best quality, upload lossless WAV or FLAC at 44.1kHz / 16-bit minimum. Clips must be 30 seconds to 3 minutes long."
+    "category": "account",
+    "question": "Is my personal information secure?",
+    "answer": "Yes. MusicMenia uses encrypted authentication and secure cloud infrastructure to keep your data safe. We never sell user data to third parties."
   },
   {
     "id": 6,
     "category": "music",
-    "question": "How long until my track goes live?",
-    "answer": "Most tracks are reviewed and published within 2–4 hours. During high traffic periods this may extend to 24 hours. You'll get an email notification once your track is live."
+    "question": "What audio formats can I upload?",
+    "answer": "We currently support MP3 audio files up to 20MB per track."
   },
   {
     "id": 7,
     "category": "music",
     "question": "Can I edit or delete a track after uploading?",
-    "answer": "Yes. Go to your Dashboard → My Tracks, select the track, and choose Edit or Delete. You can update the title, cover art, and description. Replacing the audio file requires re-uploading."
+    "answer": "Yes. Go to Dashboard → My Tracks and choose Edit or Delete to manage your uploaded tracks."
   },
   {
     "id": 8,
     "category": "music",
     "question": "Why was my track rejected?",
-    "answer": "Tracks are rejected for low audio quality, copyright violations, explicit content without proper tagging, or incomplete metadata. You'll receive an email with the specific reason and can re-upload after fixing the issue."
+    "answer": "Tracks may be rejected due to copyright violations, poor audio quality, or incomplete metadata."
   },
   {
     "id": 9,
-    "category": "billing",
-    "question": "Is MusicMenia free to use?",
-    "answer": "Listening is completely free, forever. Artists get 5 free uploads per month. For unlimited uploads, analytics, and priority review, the Artist Pro plan is ₹299/month."
+    "category": "music",
+    "question": "Can listeners stream music for free?",
+    "answer": "Yes. MusicMenia is completely free for listeners. Stream tracks, follow artists, and discover new music without any subscription."
   },
   {
     "id": 10,
-    "category": "billing",
-    "question": "How do I cancel my subscription?",
-    "answer": "Go to Settings → Billing → Cancel Plan. Your Pro features stay active until the end of your billing period. No cancellation fees — cancel anytime."
+    "category": "music",
+    "question": "How does audio compression work on upload?",
+    "answer": "When you upload a track, MusicMenia automatically compresses the audio to optimize file size while maintaining good playback quality."
   },
   {
     "id": 11,
-    "category": "billing",
-    "question": "What payment methods do you accept?",
-    "answer": "We accept UPI, credit/debit cards (Visa, Mastercard, RuPay), net banking, and PayPal. All payments are processed securely via Razorpay."
+    "category": "artist",
+    "question": "How do I upload my music?",
+    "answer": "Go to your Artist Dashboard → Upload Music. Add your track title, thumbnail, and MP3 file, then submit for review."
   },
   {
     "id": 12,
-    "category": "billing",
-    "question": "Can I get a refund?",
-    "answer": "Refunds are available within 7 days of purchase if you have not used any Pro features. Contact support with your order ID and we'll process it within 3–5 business days."
+    "category": "artist",
+    "question": "How do I get my music on the Local Feed?",
+    "answer": "Once your track is approved, it automatically appears on the Local Feed for listeners to discover."
   },
   {
     "id": 13,
     "category": "artist",
-    "question": "How do royalties work?",
-    "answer": "Artists earn per stream based on a revenue-share model. Payouts are processed monthly via UPI, bank transfer, or PayPal once your balance reaches ₹500. Check your dashboard for detailed earnings."
+    "question": "Can I upload cover songs?",
+    "answer": "Yes. Cover songs are allowed when proper licensing is provided during upload."
   },
   {
     "id": 14,
-    "category": "artist",
-    "question": "Can I upload cover songs?",
-    "answer": "Yes, with a mechanical license. We've partnered with a licensing provider to make this easy — you'll be prompted during upload if the track is detected as a cover. Original compositions are always preferred."
+    "category": "community",
+    "question": "How do I follow an artist?",
+    "answer": "Visit an artist's profile and click the Follow button to receive updates about their new releases."
   },
   {
     "id": 15,
-    "category": "artist",
-    "question": "How do I get my music on the Explore feed?",
-    "answer": "New uploads are automatically eligible for the Explore feed. Tracks with complete metadata, high-quality cover art, and good early engagement are prioritized by our algorithm."
+    "category": "community",
+    "question": "Can I share tracks outside the app?",
+    "answer": "Yes. Every track includes a shareable link that works across social media and messaging apps."
   },
   {
     "id": 16,
-    "category": "artist",
-    "question": "Can I collaborate with other artists on the platform?",
-    "answer": "Yes. You can tag collaborators when uploading a track. All tagged artists will have the track appear on their profile and share in the stream count. Royalty splits must be agreed upon outside the platform for now."
+    "category": "community",
+    "question": "How do I report inappropriate content?",
+    "answer": "Open the three-dot menu on any track or profile and select Report. Our moderation team reviews all reports within 24 hours."
   },
   {
     "id": 17,
-    "category": "community",
-    "question": "How do I follow an artist?",
-    "answer": "Visit any artist's profile and click the Follow button. You'll see their new uploads in your feed and receive notifications when they go live."
+    "category": "platform",
+    "question": "Does MusicMenia support dark mode?",
+    "answer": "Yes. You can switch between light and dark themes anytime from your profile settings."
   },
   {
     "id": 18,
-    "category": "community",
-    "question": "Can I share tracks outside the app?",
-    "answer": "Yes. Each track has a shareable link you can copy and post anywhere. Listeners who don't have an account can still play a preview before being prompted to sign up."
+    "category": "platform",
+    "question": "Is MusicMenia available on mobile?",
+    "answer": "Yes. MusicMenia is fully responsive and works on smartphones, tablets, and desktop browsers."
   },
   {
     "id": 19,
-    "category": "community",
-    "question": "How do I report inappropriate content?",
-    "answer": "Tap the three-dot menu on any track or profile and select Report. Our moderation team reviews all reports within 24 hours. Repeated violations result in account suspension."
-  },
-  {
-    "id": 20,
-    "category": "community",
-    "question": "Is there a way to message artists directly?",
-    "answer": "Not yet — direct messaging is on our roadmap. For now, you can leave comments on tracks or tag artists in the community feed to get their attention."
+    "category": "platform",
+    "question": "Do I get email notifications?",
+    "answer": "Yes. MusicMenia sends email notifications for account verification, OTP, login activity, logout, new music drops from followed artists, and password reset confirmations."
   }
 ]
