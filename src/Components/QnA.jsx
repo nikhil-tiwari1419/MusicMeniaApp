@@ -77,12 +77,55 @@ function QnA() {
   const { theme } = useTheme();
   const dark = theme === "dark";
 
-  const categories = ["all", ...new Set(Qna.map((q) => q.category))];
+  /*
+    FIXES APPLIED:
+    - Removed unsupported feature FAQs
+    - Removed duplicate entries
+    - Limited FAQ count to 20
+  */
+
+  const blockedKeywords = [
+    "google",
+    "apple",
+    "playlist",
+    "offline",
+    "artist pro",
+    "₹299",
+    "royalty",
+    "payout",
+    "support@musicmenia.com",
+  ];
+
+  // Remove unsupported + duplicate FAQs
+  const cleanedQna = Qna.filter((item, index, self) => {
+    const content = `${item.question} ${item.answer}`.toLowerCase();
+
+    // Remove unsupported features
+    const containsBlocked = blockedKeywords.some((keyword) =>
+      content.includes(keyword)
+    );
+
+    if (containsBlocked) return false;
+
+    // Remove duplicate topics/questions
+    const firstIndex = self.findIndex(
+      (q) =>
+        q.question.trim().toLowerCase() ===
+        item.question.trim().toLowerCase()
+    );
+
+    return firstIndex === index;
+  }).slice(0, 20);
+
+  const categories = [
+    "all",
+    ...new Set(cleanedQna.map((q) => q.category)),
+  ];
 
   const filteredQna =
     activeCategory === "all"
-      ? Qna
-      : Qna.filter((q) => q.category === activeCategory);
+      ? cleanedQna
+      : cleanedQna.filter((q) => q.category === activeCategory);
 
   const categoryIcons = {
     all: <Headphones size={18} />,
@@ -129,8 +172,9 @@ function QnA() {
               dark ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Everything you need to know about MusicMenia — accounts,
-            uploads, artist tools, payments, community features, and more.
+            Everything you need to know about MusicMenia —
+            accounts, music streaming, community features,
+            support, and more.
           </p>
         </div>
 
@@ -153,7 +197,7 @@ function QnA() {
                   : "border-gray-300 bg-white text-gray-700 hover:border-green-600 hover:text-green-700"
               }`}
             >
-              {categoryIcons[cat]}
+              {categoryIcons[cat] || <HelpCircle size={18} />}
               {cat}
             </button>
           ))}
@@ -204,7 +248,7 @@ function QnA() {
               dark ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Our support team is available 24/7 to help you with any
+            Our support team is available to help you with
             questions or issues.
           </p>
 

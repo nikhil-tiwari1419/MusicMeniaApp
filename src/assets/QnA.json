@@ -3,181 +3,120 @@
     "id": 1,
     "category": "account",
     "question": "How do I create an account?",
-    "answer": "Creating an account is quick and completely free. Click the 'Join Free' button on the homepage, enter your email and password, or continue instantly with Google or Apple sign-in. After verifying your email, choose whether you want to join as a listener or an artist. Once setup is complete, you can customize your profile, follow artists, create playlists, and begin streaming music immediately."
+    "answer": "Creating an account is quick and completely free. Click the 'Join Free' button on the homepage, enter your email and password, verify your email, and choose whether you want to join as a listener or an artist."
   },
   {
     "id": 2,
     "category": "account",
     "question": "Can I switch between listener and artist roles?",
-    "answer": "Yes. MusicMenia allows users to switch between listener and artist roles anytime from Settings → Profile → Role. Your playlists, listening history, saved tracks, followers, and profile information remain connected to your account after switching. Artists can instantly begin uploading tracks without creating a new account."
+    "answer": "Yes. MusicMenia allows users to switch between listener and artist roles anytime from Settings → Profile → Role."
   },
   {
     "id": 3,
     "category": "account",
     "question": "How do I reset my password?",
-    "answer": "Click 'Forgot Password' on the login screen and enter your registered email address. We'll send you a secure password reset link within a few minutes. Follow the instructions in the email to create a new password. If the email doesn't appear, check your spam or promotions folder."
+    "answer": "Click 'Forgot Password' on the login screen and enter your registered email address. We'll send you a secure password reset link within a few minutes."
   },
   {
     "id": 4,
     "category": "account",
     "question": "Can I permanently delete my account?",
-    "answer": "Yes. Open Settings → Account → Delete Account and confirm the action. Deleting your account permanently removes your profile, uploaded tracks, playlists, followers, saved music, and analytics data. This action cannot be reversed, so make sure to download any important content before deleting your account."
+    "answer": "Yes. Open Settings → Account → Delete Account and confirm the action. This permanently removes your profile and uploaded content."
   },
   {
     "id": 5,
     "category": "account",
     "question": "Is my personal information secure?",
-    "answer": "Absolutely. MusicMenia uses encrypted authentication, secure cloud infrastructure, and protected payment gateways to keep your personal information safe. We never sell user data to third parties, and all account activity is monitored for suspicious access to ensure account security."
+    "answer": "Absolutely. MusicMenia uses encrypted authentication, secure cloud infrastructure, and protected systems to keep your personal information safe."
   },
   {
     "id": 6,
     "category": "account",
     "question": "Can I use the same account on multiple devices?",
-    "answer": "Yes. You can log into your MusicMenia account on desktop, mobile, or tablet devices using the same credentials. Your playlists, likes, followed artists, and listening progress sync automatically across all supported devices."
+    "answer": "Yes. You can log into your MusicMenia account on desktop, mobile, or tablet devices using the same credentials."
   },
   {
     "id": 7,
     "category": "music",
     "question": "What audio formats can I upload?",
-    "answer": "We currently support MP3, WAV, FLAC, and AAC audio files up to 50MB per track. For the best playback quality and recommendation performance, we recommend uploading high-quality WAV or FLAC files at 44.1kHz / 16-bit or higher."
+    "answer": "We currently support MP3, WAV, FLAC, and AAC audio files up to 50MB per track."
   },
   {
     "id": 8,
     "category": "music",
     "question": "How long until my track goes live?",
-    "answer": "Most tracks are reviewed and published within 2–4 hours after upload. During busy periods or manual moderation checks, approval may take up to 24 hours. You'll receive an email and in-app notification as soon as your track is approved and available for streaming."
+    "answer": "Most tracks are reviewed and published within 2–4 hours after upload. During busy periods, approval may take up to 24 hours."
   },
   {
     "id": 9,
     "category": "music",
     "question": "Can I edit or delete a track after uploading?",
-    "answer": "Yes. Go to Dashboard → My Tracks and choose Edit or Delete. You can update your track title, genre, description, tags, and cover artwork anytime. If you want to replace the original audio file, you'll need to upload a new version for moderation review."
+    "answer": "Yes. Go to Dashboard → My Tracks and choose Edit or Delete. You can update your track details anytime."
   },
   {
     "id": 10,
     "category": "music",
     "question": "Why was my track rejected?",
-    "answer": "Tracks may be rejected for several reasons, including copyright violations, low audio quality, misleading cover artwork, incomplete metadata, or explicit content without proper tagging. When a track is rejected, we send a detailed explanation by email so you can make corrections and re-upload."
+    "answer": "Tracks may be rejected because of copyright violations, poor audio quality, misleading artwork, or incomplete metadata."
   },
   {
     "id": 11,
     "category": "music",
     "question": "Can listeners stream music for free?",
-    "answer": "Yes. MusicMenia is completely free for listeners. Users can stream tracks, follow artists, create playlists, like songs, and discover new music without paying any subscription fee."
+    "answer": "Yes. MusicMenia is completely free for listeners. Users can stream tracks, follow artists, like songs, and discover new music without paying."
   },
   {
     "id": 12,
-    "category": "music",
-    "question": "Does MusicMenia support offline listening?",
-    "answer": "Offline listening is currently being rolled out for premium users and mobile app beta testers. Soon, listeners will be able to save tracks and playlists for offline playback without an internet connection."
+    "category": "billing",
+    "question": "Is MusicMenia free to use?",
+    "answer": "Yes. Listening and music streaming are completely free for all users."
   },
   {
     "id": 13,
     "category": "billing",
-    "question": "Is MusicMenia free to use?",
-    "answer": "Yes. Listening is completely free forever. Artists receive 5 free uploads every month. Users who need unlimited uploads, advanced analytics, priority moderation, and promotional features can upgrade to the Artist Pro plan for ₹299/month."
+    "question": "How do I cancel my subscription?",
+    "answer": "Open Settings → Billing → Cancel Plan and confirm cancellation. Your benefits remain active until the current billing cycle ends."
   },
   {
     "id": 14,
     "category": "billing",
-    "question": "How do I cancel my subscription?",
-    "answer": "Open Settings → Billing → Cancel Plan and confirm cancellation. Your premium benefits remain active until the current billing cycle ends. There are no cancellation charges or hidden fees."
+    "question": "What payment methods do you accept?",
+    "answer": "We support UPI, Visa, Mastercard, RuPay cards, PayPal, and net banking."
   },
   {
     "id": 15,
     "category": "billing",
-    "question": "What payment methods do you accept?",
-    "answer": "We support UPI, Visa, Mastercard, RuPay cards, PayPal, and net banking. All transactions are securely processed using encrypted payment systems through Razorpay."
+    "question": "Can I get a refund?",
+    "answer": "Refunds are available within 7 days of purchase if premium features have not been used."
   },
   {
     "id": 16,
-    "category": "billing",
-    "question": "Can I get a refund?",
-    "answer": "Refunds are available within 7 days of purchase if no premium features have been used during the subscription period. Contact our support team with your order ID and payment details to begin the refund process."
+    "category": "artist",
+    "question": "Can I upload cover songs?",
+    "answer": "Yes. Cover songs are allowed when proper licensing is provided during upload."
   },
   {
     "id": 17,
-    "category": "billing",
-    "question": "Will my subscription renew automatically?",
-    "answer": "Yes. Artist Pro subscriptions renew automatically at the end of each billing cycle unless canceled manually. You can manage or disable auto-renewal anytime from the Billing section in Settings."
+    "category": "artist",
+    "question": "How do I get my music featured on the Explore page?",
+    "answer": "Tracks with strong engagement, high-quality artwork, and complete metadata are more likely to appear on the Explore feed."
   },
   {
     "id": 18,
     "category": "artist",
-    "question": "How do royalties work?",
-    "answer": "Artists earn revenue through a stream-based payout system. Royalties are calculated monthly based on total plays, listener engagement, and platform revenue. Payments are available through UPI, PayPal, or bank transfer once your balance exceeds ₹500."
+    "question": "Can I collaborate with other artists on the platform?",
+    "answer": "Yes. You can tag collaborators during upload so the track appears across all participating artist profiles."
   },
   {
     "id": 19,
-    "category": "artist",
-    "question": "Can I upload cover songs?",
-    "answer": "Yes. Cover songs are allowed when proper licensing is provided. During upload, our system may automatically detect copyrighted compositions and guide you through the licensing process if necessary."
+    "category": "community",
+    "question": "How do I follow an artist?",
+    "answer": "Visit an artist's profile and click the Follow button to receive updates about new releases and activity."
   },
   {
     "id": 20,
-    "category": "artist",
-    "question": "How do I get my music featured on the Explore page?",
-    "answer": "Tracks with strong listener engagement, complete metadata, high-quality artwork, consistent retention, and active sharing are more likely to appear on the Explore feed and trending playlists."
-  },
-  {
-    "id": 21,
-    "category": "artist",
-    "question": "Can I collaborate with other artists on the platform?",
-    "answer": "Yes. You can tag collaborators during upload so the track appears across all participating artist profiles. Collaborative uploads help artists grow visibility, engagement, and audience reach together."
-  },
-  {
-    "id": 22,
-    "category": "artist",
-    "question": "Can I view analytics for my tracks?",
-    "answer": "Yes. Artist Pro users gain access to advanced analytics including stream count, audience demographics, listener retention, top-performing tracks, and engagement trends directly from the dashboard."
-  },
-  {
-    "id": 23,
-    "category": "community",
-    "question": "How do I follow an artist?",
-    "answer": "Visit an artist's profile and click the Follow button. Once followed, you'll receive updates about new releases, trending uploads, featured playlists, and artist activity directly in your feed."
-  },
-  {
-    "id": 24,
     "category": "community",
     "question": "Can I share tracks outside the app?",
-    "answer": "Yes. Every track includes a public shareable link that works across social media platforms and messaging apps like WhatsApp, Instagram, Facebook, and X. Non-users can preview tracks before signing up."
-  },
-  {
-    "id": 25,
-    "category": "community",
-    "question": "How do I report inappropriate content?",
-    "answer": "Open the three-dot menu on any track or profile and select Report. Our moderation team reviews all reports within 24 hours and takes action against accounts that violate community guidelines."
-  },
-  {
-    "id": 26,
-    "category": "community",
-    "question": "Can listeners message artists directly?",
-    "answer": "Direct messaging is currently under development and will be introduced in a future update. Until then, users can interact with artists through comments, mentions, reposts, and community discussions."
-  },
-  {
-    "id": 27,
-    "category": "community",
-    "question": "Can I create and share playlists?",
-    "answer": "Yes. Users can create unlimited playlists, organize favorite tracks, and share playlists publicly with friends or followers through custom links."
-  },
-  {
-    "id": 28,
-    "category": "platform",
-    "question": "Is MusicMenia available on mobile devices?",
-    "answer": "Yes. MusicMenia works smoothly on smartphones, tablets, and desktop browsers. Dedicated Android and iOS apps are currently in active development with additional offline features."
-  },
-  {
-    "id": 29,
-    "category": "platform",
-    "question": "Does MusicMenia support dark mode?",
-    "answer": "Yes. MusicMenia includes both light and dark themes for a comfortable listening experience. You can switch themes anytime from your profile settings."
-  },
-  {
-    "id": 30,
-    "category": "support",
-    "question": "How can I contact customer support?",
-    "answer": "You can contact our support team through the Help Center or by emailing support@musicmenia.com. Most support requests receive a response within 12–24 hours."
+    "answer": "Yes. Every track includes a public shareable link that works across social media platforms and messaging apps."
   }
 ]
-
