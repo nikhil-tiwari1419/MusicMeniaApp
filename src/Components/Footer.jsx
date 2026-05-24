@@ -139,6 +139,10 @@ export default function Footer() {
                     <p className={`text-xs ${sub}`}>
                         © {new Date().getFullYear()} MusicMenia. All rights reserved.
                     </p>
+                    <a href="http://linkedin.com/in/nikhil-tiwari-53743b339" target="_blank" rel="noopener noreferrer"
+                        className={`text-xs md:text-md underline underline-offset-4 tracking-widest ${dark ? "text-gray-400 hover:text-gray-400" : "text-gray-700 hover:text-gray-900"} transition-colors`}>
+                            Developed by Nikhil Tiwari.
+                        </a>
                     <p className={`text-xs ${sub}`}>
                         Made with <span className="text-emerald-500">♪</span> for music lovers
                     </p>

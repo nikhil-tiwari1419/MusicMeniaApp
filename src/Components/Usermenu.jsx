@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, ChevronDown, MessageSquareHeart } from 'lucide-react';
+import { LogOut, User, ChevronDown, MessageSquareHeart, KeySquare } from 'lucide-react';
 import { useAuth } from '../Context/useAuth';
 import { useTheme } from '../Context/Theme';
 
@@ -111,24 +111,30 @@ function UserMenu() {
                         </button>
 
                         {/* Your Posts (Artist only logic) */}
-                        <button
-                            disabled={!isArtist}
-                            onClick={() => {
-                                if (isArtist) {
-                                    navigate('/your-post');
-                                    setOpen(false);
-                                }
-                            }}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                                ${isArtist
-                                    ? (dark
+                        {isArtist && (
+                            <button
+                                onClick={() => { navigate('/your-post'); setOpen(false); }}
+                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
+            ${dark
                                         ? "hover:bg-gray-800 text-gray-300 cursor-pointer"
-                                        : "hover:bg-gray-50 text-gray-700 cursor-pointer")
-                                    : "opacity-50 cursor-not-allowed text-gray-400"
+                                        : "hover:bg-gray-50 text-gray-700 cursor-pointer"
+                                    }`}
+                            >
+                                <User size={15} />
+                                Your Posts
+                            </button>
+                        )}
+
+                        <button
+                            onClick={() => navigate("/forgot-password")}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
+                                ${dark
+                                    ? "hover:bg-gray-800 text-gray-300"
+                                    : "hover:bg-gray-50 text-gray-700"
                                 }`}
                         >
-                            <User size={15} />
-                            Your Posts
+                            <KeySquare size={15} />
+                            Forgot password
                         </button>
 
                         {/* Logout */}

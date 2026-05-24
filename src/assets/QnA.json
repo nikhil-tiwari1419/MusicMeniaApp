@@ -9,7 +9,7 @@
     "id": 2,
     "category": "account",
     "question": "Can I switch between listener and artist roles?",
-    "answer": "Yes. You can switch between listener and artist roles from your profile settings."
+    "answer": "Yes. This is possible by requesting the admin to switch roles."
   },
   {
     "id": 3,
@@ -33,13 +33,13 @@
     "id": 6,
     "category": "music",
     "question": "What audio formats can I upload?",
-    "answer": "We currently support MP3 audio files up to 20MB per track."
+    "answer": "We currently support MP3 audio files up to under 5MB per track."
   },
   {
     "id": 7,
     "category": "music",
-    "question": "Can I edit or delete a track after uploading?",
-    "answer": "Yes. Go to Dashboard → My Tracks and choose Edit or Delete to manage your uploaded tracks."
+    "question": "Can I  delete a track after uploading?",
+    "answer": "Yes. Go to Dashboard → My Tracks and choose  Delete music to manage your uploaded tracks."
   },
   {
     "id": 8,
@@ -57,13 +57,13 @@
     "id": 10,
     "category": "music",
     "question": "How does audio compression work on upload?",
-    "answer": "When you upload a track, MusicMenia automatically compresses the audio to optimize file size while maintaining good playback quality."
+    "answer": "When you upload a track, MusicMenia automatically compresses the audio to optimize file size while maintaining good playback quality. but This featur is on pending and will be implemented in the future updates."
   },
   {
     "id": 11,
     "category": "artist",
     "question": "How do I upload my music?",
-    "answer": "Go to your Artist Dashboard → Upload Music. Add your track title, thumbnail, and MP3 file, then submit for review."
+    "answer": "Go to your Artist Dashboard → Upload Music. Add your track title, thumbnail, and MP3 file, then publish."
   },
   {
     "id": 12,
