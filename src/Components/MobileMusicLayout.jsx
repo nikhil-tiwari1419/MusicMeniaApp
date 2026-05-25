@@ -1,7 +1,7 @@
-import { Play, Pause, Music2 } from 'lucide-react';
+import { Play, Pause, Music2, Heart } from 'lucide-react';
 
 //Animated bars shown next to the playing track number
-function PlayingBars({ dark }) {
+function PlayingBars() {
     return (
         <div className="flex gap-[2px] items-end h-4">
             {[1, 2, 3, 4].map(i => (
@@ -20,7 +20,7 @@ function PlayingBars({ dark }) {
 }
 
 /* ── Single track row ── */
-function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlaying }) {
+function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlaying, isLiked, onToggleLike }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
     const rowBg = isPlaying
         ? dark ? 'bg-emerald-500/10' : 'bg-emerald-50'
@@ -60,6 +60,16 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
                     {music.artist?.username || 'Unknown Artist'}
                 </p>
             </div>
+
+            {/* Like button */}
+            {onToggleLike && (
+                <button
+                    onClick={(e) => { e.stopPropagation(); onToggleLike(music._id); }}
+                    className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-transform active:scale-90"
+                >
+                    <Heart size={16} className={isLiked ? 'fill-emerald-500 text-emerald-500' : sub} />
+                </button>
+            )}
 
             {/* Play / Pause icon on right */}
             <div className="flex-shrink-0 w-6 flex items-center justify-center">
@@ -164,7 +174,8 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
 export default function MobileMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack,
     togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
-    progress, currentTime, duration, handleSeek, isPlaying
+    progress, currentTime, duration, handleSeek, isPlaying,
+    likedSongs = [], onToggleLike
 }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
 
@@ -229,6 +240,8 @@ export default function MobileMusicLayout({
                                     onPlay={togglePlay}
                                     dark={dark}
                                     index={i}
+                                    isLiked={likedSongs.includes(music._id)}
+                                    onToggleLike={onToggleLike}
                                 />
                                 {/* Subtle divider between rows */}
                                 {i < filtered.length - 1 && (

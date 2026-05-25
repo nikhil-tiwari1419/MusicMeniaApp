@@ -21,6 +21,7 @@ const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashbo
 const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
 const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
 const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
+const Likedsong = React.lazy(() => import('./Components/Likedsong'));
 
 // User pages
 const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
@@ -97,6 +98,12 @@ function AppContent() {
                 <Route path='/album' element={
                     <ProtectedRoute>
                         <Album />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/liked-songs' element={
+                    <ProtectedRoute>
+                        <Likedsong />
                     </ProtectedRoute>
                 } />
 

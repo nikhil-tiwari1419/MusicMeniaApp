@@ -1,4 +1,4 @@
-import { Play, Pause, Music2, Volume2 } from 'lucide-react';
+import { Play, Pause, Music2, Volume2, Heart } from 'lucide-react';
 /* ── Animated equaliser bars ── */
 function EqBars({ size = 'sm' }) {
     const w = size === 'lg' ? 'w-1' : 'w-[3px]';
@@ -8,7 +8,7 @@ function EqBars({ size = 'sm' }) {
 
     return (
         <div className="flex gap-[2px] items-end">
-            {heights.map(([a, b], i) => (
+            {heights.map(([a], i) => (
                 <div
                     key={i}
                     className={`${w} bg-emerald-400 rounded-full`}
@@ -31,10 +31,9 @@ function fmt(s) {
 
 /*   DESKTOP MUSIC CARD*/
 
-function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, progress, currentTime, duration, onSeek, volume, onVolume }) {
+function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, progress, currentTime, duration, onSeek, volume, onVolume, isLiked, onToggleLike }) {
     const card = dark ? 'bg-gray-900 border-gray-700/40' : 'bg-white border-gray-200';
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
-    const trackBg = dark ? 'bg-gray-700' : 'bg-gray-200';
 
     return (
         <div
@@ -80,9 +79,18 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
 
                 {/* Eq badge top-right when playing */}
                 {isPlaying && (
-                    <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1.5 flex items-end gap-[2px] h-7">
+                    <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1.5 flex items-end gap-[2px] h-7 z-10">
                         <EqBars size="sm" />
                     </div>
+                )}
+                {/* Like button top-left */}
+                {onToggleLike && (
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onToggleLike(music._id); }}
+                        className="absolute top-3 left-3 p-1.5 rounded-full bg-black/40 hover:bg-black/60 transition-colors z-10"
+                    >
+                        <Heart size={16} className={isLiked ? 'fill-emerald-500 text-emerald-500' : 'text-white'} />
+                    </button>
                 )}
             </div>
 
@@ -166,7 +174,8 @@ function DesktopSkeletonCard({ dark }) {
 export default function DesktopMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack, isPlaying,
     togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
-    progress, currentTime, duration, handleSeek, handleVolume, volume
+    progress, currentTime, duration, handleSeek, handleVolume, volume,
+    likedSongs = [], onToggleLike
 }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
 
@@ -262,6 +271,8 @@ export default function DesktopMusicLayout({
                                     onSeek={handleSeek}
                                     volume={volume}
                                     onVolume={handleVolume}
+                                    isLiked={likedSongs.includes(music._id)}
+                                    onToggleLike={onToggleLike}
                                 />
                             </div>
                         ))}

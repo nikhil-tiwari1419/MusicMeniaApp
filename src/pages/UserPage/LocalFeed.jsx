@@ -21,6 +21,7 @@ export default function LocalFeed() {
     // ui state
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [likedSongs, setLikedSongs] = useState([]);
 
     //Globle audio engine from context 
     const {
@@ -38,8 +39,11 @@ export default function LocalFeed() {
         const playingId = playingTrack?._id || null;
 
 
-        // fetch music
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { fetchMusic(); }, [page]);
+
+    // fetch liked songs
+    useEffect(() => { fetchLikedSongs(); }, []);
 
     // Debounce search input
     useEffect(() => {
@@ -48,6 +52,27 @@ export default function LocalFeed() {
         }, 300);
         return () => clearTimeout(timer);
     }, [search]);
+
+    async function fetchLikedSongs() {
+        try {
+            const res = await axios.get(`${API}/music/liked`, { withCredentials: true });
+            const fetchedMusics = res.data.musics || res.data.liked || [];
+            setLikedSongs(fetchedMusics.map(m => m._id));
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleToggleLike = async (musicId) => {
+        const isLiked = likedSongs.includes(musicId);
+        setLikedSongs(prev => isLiked ? prev.filter(id => id !== musicId) : [...prev, musicId]);
+        try {
+            await axios.post(`${API}/music/like/${musicId}`, {}, { withCredentials: true });
+        } catch (err) {
+            console.error('Failed to toggle like:', err);
+            setLikedSongs(prev => !isLiked ? prev.filter(id => id !== musicId) : [...prev, musicId]);
+        }
+    };
 
     async function fetchMusic() {
         try {
@@ -109,6 +134,8 @@ export default function LocalFeed() {
         handleVolume,
         volume,
         isPlaying,
+        likedSongs,
+        onToggleLike: handleToggleLike,
     };
 
     return (
