@@ -16,7 +16,7 @@ export default function ForgotPass() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [timer, setTimer] = useState(60);
+    const [timer, setTimer] = useState(300);
     useEffect(() => {
 
   let interval;
@@ -51,7 +51,7 @@ export default function ForgotPass() {
     // await axios.post(`${API}/auth/forgot-password`, { email });
 
     toast.success('OTP sent to your email!');
-    setTimer(60);
+    setTimer(300);
     setStep(2);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to send OTP');

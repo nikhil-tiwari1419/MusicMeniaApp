@@ -21,7 +21,7 @@ export default function AuthPage() {
   const [loginBy, setLoginBy] = useState("username");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [registeredEmail, setRegisteredEmail] = useState("");
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
 
   useEffect(() => {
 
@@ -144,7 +144,7 @@ export default function AuthPage() {
 
         setRegisteredEmail(form.email);
         setShowOTP(true);
-        setTimer(60);
+        setTimer(300);
         toast.success("OTP sent to your email!");
       }
     } finally {
