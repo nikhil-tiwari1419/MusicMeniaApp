@@ -21,6 +21,23 @@ export default function AuthPage() {
   const [loginBy, setLoginBy] = useState("username");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [registeredEmail, setRegisteredEmail] = useState("");
+  const [timer, setTimer] = useState(300);
+
+  useEffect(() => {
+
+  let interval;
+
+  if (showOTP && timer > 0) {
+
+    interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+  }
+
+  return () => clearInterval(interval);
+
+}, [showOTP, timer]);
 
   //  Removed role from form state — backend hardcodes role: 'user'
   const [form, setForm] = useState({
@@ -127,6 +144,7 @@ export default function AuthPage() {
 
         setRegisteredEmail(form.email);
         setShowOTP(true);
+        setTimer(300);
         toast.success("OTP sent to your email!");
       }
     } finally {
@@ -229,10 +247,30 @@ export default function AuthPage() {
         {showOTP ? (
           <div className="flex flex-col items-center gap-4">
             <span className="text-5xl">📬</span>
-            <h2 className="text-black text-xl font-bold">Verify your email</h2>
-            <p className="text-gray-900 text-sm text-center">
-              OTP sent to <span className="text-green-400 font-semibold">{registeredEmail}</span>
-            </p>
+          <h2 className="text-black text-xl font-bold">
+  Verify your email
+</h2>
+
+<div className="text-center">
+  <p className="text-gray-900 text-sm">
+    OTP sent to{" "}
+    <span className="text-green-400 font-semibold">
+      {registeredEmail}
+    </span>
+  </p>
+
+  <p className="text-sm text-gray-400 mt-2">
+    {timer > 0
+      ? `OTP expires in: ${timer}s`
+      : "OTP expired! Please resend OTP"}
+  </p>
+</div>
+
+<p className="text-sm text-gray-400 mt-2">
+  {timer > 0
+    ? `OTP expires in: ${timer}s`
+    : "OTP expired! Please resend OTP"}
+</p>
 
             {/* 6 OTP Input Boxes */}
             <div className="flex gap-3 my-2">
