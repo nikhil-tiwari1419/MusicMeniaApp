@@ -7,13 +7,13 @@ import LandingFooter from './LandingFooter'
 
 const features = [
   {
-    // icon: <Frame strokeWidth={3} size={50} />,
+    icon: <Frame strokeWidth={3} size={50} />,
     label: "Choose A Distributer",
-    desc1: "Music gets uploaded to Spotify via a distributor. For a fee or commission, distributors will handle the licensing and distribution to Spotify and other streaming services, and pay you royalties when listeners stream.Check out our directory for our preferred and recommended providers:",
+    desc1: "Music gets uploaded to MusicMenia via a distributor. For a fee or commission, distributors will handle the licensing and distribution to MusicMenia and other streaming services, and pay you royalties when listeners stream.Check out our directory for our preferred and recommended providers:",
     img: "distributer.png"
   },
   {
-    // icon: <Headset strokeWidth={3} size={50} />,
+    icon: <Headset strokeWidth={3} size={50} />,
     label: "Upload Your music",
     desc1: "Make sure your music is release-ready before uploading via your distributor.",
     n1: "Export the highest quality lossless files of your music and follow your chosen distributor's guidelines for uploading.",
@@ -22,16 +22,16 @@ const features = [
     img: "Leith_v1.jpg"
   },
   {
-    // icon: <LayoutDashboard strokeWidth={2.5} size={50} />,
+    icon: <LayoutDashboard strokeWidth={2.5} size={50} />,
     label: "Access your Dashboard",
     desc1: "Give a face and name to your music by setting up your profile",
-    n1: "Once your music is on Spotify you can access your artist profile and your Spotify for Artists dashboard, where you can track performance and manage your content.",
-    n2: "After claiming your Spotify for Artists profile, you'll get full access to the profile and a Registered Artist label in the About section of your profile",
+    n1: "Once your music is on MusicMenia you can access your artist profile and your MusicMenia for Artists dashboard, where you can track performance and manage your content.",
+    n2: "After claiming your MusicMenia for Artists profile, you'll get full access to the profile and a Registered Artist label in the About section of your profile",
     n3: "Customize your profile by adding photos, a bio, links to your social media, merch, and playlists.",
     img: "Meryl_Akiyo_v1.jpg"
   },
   {
-    // icon: <Globe strokeWidth={2.5} size={50} />,
+    icon: <Globe strokeWidth={2.5} size={50} />,
     label: "Prepare for release",
     desc1: "Ahead of release day, make sure to:",
     n1: "Optimize your artist profile.",
@@ -72,7 +72,7 @@ export default function LandingPage() {
 
         
           <img
-            src="/spotify img.png"
+            src="/MusicMenia img.png"
             alt="Hero"
             className='w-full max-w-sm sm:max-w-xs lg:max-w-sm object-contain flex-shrink-0'
           />
