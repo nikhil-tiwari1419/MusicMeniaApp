@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -16,22 +16,6 @@ export default function ForgotPass() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [timer, setTimer] = useState(300);
-    useEffect(() => {
-
-  let interval;
-
-  if (step === 2 && timer > 0) {
-
-    interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-
-  }
-
-  return () => clearInterval(interval);
-
-}, [step, timer]);
 
     const checks = [
         { label: 'At least 8 characters',         valid: newPassword.length >= 8 },
@@ -47,12 +31,9 @@ export default function ForgotPass() {
         if (!email.trim()) return toast.error('Please enter your email');
         setLoading(true);
         try {
-     // TEMPORARY: backend disabled for testing
-    // await axios.post(`${API}/auth/forgot-password`, { email });
-
-    toast.success('OTP sent to your email!');
-    setTimer(300);
-    setStep(2);
+            await axios.post(`${API}/auth/forgot-password`, { email });
+            toast.success('OTP sent to your email!');
+            setStep(2);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to send OTP');
         } finally {
@@ -234,13 +215,6 @@ export default function ForgotPass() {
                                     We sent a 6-digit OTP to{' '}
                                     <span className="text-blue-600 font-semibold">{email}</span>
                                 </p>
-
-<p className="text-sm text-gray-500 mt-2">
-  {timer > 0
-    ? `OTP expires in: ${timer}s`
-    : "OTP expired! Please resend OTP"}
-</p>
-
                             </div>
 
                             <div className="flex gap-2 justify-center">

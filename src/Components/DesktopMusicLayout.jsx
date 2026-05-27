@@ -67,11 +67,11 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                                 ? 'opacity-100 scale-100'
                                 : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'
                             }`}
-                        style={{ width: 52, height: 52 }}
-
+                            style={{ width: 52, height: 52 }}
+                            
                     >
                         {isActuallyPlaying
-                            ? <Pause size={20} className="text-white fill-white" />
+                            ? <Pause size={20} className="text-white fill-white" /> 
                             : <Play size={20} className="text-white fill-white ml-0.5" />
                         }
                     </button>

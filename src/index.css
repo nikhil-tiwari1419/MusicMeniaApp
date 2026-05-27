@@ -9,6 +9,11 @@
   /*  Color Scheme Setup */
   color-scheme: light dark;
   
+  /* 
+    NOTE: Hardcoding a white text color here will cause invisible text in light mode. 
+    It is highly recommended to manage text colors using Tailwind classes on your layout 
+    (e.g., class="text-neutral-900 dark:text-neutral-100") instead of the root rule below.
+  */
   color: rgba(255, 255, 255, 0.87);
 
   /* Performance & Rendering Optimizations */
@@ -19,11 +24,18 @@
   scroll-behavior: smooth;
 }
 
+/* 
+  Utility: Completely hides the scrollbar while maintaining scroll functionality.
+  Fixed to support WebKit (Chrome, Safari, Edge) and Firefox flawlessly.
+*/
 .no-scrollbar {
+  /* IE and Legacy Edge*/
   -ms-overflow-style: none;  
-  scrollbar-width: lighter;  
+  /* Firefox*/
+  scrollbar-width: none;  
 }
 
+/* Chrome, Safari, Opera, and New Edge */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
