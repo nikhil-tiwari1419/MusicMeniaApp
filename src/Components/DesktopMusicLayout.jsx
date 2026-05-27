@@ -38,7 +38,7 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
 
     return (
         <div
-            className={`group relative rounded-2xl border overflow-hidden transition-all duration-300
+            className={`group relative rounded border overflow-hidden transition-all duration-300
                 hover:-translate-y-1 hover:shadow-2xl ${card}
                 ${isPlaying ? 'ring-2 ring-emerald-500/50 shadow-lg shadow-emerald-500/10' : ''}`}
         >
@@ -67,11 +67,11 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                                 ? 'opacity-100 scale-100'
                                 : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'
                             }`}
-                            style={{ width: 52, height: 52 }}
-                            
+                        style={{ width: 52, height: 52 }}
+
                     >
                         {isActuallyPlaying
-                            ? <Pause size={20} className="text-white fill-white" /> 
+                            ? <Pause size={20} className="text-white fill-white" />
                             : <Play size={20} className="text-white fill-white ml-0.5" />
                         }
                     </button>
@@ -185,7 +185,7 @@ export default function DesktopMusicLayout({
 
             {/* ── Now Playing banner (desktop only) ── */}
             {playingId && playingTrack && (
-                <div className={`mb-7 px-5 py-3.5 rounded-2xl flex items-center gap-4 border
+                <div className={`mb-7 px-5 py-3.5 rounded flex items-center gap-4 border
                     ${dark ? 'bg-emerald-500/8 border-emerald-500/25' : 'bg-emerald-50 border-emerald-200'}`}>
                     <EqBars size="lg" />
                     <div className="flex-1 min-w-0">
@@ -211,7 +211,6 @@ export default function DesktopMusicLayout({
             
             {/* ── Recently Played ── */}
             <RecentlyPlayed />
-
             {/* ── Error ── */}
             {error && !musicLoad && (
                 <div className={`rounded-2xl p-6 mb-6 text-center border

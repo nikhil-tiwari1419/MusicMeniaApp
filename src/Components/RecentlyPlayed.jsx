@@ -160,4 +160,4 @@ function RecentlyPlayed() {
     );
 }
 
-export default RecentlyPlayed;  
+export default RecentlyPlayed;

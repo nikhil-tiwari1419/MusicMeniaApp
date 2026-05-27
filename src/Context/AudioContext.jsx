@@ -117,6 +117,7 @@ export function AudioProvider({ children }) {
             audio.src = track.url;
             audio.load();
             // audio.play().catch(() => {});
+
             setplayingTrack(track);
             addToRecentlyPlayed(track);
             setProgress(0);
@@ -163,5 +164,5 @@ export function AudioProvider({ children }) {
         </AudioCtx.Provider>
     );
 }
-export const useAudio = () => useContext(AudioCtx)  
+export const useAudio = () => useContext(AudioCtx)
 
