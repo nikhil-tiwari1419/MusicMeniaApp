@@ -10,6 +10,9 @@ export function AudioProvider({ children }) {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
+    const [recentlyPlayed, setRecentlyPlayed] = useState(() => {
+        return JSON.parse(localStorage.getItem("recentlyPlayed")) || [];
+    });
 
     // is playing is delivered - true only when audio is excately running
     const [isPlaying, setIsPlaying] = useState(false);
@@ -65,7 +68,26 @@ export function AudioProvider({ children }) {
         }
     },[]);
 
+    function addToRecentlyPlayed(track) {
+        setRecentlyPlayed((prev) => {
 
+            // remove duplicates
+            const filtered = prev.filter(
+                (item) => item._id !== track._id
+            );
+
+            // add newest track at beginning
+            const updated = [track, ...filtered].slice(0, 5);
+
+            // save to localStorage
+            localStorage.setItem(
+                "recentlyPlayed",
+                JSON.stringify(updated)
+            );
+
+            return updated;
+        });
+    }
     function togglePlay(track) {
         const audio = audioRef.current;
         if(!audio) return;
@@ -82,6 +104,7 @@ export function AudioProvider({ children }) {
             audio.load();
             // audio.play().catch(() => {});
             setPlayingTrack(track);
+            addToRecentlyPlayed(track);
             setProgress(0);
             setCurrentTime(0);
             setDuration(0);
@@ -115,6 +138,7 @@ export function AudioProvider({ children }) {
             currentTime,
             duration,
             volume,
+            recentlyPlayed,
             togglePlay,
             handleSeek,
             handleVolume,
