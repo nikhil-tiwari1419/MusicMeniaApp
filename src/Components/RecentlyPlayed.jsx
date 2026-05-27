@@ -36,7 +36,7 @@ function RecentlyPlayed() {
                             </h3>
 
                             <p className="text-sm text-gray-400">
-                                {song.artist}
+                                {song.artist?.username || "Unknown Artist"}
                             </p>
                         </div>
 
