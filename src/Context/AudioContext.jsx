@@ -11,21 +11,6 @@ export function AudioProvider({ children }) {
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
 
-    const [recentlyPlayed, setRecentlyPlayed] = useState(() => {
-        const saved = JSON.parse(localStorage.getItem("recentlyPlayed"));
-
-        if (!saved) return [];
-
-        const twoDays = 5 * 60 * 1000;
-
-        if (Date.now() - saved.timestamp > twoDays) {
-            localStorage.removeItem("recentlyPlayed");
-            return [];
-        }
-
-        return saved.data || [];
-    });
-
     // is playing is delivered - true only when audio is excately running
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -75,33 +60,11 @@ export function AudioProvider({ children }) {
 
         return () => {
             audio.removeEventListener('play', onPlay);
-            audio.removeEventListener('pause', onPause);
-
+            audio.removeEventListener('pause',onPause);      
+        
         }
-    }, []);
+    },[]);
 
-    function addToRecentlyPalyed(track) {
-        setRecentlyPlayed((prev) => {
-            // remove duplicates
-            const filtered = prev.filter(
-                (item) => item._id !== track._id
-            );
-
-            // add newest track at beginning
-            const updated = [track, ...filtered].slice(0, 10); // keep only latest 10
-
-            // save to localStorage
-            localStorage.setItem(
-                "recentlyPlayed",
-                JSON.stringify({
-                    data: updated,
-                    timestamp: Date.now(),
-                })
-            );
-
-            return updated;
-        });
-    };
 
     function togglePlay(track) {
         const audio = audioRef.current;
@@ -120,6 +83,7 @@ export function AudioProvider({ children }) {
             // audio.play().catch(() => {});
             addToRecentlyPalyed(track);
             setPlayingTrack(track);
+            addToRecentlyPlayed(track);
             setProgress(0);
             setCurrentTime(0);
             setDuration(0);
@@ -154,6 +118,7 @@ export function AudioProvider({ children }) {
             duration,
             recentlyPlayed,
             volume,
+            recentlyPlayed,
             togglePlay,
             handleSeek,
             handleVolume,
@@ -163,4 +128,4 @@ export function AudioProvider({ children }) {
         </AudioCtx.Provider>
     );
 }
-export const useAudio = () => useContext(AudioCtx)
+export const useAudio = () => useContext(AudioCtx);

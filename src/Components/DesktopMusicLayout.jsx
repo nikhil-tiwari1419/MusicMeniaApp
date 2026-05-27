@@ -1,7 +1,5 @@
 import { Play, Pause, Music2, Volume2, Heart } from 'lucide-react';
 import RecentlyPlayed from './RecentlyPlayed';
-import { Fragment } from 'react';
-
 /* ── Animated equaliser bars ── */
 function EqBars({ size = 'sm' }) {
     const w = size === 'lg' ? 'w-1' : 'w-[3px]';
@@ -210,8 +208,8 @@ export default function DesktopMusicLayout({
                     </button>
                 </div>
             )}
-
-
+            
+            {/* ── Recently Played ── */}
             <RecentlyPlayed />
 
             {/* ── Error ── */}
