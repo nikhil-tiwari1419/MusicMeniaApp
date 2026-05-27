@@ -11,6 +11,21 @@ export function AudioProvider({ children }) {
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
 
+    const [recentlyPlayed, setRecentlyPlayed] = useState(() => {
+        const saved = JSON.parse(localStorage.getItem("recentlyPlayed"));
+
+        if (!saved) return [];
+
+        const twoDays = 5 * 60 * 1000;
+
+        if (Date.now() - saved.timestamp > twoDays) {
+            localStorage.removeItem("recentlyPlayed");
+            return [];
+        }
+
+        return saved.data || [];
+    });
+
     // is playing is delivered - true only when audio is excately running
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -23,9 +38,9 @@ export function AudioProvider({ children }) {
         }
 
         function onLoadeMetadata() { setDuration(audio.duration || 0); }
-        function onCanPlay(){
-            setDuration(audio.duration||0);
-            audio.play().catch(()=> {});
+        function onCanPlay() {
+            setDuration(audio.duration || 0);
+            audio.play().catch(() => { });
         }
 
         function onEnded() {
@@ -36,7 +51,7 @@ export function AudioProvider({ children }) {
 
         audio.addEventListener('timeupdate', onTimeUpdate);
         audio.addEventListener('loadedmetadata', onLoadeMetadata);
-        audio.addEventListener('canplay', onCanPlay);    
+        audio.addEventListener('canplay', onCanPlay);
         audio.addEventListener('ended', onEnded);
 
         // clean up only when entire app unmount
@@ -50,29 +65,51 @@ export function AudioProvider({ children }) {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         const audio = audioRef.current;
-        const onPlay  = () => setIsPlaying(true);
+        const onPlay = () => setIsPlaying(true);
         const onPause = () => setIsPlaying(false);
-        audio.addEventListener('play',onPlay);
-        audio.addEventListener('pause',onPause);
+        audio.addEventListener('play', onPlay);
+        audio.addEventListener('pause', onPause);
 
 
-        return ()=>{
+        return () => {
             audio.removeEventListener('play', onPlay);
-            audio.removeEventListener('pause',onPause);      
-        
-        }
-    },[]);
+            audio.removeEventListener('pause', onPause);
 
+        }
+    }, []);
+
+    function addToRecentlyPalyed(track) {
+        setRecentlyPlayed((prev) => {
+            // remove duplicates
+            const filtered = prev.filter(
+                (item) => item._id !== track._id
+            );
+
+            // add newest track at beginning
+            const updated = [track, ...filtered].slice(0, 10); // keep only latest 10
+
+            // save to localStorage
+            localStorage.setItem(
+                "recentlyPlayed",
+                JSON.stringify({
+                    data: updated,
+                    timestamp: Date.now(),
+                })
+            );
+
+            return updated;
+        });
+    };
 
     function togglePlay(track) {
         const audio = audioRef.current;
-        if(!audio) return;
+        if (!audio) return;
 
         if (playingTrack?._id === track._id) {
             if (audio.paused) {
-                audio.play().catch(() => {});
+                audio.play().catch(() => { });
             } else {
                 audio.pause();
             }
@@ -81,6 +118,7 @@ export function AudioProvider({ children }) {
             audio.src = track.url;
             audio.load();
             // audio.play().catch(() => {});
+            addToRecentlyPalyed(track);
             setPlayingTrack(track);
             setProgress(0);
             setCurrentTime(0);
@@ -114,6 +152,7 @@ export function AudioProvider({ children }) {
             progress,
             currentTime,
             duration,
+            recentlyPlayed,
             volume,
             togglePlay,
             handleSeek,

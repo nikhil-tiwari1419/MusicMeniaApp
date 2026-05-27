@@ -1,4 +1,7 @@
 import { Play, Pause, Music2, Volume2, Heart } from 'lucide-react';
+import RecentlyPlayed from './RecentlyPlayed';
+import { Fragment } from 'react';
+
 /* ── Animated equaliser bars ── */
 function EqBars({ size = 'sm' }) {
     const w = size === 'lg' ? 'w-1' : 'w-[3px]';
@@ -66,11 +69,11 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                                 ? 'opacity-100 scale-100'
                                 : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'
                             }`}
-                            style={{ width: 52, height: 52 }}
-                            
+                        style={{ width: 52, height: 52 }}
+
                     >
                         {isActuallyPlaying
-                            ? <Pause size={20} className="text-white fill-white" /> 
+                            ? <Pause size={20} className="text-white fill-white" />
                             : <Play size={20} className="text-white fill-white ml-0.5" />
                         }
                     </button>
@@ -207,6 +210,9 @@ export default function DesktopMusicLayout({
                     </button>
                 </div>
             )}
+
+
+            <RecentlyPlayed />
 
             {/* ── Error ── */}
             {error && !musicLoad && (
