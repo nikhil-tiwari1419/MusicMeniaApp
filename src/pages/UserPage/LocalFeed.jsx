@@ -40,7 +40,13 @@ export default function LocalFeed() {
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { fetchMusic(); }, [page]);
+    useEffect(() => {
+        if (debouncedSearch && page !== 1) {
+            setPage(1);
+        } else {
+            fetchMusic();
+        }
+    }, [page, debouncedSearch]);
 
     // fetch liked songs
     useEffect(() => { fetchLikedSongs(); }, []);
@@ -78,8 +84,12 @@ export default function LocalFeed() {
         try {
             setMusicLoad(true);
             setError(null);
+
+            // Fetch everything if searching globally, else use normal pagination
+            const currentLimit = debouncedSearch ? 1000 : 12;
+
             const res = await axios.get(
-                `${API}/music/get-music?page=${page}&limit=12`,
+                `${API}/music/get-music?page=${page}&limit=${currentLimit}`,
                 { withCredentials: true }
             );
             if (res.data.musics) {
