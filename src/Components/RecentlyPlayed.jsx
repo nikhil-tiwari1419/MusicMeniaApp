@@ -33,6 +33,7 @@ function RecentlyPlayed() {
                     <img
                         src={song.thumbnail}
                         alt={song.title}
+                        loading="lazy"
                         className="w-10 h-10 rounded-xl object-cover"
                     />
 

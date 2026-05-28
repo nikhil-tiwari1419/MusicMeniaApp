@@ -16,6 +16,7 @@ function Musics({ musics, onDelete }) {
         <img
           src={musics.thumbnail}
           alt={musics.title}
+          loading="lazy"
           className='w-full h-40 object-cover rounded-lg mt-2'
         />
       )}
