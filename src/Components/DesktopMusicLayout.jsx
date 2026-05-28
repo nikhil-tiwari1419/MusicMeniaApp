@@ -46,6 +46,7 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
             <div className="relative aspect-square overflow-hidden bg-gray-800">
                 {music.thumbnail
                     ? <img src={music.thumbnail} alt={music.title}
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     : (
                         <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-gray-800' : 'bg-gray-100'}`}>

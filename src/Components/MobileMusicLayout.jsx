@@ -42,7 +42,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
             {/* Thumbnail */}
             <div className="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                 {music.thumbnail
-                    ? <img src={music.thumbnail} alt={music.title} className="w-full h-full object-cover" />
+                    ? <img src={music.thumbnail} alt={music.title} loading="lazy" className="w-full h-full object-cover" />
                     : (
                         <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
                             <Music2 size={16} className={sub} />
