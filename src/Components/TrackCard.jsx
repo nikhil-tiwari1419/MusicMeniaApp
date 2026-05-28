@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { trackUserAction } from '../services/ewmaService';
 
 export const TrackCard = ({ id, title, artist, cover }) => {
   const [liked, setLiked] = useState(false);
@@ -7,25 +8,24 @@ export const TrackCard = ({ id, title, artist, cover }) => {
 
   const handleLike = (e) => {
     e.stopPropagation();
-    setLiked(!liked);
-    console.log(`[EWMA Signal] Track ID: ${id} | Action: ${!liked ? 'LIKE (+3)' : 'UNLIKE'}`);
+    const nextLikeState = !liked;
+    setLiked(nextLikeState);
+    trackUserAction(id, nextLikeState ? 'LIKE' : 'UNLIKE');
   };
 
   const handleTrackClick = () => {
     if (!isPlaying) {
-      // Song play shuru hua
       setIsPlaying(true);
       playStartTime.current = Date.now();
-      console.log(`[EWMA Signal] Track ID: ${id} | Action: SONG PLAY (+1)`);
+      trackUserAction(id, 'PLAY');
     } else {
-      // Song stop ya skip hua
       setIsPlaying(false);
-      const durationPlayed = (Date.now() - playStartTime.current) / 1000; // seconds mein
+      const durationPlayed = (Date.now() - playStartTime.current) / 1000;
       
       if (durationPlayed < 10) {
-        console.log(`[EWMA Signal] Track ID: ${id} | Action: SKIP QUICKLY (-1) | Played for: ${durationPlayed.toFixed(1)}s`);
+        trackUserAction(id, 'QUICK_SKIP', { durationInSeconds: durationPlayed.toFixed(1) });
       } else {
-        console.log(`[EWMA Signal] Track ID: ${id} | Action: Finished listening | Played for: ${durationPlayed.toFixed(1)}s`);
+        trackUserAction(id, 'FINISHED', { durationInSeconds: durationPlayed.toFixed(1) });
       }
     }
   };

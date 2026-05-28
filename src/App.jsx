@@ -1,48 +1,149 @@
-import React from 'react';
-import { MOCK_DASHBOARD_DATA } from './data/mockData';
-import { TrackCard } from './Components/TrackCard';
+import React, { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './Context/Theme';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Pageloder from './Components/Pageloder';
+import { AuthProvider } from './Context/Auth';
+import ProtectedRoute from './Components/ProtectedRoute';
+import { AudioProvider } from './Context/AudioContext';
+
+const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
+const Authpage = React.lazy(() => import('./pages/AuthPage'));
+const Forgotpass = React.lazy(() => import('./Components/ForgotPass'));
+const LandingPage = React.lazy(() => import('./assets/LandingPage'));
+
+// Admin page
+const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
+
+// Artist pages
+const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashboard'));
+const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
+const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
+const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
+const Likedsong = React.lazy(() => import('./Components/Likedsong'));
+
+// User pages
+const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
+const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
+const About = React.lazy(() => import('./pages/UserPage/About'));
+const Album = React.lazy(() => import('./pages/UserPage/Album'));
+const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
+const Artist = React.lazy(() => import('./pages/UserPage/Artist'));
+
+// NSOC '26: Personalized Dashboard Page Component Import
+const PersonalizedDashboard = React.lazy(() => import('./pages/PersonalizedDashboard'));
+
+function AppContent() {
+    return (
+        <Suspense fallback={<Pageloder />}>
+            <Toaster position="top-left" reverseOrder={false} />
+            <Routes>
+
+                {/* Public routes */}
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/unauthorized' element={<Unauthorized />} />
+                <Route path='/login' element={<Authpage />} />
+                <Route path='/forgot-password' element={<Forgotpass />} />
+
+                {/* Admin route */}
+                <Route path='/admin-dashboard' element={
+                    <ProtectedRoute allowedRole="admin">
+                        <AdminDashboard />
+                    </ProtectedRoute>
+                } />
+
+                {/* Artist routes */}
+                <Route path='/artist-Dashboard' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <ArtistDashboard />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/create-music' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <CreateMusic />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/your-post' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <Mypost />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/Admin-album' element={
+                    <ProtectedRoute allowedRole="artist">
+                        <Albums />
+                    </ProtectedRoute>
+                } />
+
+                {/* User routes */}
+                <Route path='/user-Dashboard' element={
+                    <ProtectedRoute allowedRole="user">
+                        <UserDashboard />
+                    </ProtectedRoute>
+                } />
+
+                {/* NSOC '26: New Personalized EWMA Dashboard Route */}
+                <Route path='/personalized-dashboard' element={
+                    <ProtectedRoute>
+                        <PersonalizedDashboard />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/Local-feed' element={
+                    <ProtectedRoute>
+                        <LocalFeed />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/about' element={
+                    <ProtectedRoute>
+                        <About />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/album' element={
+                    <ProtectedRoute>
+                        <Album />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/liked-songs' element={
+                    <ProtectedRoute>
+                        <Likedsong />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/Profile' element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/artist' element={
+                    <ProtectedRoute>
+                        <Artist />
+                    </ProtectedRoute>
+                } />
+                <Route path='*' element={<Navigate to="/" />} />
+            </Routes>
+        </Suspense>
+    );
+}
 
 function App() {
-  return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">MusicMenia Dashboard</h1>
-        <p className="text-zinc-400 text-sm mt-1">Personalized EWMA Recommendation Engine</p>
-      </header>
-
-      {/* 1. Recently Played Section */}
-      <section className="mb-8">
-        <h2 className="text-xl font-bold mb-4 text-zinc-100">Recently Played</h2>
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {MOCK_DASHBOARD_DATA.recentlyPlayed.map((track) => (
-            <TrackCard key={track.id} {...track} />
-          ))}
-        </div>
-      </section>
-
-      {/* 2. Continue Listening Section */}
-      <section className="mb-8">
-        <h2 className="text-xl font-bold mb-4 text-zinc-100">Continue Listening</h2>
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {MOCK_DASHBOARD_DATA.continueListening.map((track) => (
-            <TrackCard key={track.id} {...track} />
-          ))}
-        </div>
-      </section>
-
-      {/* 3. Recommended Songs Section (EWMA Core Feature) */}
-      <section className="mb-8">
-        <h2 className="text-xl font-bold mb-4 text-green-400 flex items-center gap-2">
-          ✨ Recommended For You
-        </h2>
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {MOCK_DASHBOARD_DATA.recommendedSongs.map((track) => (
-            <TrackCard key={track.id} {...track} />
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+    return (
+        <ThemeProvider>
+            <Router>
+                <AuthProvider>
+                    <AudioProvider>
+                        <AppContent />
+                    </AudioProvider>
+                </AuthProvider>
+            </Router>
+        </ThemeProvider>
+    );
 }
 
 export default App;
