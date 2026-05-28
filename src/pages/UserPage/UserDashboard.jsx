@@ -113,7 +113,7 @@ export default function UserDashboard() {
 
                     {/* ── Music UI (existing component) ── */}
                     <section>
-                        <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${sub}`}>Your Playlists</h2>
+                        <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 underline ${sub}`}>Playlists , Recently Played, Album's</h2>
                         <MusicUIUser />
                     </section>
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import RecentlyPlayed from './RecentlyPlayed'
 
 function MusicUIUser() {
     const MusicWalpaper = [
@@ -7,11 +8,8 @@ function MusicUIUser() {
 
     return (
         <>
-            <div className='border'>
-                <h1>Top music</h1>
-
-                <h1>English Song'S</h1>
-                <h1>Hindi Songs</h1>
+            <div className=''>
+                <RecentlyPlayed />
             </div>
         </>
     )

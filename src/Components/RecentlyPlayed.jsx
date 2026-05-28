@@ -21,7 +21,7 @@ function RecentlyPlayed() {
     const SongCard = ({ song, index }) => (
         <div
             onClick={() => togglePlay(song)}
-            className={`group flex items-center justify-between p-2 rounded transition-all duration-300 cursor-pointer border
+            className={`group flex items-center justify-between p-1 rounded transition-all duration-300 cursor-pointer border
       ${dark
                     ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800"
                     : "bg-gray-50 border-gray-200 hover:bg-gray-100"
@@ -51,10 +51,10 @@ function RecentlyPlayed() {
                 {/* Song Info */}
                 <div className="flex flex-col">
                     <h3
-                        className={`font-semibold line-clamp-1 ${dark ? "text-white" : "text-black"
+                        className={`font-semibold text-sm line-clamp-1 ${dark ? "text-white" : "text-black"
                             }`}
                     >
-                        {song.title || song.name}
+                        {song.title}
                     </h3>
 
                     <p className="text-sm text-gray-400 line-clamp-1">
@@ -99,7 +99,7 @@ function RecentlyPlayed() {
 
                     <div>
                         <h2
-                            className={`text-xl font-bold ${dark ? "text-white" : "text-black"
+                            className={`text-xs font-semibold uppercase tracking-widest ${dark ? "text-white" : "text-black"
                                 }`}
                         >
                             Recently Played
