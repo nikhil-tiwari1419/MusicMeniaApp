@@ -1,4 +1,4 @@
-import { Play, Pause, Music2, Heart } from 'lucide-react';
+import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat } from 'lucide-react';
 
 //Animated bars shown next to the playing track number
 function PlayingBars() {
@@ -98,7 +98,8 @@ function MobileSkeletonRow({ dark }) {
 }
 
 /* ── Sticky bottom player bar (shown when a track is playing) ── */
-function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, currentTime, duration, onSeek, dark }) {
+function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, currentTime, duration, onSeek, dark,
+    playNext, playPrevious, repeat, toggleRepeat, hasNext, hasPrev }) {
     if (!track) return null;
 
     function fmt(s) {
@@ -152,6 +153,29 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                     </p>
                 </div>
 
+                {/* ── Queue Controls ── */}
+                {/* Repeat */}
+                <button
+                    onClick={toggleRepeat}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90
+                        ${repeat
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : dark ? 'text-gray-500' : 'text-gray-400'
+                        }`}
+                >
+                    <Repeat size={14} />
+                </button>
+
+                {/* Previous */}
+                <button
+                    onClick={playPrevious}
+                    disabled={!hasPrev}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
+                        ${dark ? 'text-gray-400' : 'text-gray-500'}`}
+                >
+                    <SkipBack size={16} className="fill-current" />
+                </button>
+
                 {/* Play / Pause button */}
                 <button
                     onClick={() => onToggle(track)}
@@ -161,6 +185,16 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                         ? <Pause size={18} className="text-white fill-white" />
                         : <Play size={18} className="text-white fill-white ml-0.5" />
                     }
+                </button>
+
+                {/* Next */}
+                <button
+                    onClick={playNext}
+                    disabled={!hasNext}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
+                        ${dark ? 'text-gray-400' : 'text-gray-500'}`}
+                >
+                    <SkipForward size={16} className="fill-current" />
                 </button>
             </div>
         </div>
@@ -173,11 +207,19 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
 ════════════════════════════════════════════════════════════════ */
 export default function MobileMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack,
-    togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
+    togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
+    page, setPage, setSearch, pagination, search, fetchMusic,
     progress, currentTime, duration, handleSeek, isPlaying,
     likedSongs = [], onToggleLike
 }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
+
+    // Determine if there is a next/previous track available in the queue
+    const currentQueueIndex = queue?.length > 0 && playingTrack
+        ? queue.findIndex(t => t._id === playingTrack._id)
+        : -1;
+    const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
+    const hasPrev = currentQueueIndex > 0;
 
     return (
         /* pb-28 = space so last track isn't hidden behind bottom player bar */
@@ -237,7 +279,7 @@ export default function MobileMusicLayout({
                                     music={music}
                                     isPlaying={String(playingId) === String(music._id)}
                                     isActuallyPlaying={isPlaying && String(playingId)=== String(music._id)}
-                                    onPlay={togglePlay}
+                                    onPlay={(track) => togglePlay(track, filtered)}
                                     dark={dark}
                                     index={i}
                                     isLiked={likedSongs.includes(music._id)}
@@ -289,6 +331,12 @@ export default function MobileMusicLayout({
                 duration={duration}
                 onSeek={handleSeek}
                 dark={dark}
+                playNext={playNext}
+                playPrevious={playPrevious}
+                repeat={repeat}
+                toggleRepeat={toggleRepeat}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
             />
         </div>
     );

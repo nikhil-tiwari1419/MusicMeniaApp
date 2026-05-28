@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState, useEffect } from "react";
+import { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 
 const AudioCtx = createContext(null);
 
@@ -28,6 +28,32 @@ export function AudioProvider({ children }) {
     // is playing is delivered - true only when audio is excately running
     const [isPlaying, setIsPlaying] = useState(false);
 
+    // ── Queue & Repeat state ──
+    const [queue, setQueue] = useState([]);       // ordered list of tracks for sequential playback
+    const [repeat, setRepeat] = useState(false);  // "Play Again" — loop current track
+
+    // Refs so event-listeners always see fresh values (avoids stale closures)
+    const queueRef = useRef(queue);
+    const repeatRef = useRef(repeat);
+    const playingTrackRef = useRef(playingTrack);
+
+    useEffect(() => { queueRef.current = queue; }, [queue]);
+    useEffect(() => { repeatRef.current = repeat; }, [repeat]);
+    useEffect(() => { playingTrackRef.current = playingTrack; }, [playingTrack]);
+
+    // ── Internal helper: play a specific track object (no toggle logic) ──
+    const playTrackInternal = useCallback((track) => {
+        const audio = audioRef.current;
+        audio.src = track.url;
+        audio.load();
+        setplayingTrack(track);
+        addToRecentlyPlayed(track);
+        setProgress(0);
+        setCurrentTime(0);
+        setDuration(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(() => {
         const audio = audioRef.current;
 
@@ -43,6 +69,47 @@ export function AudioProvider({ children }) {
         }
 
         function onEnded() {
+            // ── Repeat ("Play Again") ──
+            if (repeatRef.current) {
+                audio.currentTime = 0;
+                audio.play().catch(() => { });
+                return;
+            }
+
+            // ── Sequential queue playback ──
+            const currentQueue = queueRef.current;
+            const currentTrack = playingTrackRef.current;
+
+            if (currentQueue.length > 0 && currentTrack) {
+                const currentIndex = currentQueue.findIndex(
+                    (t) => t._id === currentTrack._id
+                );
+
+                if (currentIndex !== -1 && currentIndex < currentQueue.length - 1) {
+                    // Play next track in queue
+                    const nextTrack = currentQueue[currentIndex + 1];
+                    // Use direct manipulation to avoid stale closure issues
+                    audio.src = nextTrack.url;
+                    audio.load();
+                    setplayingTrack(nextTrack);
+                    // Add next track to recently played
+                    setRecentlyPlayed((prev) => {
+                        const filtered = prev.filter((item) => item._id !== nextTrack._id);
+                        const updated = [nextTrack, ...filtered].slice(0, 5);
+                        localStorage.setItem(
+                            "recentlyPlayed",
+                            JSON.stringify({ data: updated, timestamp: Date.now() })
+                        );
+                        return updated;
+                    });
+                    setProgress(0);
+                    setCurrentTime(0);
+                    setDuration(0);
+                    return;
+                }
+            }
+
+            // No next track — stop playback
             setplayingTrack(null);
             setProgress(0);
             setCurrentTime(0);
@@ -102,9 +169,21 @@ export function AudioProvider({ children }) {
             return updated;
         });
     }
-    function togglePlay(track) {
+
+    /**
+     * togglePlay(track, newQueue?)
+     * - If same track: toggle pause/play
+     * - If different track: switch to it
+     * - If newQueue is provided: update the active queue (playlist context)
+     */
+    function togglePlay(track, newQueue) {
         const audio = audioRef.current;
         if (!audio) return;
+
+        // Update queue if a new list context is provided
+        if (newQueue && Array.isArray(newQueue) && newQueue.length > 0) {
+            setQueue(newQueue);
+        }
 
         if (playingTrack?._id === track._id) {
             if (audio.paused) {
@@ -124,6 +203,29 @@ export function AudioProvider({ children }) {
             setCurrentTime(0);
             setDuration(0);
         }
+    }
+
+    // ── Play Next track in queue ──
+    function playNext() {
+        if (queue.length === 0 || !playingTrack) return;
+        const currentIndex = queue.findIndex((t) => t._id === playingTrack._id);
+        if (currentIndex !== -1 && currentIndex < queue.length - 1) {
+            playTrackInternal(queue[currentIndex + 1]);
+        }
+    }
+
+    // ── Play Previous track in queue ──
+    function playPrevious() {
+        if (queue.length === 0 || !playingTrack) return;
+        const currentIndex = queue.findIndex((t) => t._id === playingTrack._id);
+        if (currentIndex > 0) {
+            playTrackInternal(queue[currentIndex - 1]);
+        }
+    }
+
+    // ── Toggle Repeat ("Play Again") ──
+    function toggleRepeat() {
+        setRepeat((prev) => !prev);
     }
 
     function handleSeek(val) {
@@ -155,7 +257,12 @@ export function AudioProvider({ children }) {
             duration,
             recentlyPlayed,
             volume,
+            queue,
+            repeat,
             togglePlay,
+            playNext,
+            playPrevious,
+            toggleRepeat,
             handleSeek,
             handleVolume,
             stopMusic,
