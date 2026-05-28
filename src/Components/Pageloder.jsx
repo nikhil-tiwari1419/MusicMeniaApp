@@ -1,31 +1,62 @@
-import React from 'react'
+import React from 'react';
+import { useTheme } from '../Context/Theme';
 
 function Pageloader() {
-  return (
-    <div className='min-h-screen flex flex-col items-center justify-center gap-6'>
-      
-      {/* Spinner */}
-      <div className='w-14 h-14 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin'></div>
+  const themeContext = useTheme();
+  // Safe fallback in case theme is not fully initialized
+  const theme = themeContext ? themeContext.theme : 'light';
+  const dark = theme === 'dark';
 
-      {/* Bouncing Dots */}
-      <div className='flex gap-2'>
-        {[0, 1, 2].map(i => (
+  return (
+    <div className={`min-h-screen flex flex-col items-center justify-center gap-8 transition-colors duration-300 ${
+      dark 
+        ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-black' 
+        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+    }`}>
+      
+      {/* Audio Visualizer / Equalizer Animation */}
+      <div className='flex items-end justify-center gap-1.5 h-16 w-32'>
+        {[
+          { dur: '1.4s', del: '0.0s' },
+          { dur: '1.1s', del: '0.3s' },
+          { dur: '1.6s', del: '0.1s' },
+          { dur: '0.9s', del: '0.5s' },
+          { dur: '1.3s', del: '0.2s' },
+          { dur: '1.7s', del: '0.4s' },
+          { dur: '1.2s', del: '0.1s' },
+        ].map((anim, index) => (
           <span
-            key={i}
-            className='w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce'
-            style={{ animationDelay: `${i * 0.15}s` }}
+            key={index}
+            className={`w-2.5 rounded-full animate-music-wave ${
+              dark 
+                ? 'bg-gradient-to-t from-emerald-600 via-emerald-400 to-teal-300' 
+                : 'bg-gradient-to-t from-emerald-500 to-teal-400'
+            }`}
+            style={{ 
+              animationDuration: anim.dur,
+              animationDelay: anim.del,
+              height: '100%' 
+            }}
           />
         ))}
       </div>
 
-      {/* Text */}
-      <div className='text-center'>
-        <p className='text-xl font-medium text-gray-800 dark:text-white'>Loading Page</p>
-        <p className='text-sm text-gray-400 animate-pulse mt-1'>Please wait a moment...</p>
+      {/* Loading Text */}
+      <div className='text-center flex flex-col items-center'>
+        <p className={`text-xl font-bold tracking-wide ${
+          dark ? 'text-white drop-shadow-md' : 'text-gray-900 drop-shadow-sm'
+        }`}>
+          MusicMenia
+        </p>
+        <p className={`text-sm mt-2 animate-pulse font-medium ${
+          dark ? 'text-emerald-400/80' : 'text-emerald-600/80'
+        }`}>
+          Tuning in...
+        </p>
       </div>
 
     </div>
-  )
+  );
 }
 
-export default Pageloader
+export default Pageloader;
