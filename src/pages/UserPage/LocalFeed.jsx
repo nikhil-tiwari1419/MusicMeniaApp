@@ -28,6 +28,11 @@ export default function LocalFeed() {
         playingTrack,
         isPlaying,
         togglePlay,
+        playNext,
+        playPrevious,
+        repeat,
+        toggleRepeat,
+        queue,
         progress,
         currentTime,
         duration,
@@ -119,7 +124,12 @@ export default function LocalFeed() {
         filtered,       // already-filtered track array
         playingId,      // _id string or null
         playingTrack,   // full track object or null
-        togglePlay,     // fn(id) — the only play control both layouts use
+        togglePlay,     // fn(track, newQueue?) — play control both layouts use
+        playNext,
+        playPrevious,
+        repeat,
+        toggleRepeat,
+        queue,
         page,
         setPage,
         setSearch,

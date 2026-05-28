@@ -20,7 +20,7 @@ function RecentlyPlayed() {
 
     const SongCard = ({ song, index }) => (
         <div
-            onClick={() => togglePlay(song)}
+            onClick={() => togglePlay(song, recentlyPlayed)}
             className={`group flex items-center justify-between p-1 rounded transition-all duration-300 cursor-pointer border
       ${dark
                     ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800"

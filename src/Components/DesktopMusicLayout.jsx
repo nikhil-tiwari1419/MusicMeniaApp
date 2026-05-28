@@ -1,4 +1,4 @@
-import { Play, Pause, Music2, Volume2, Heart } from 'lucide-react';
+import { Play, Pause, Music2, Volume2, Heart, SkipBack, SkipForward, Repeat } from 'lucide-react';
 import RecentlyPlayed from './RecentlyPlayed';
 /* ── Animated equaliser bars ── */
 function EqBars({ size = 'sm' }) {
@@ -175,11 +175,19 @@ function DesktopSkeletonCard({ dark }) {
 
 export default function DesktopMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack, isPlaying,
-    togglePlay, page, setPage, setSearch, pagination, search, fetchMusic,
+    togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
+    page, setPage, setSearch, pagination, search, fetchMusic,
     progress, currentTime, duration, handleSeek, handleVolume, volume,
     likedSongs = [], onToggleLike
 }) {
     const sub = dark ? 'text-gray-400' : 'text-gray-500';
+
+    // Determine if there is a next/previous track available in the queue
+    const currentQueueIndex = queue?.length > 0 && playingTrack
+        ? queue.findIndex(t => t._id === playingTrack._id)
+        : -1;
+    const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
+    const hasPrev = currentQueueIndex > 0;
 
     return (
         <div className="hidden sm:block max-w-7xl mx-auto px-4 py-18">
@@ -198,15 +206,58 @@ export default function DesktopMusicLayout({
                             </span>
                         </p>
                     </div>
-                    <button
-                        onClick={() => togglePlay(playingTrack)}
-                        className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-semibold transition
-                            ${dark ? 'border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/15' : 'border-emerald-300 text-emerald-600 hover:bg-emerald-100'}`}
-                    >
-                        {isPlaying
-                            ? <> <Pause size={12} className="fill-current" />Pause</>
-                            : <> <Play size={12} className="fill-current" /> Play</>}
-                    </button>
+
+                    {/* ── Queue Controls ── */}
+                    <div className="flex items-center gap-1">
+                        {/* Repeat / Play Again */}
+                        <button
+                            onClick={toggleRepeat}
+                            title={repeat ? 'Repeat: On' : 'Repeat: Off'}
+                            className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200
+                                ${repeat
+                                    ? 'bg-emerald-500/20 text-emerald-400 shadow-sm shadow-emerald-500/20'
+                                    : dark ? 'text-gray-500 hover:text-gray-300 hover:bg-gray-800' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                }`}
+                        >
+                            <Repeat size={14} />
+                            {repeat && (
+                                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                            )}
+                        </button>
+
+                        {/* Previous */}
+                        <button
+                            onClick={playPrevious}
+                            disabled={!hasPrev}
+                            title="Previous"
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
+                                ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+                        >
+                            <SkipBack size={14} className="fill-current" />
+                        </button>
+
+                        {/* Play / Pause */}
+                        <button
+                            onClick={() => togglePlay(playingTrack)}
+                            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-semibold transition
+                                ${dark ? 'border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/15' : 'border-emerald-300 text-emerald-600 hover:bg-emerald-100'}`}
+                        >
+                            {isPlaying
+                                ? <> <Pause size={12} className="fill-current" />Pause</>
+                                : <> <Play size={12} className="fill-current" /> Play</>}
+                        </button>
+
+                        {/* Next */}
+                        <button
+                            onClick={playNext}
+                            disabled={!hasNext}
+                            title="Next"
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
+                                ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+                        >
+                            <SkipForward size={14} className="fill-current" />
+                        </button>
+                    </div>
                 </div>
             )}
             
@@ -267,7 +318,7 @@ export default function DesktopMusicLayout({
                                     music={music}
                                     isPlaying={String(playingId) === String(music._id)}
                                     isActuallyPlaying={isPlaying && String(playingId) === String(music._id)}
-                                    onPlay={togglePlay}
+                                    onPlay={(track) => togglePlay(track, filtered)}
                                     dark={dark}
                                     progress={progress}
                                     currentTime={currentTime}
