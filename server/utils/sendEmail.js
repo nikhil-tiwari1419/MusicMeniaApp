@@ -11,8 +11,12 @@ dotenv.config();
  * @returns {Promise<Object>} - Brevo API response
  */
 export const sendEmail = async (toEmail, subject, htmlContent) => {
+  if (process.env.NODE_ENV === "test" || process.env.DISABLE_EMAIL_SENDING === "true") {
+    return { skipped: true };
+  }
+
   const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL;
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.BREVO_EMAIL;
 
   if (!apiKey || !senderEmail) {
     console.error("[EmailService] Missing Brevo configuration");

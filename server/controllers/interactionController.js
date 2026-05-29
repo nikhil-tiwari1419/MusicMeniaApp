@@ -14,7 +14,12 @@ export const storeInteraction = async (req, res) => {
     });
   } catch (error) {
     console.error("Error storing interaction:", error.message);
-    if (error.message === "Missing required interaction fields") {
+    if (
+      error.message === "Missing required interaction fields" ||
+      error.message === "Invalid interaction type" ||
+      error.message === "Invalid entity type" ||
+      error.message === "Invalid entity id"
+    ) {
       return res.status(400).json({ message: error.message });
     }
     res.status(500).json({ message: "Internal server error" });
@@ -42,8 +47,12 @@ export const getRecentInteractions = async (req, res) => {
   try {
     const userId = req.params.userId || req.user.id;
     const { limit = 10 } = req.query;
+    const parsedLimit = Number(limit);
+    const safeLimit = Number.isFinite(parsedLimit)
+      ? Math.min(Math.max(parsedLimit, 1), 50)
+      : 10;
 
-    const interactions = await interactionService.getRecentHistory(userId, Number(limit));
+    const interactions = await interactionService.getRecentHistory(userId, safeLimit);
     res.status(200).json(interactions);
   } catch (error) {
     console.error("Error fetching recent interactions:", error);

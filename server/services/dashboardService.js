@@ -92,8 +92,10 @@ class DashboardService {
     
     if (recentlyPlayed.length === 0) {
       // New User: Prioritize Discovery (Trending/Recommended)
-      this._moveSection(sections, 'recommended', 1);
       this._moveSection(sections, 'trending', 0);
+      this._moveSection(sections, 'recommended', 1);
+      this._moveSection(sections, 'recent', sections.length - 1);
+      this._moveSection(sections, 'continue', sections.length - 1);
     } else if (topArtistPrefs.length > 0 && topArtistPrefs[0].score > 5) {
       // Mature User: Prioritize Personalization
       this._moveSection(sections, 'recommended', 0);

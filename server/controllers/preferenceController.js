@@ -27,7 +27,21 @@ export const getTopPreferences = async (req, res) => {
       return res.status(400).json({ message: "targetType is required" });
     }
 
-    const preferences = await preferenceService.getTopPreferences(userId, targetType, Number(limit));
+    const validTargetTypes = new Set(["SONG", "ARTIST", "GENRE"]);
+    if (!validTargetTypes.has(targetType)) {
+      return res.status(400).json({ message: "Invalid targetType" });
+    }
+
+    const parsedLimit = Number(limit);
+    const safeLimit = Number.isFinite(parsedLimit)
+      ? Math.min(Math.max(parsedLimit, 1), 50)
+      : 10;
+
+    const preferences = await preferenceService.getTopPreferences(
+      userId,
+      targetType,
+      safeLimit
+    );
     res.status(200).json(preferences);
   } catch (error) {
     console.error("Error fetching top preferences:", error);

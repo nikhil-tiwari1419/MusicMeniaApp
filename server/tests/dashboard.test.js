@@ -23,7 +23,7 @@ jest.unstable_mockModule("../repositories/preferenceRepository.js", () => ({
   },
 }));
 
-jest.unstable_mockModule("./recommendationService.js", () => ({
+jest.unstable_mockModule("../services/recommendationService.js", () => ({
   default: {
     getSongRecommendations: jest.fn().mockResolvedValue([{ _id: "s1" }]),
     getArtistRecommendations: jest.fn().mockResolvedValue([{ _id: "a1" }]),
@@ -56,10 +56,14 @@ const { default: prefRepo } = await import(
 const { default: interactionRepo } = await import(
   "../repositories/interactionRepository.js"
 );
+const { default: Song } = await import("../models/Song.js");
 
 describe("Dashboard Service — Adaptive Ordering", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    Song.find.mockReturnValue({
+      populate: jest.fn().mockResolvedValue([]),
+    });
   });
 
   describe("_moveSection()", () => {
@@ -114,6 +118,9 @@ describe("Dashboard Service — Adaptive Ordering", () => {
       prefRepo.findTopPreferences.mockResolvedValue([
         { targetId: "artist1", score: 10 },
       ]);
+      Song.find.mockReturnValueOnce({
+        populate: jest.fn().mockResolvedValue([{ _id: "s1" }]),
+      });
 
       const dashboard = await dashboardService.getPersonalizedDashboard(
         "matureUserId"

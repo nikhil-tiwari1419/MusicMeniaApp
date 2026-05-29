@@ -31,6 +31,7 @@ const { default: interactionService } = await import(
 );
 
 describe("Interaction Service", () => {
+  const validObjectId = "507f1f77bcf86cd799439011";
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -44,7 +45,7 @@ describe("Interaction Service", () => {
         interactionService.recordInteraction({
           interactionType: "PLAY",
           entityType: "SONG",
-          entityId: "song123",
+          entityId: validObjectId,
         })
       ).rejects.toThrow("Missing required interaction fields");
     });
@@ -54,7 +55,7 @@ describe("Interaction Service", () => {
         interactionService.recordInteraction({
           userId: "user123",
           entityType: "SONG",
-          entityId: "song123",
+          entityId: validObjectId,
         })
       ).rejects.toThrow("Missing required interaction fields");
     });
@@ -64,7 +65,7 @@ describe("Interaction Service", () => {
         interactionService.recordInteraction({
           userId: "user123",
           interactionType: "PLAY",
-          entityId: "song123",
+          entityId: validObjectId,
         })
       ).rejects.toThrow("Missing required interaction fields");
     });
@@ -94,7 +95,7 @@ describe("Interaction Service", () => {
       userId: "user123",
       interactionType: "PLAY",
       entityType: "SONG",
-      entityId: "song456",
+      entityId: validObjectId,
     };
 
     test("should persist interaction via repository", async () => {
@@ -109,7 +110,7 @@ describe("Interaction Service", () => {
           userId: "user123",
           interactionType: "PLAY",
           entityType: "SONG",
-          entityId: "song456",
+          entityId: validObjectId,
           timestamp: expect.any(Date),
         })
       );

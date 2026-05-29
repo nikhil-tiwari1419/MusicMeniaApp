@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import preferenceService from "./preferenceService.js";
 
 class EWMAService {
@@ -51,11 +52,18 @@ class EWMAService {
   }
 
   async updateScore(userId, targetType, targetId, weight) {
-    const preference = await preferenceService.getPreference(userId, targetType, targetId);
+    let normalizedTargetId = targetId;
+    if ((targetType === "SONG" || targetType === "ARTIST") && typeof targetId === "string") {
+      if (mongoose.Types.ObjectId.isValid(targetId)) {
+        normalizedTargetId = new mongoose.Types.ObjectId(targetId);
+      }
+    }
+
+    const preference = await preferenceService.getPreference(userId, targetType, normalizedTargetId);
     const previousScore = preference ? preference.score : 0;
     const newScore = this.calculateNewScore(previousScore, weight);
 
-    return await preferenceService.updatePreferenceScore(userId, targetType, targetId, newScore);
+    return await preferenceService.updatePreferenceScore(userId, targetType, normalizedTargetId, newScore);
   }
 }
 

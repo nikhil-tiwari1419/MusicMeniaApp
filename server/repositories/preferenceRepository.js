@@ -13,7 +13,7 @@ class PreferenceRepository {
     return await Preference.findOneAndUpdate(
       { userId, targetType, targetId },
       { score: newScore, lastUpdated: new Date() },
-      { new: true, upsert: true }
+      { returnDocument: "after", upsert: true }
     );
   }
 
