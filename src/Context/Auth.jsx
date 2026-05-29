@@ -11,6 +11,18 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const userRef = useRef(null);
     const isRefreshing = useRef(false);
+    const refreshSubscribers = useRef([]);
+
+    // Helper to add subscribers for token refresh queue
+    const addRefreshSubscriber = (callback) => {
+        refreshSubscribers.current.push(callback);
+    };
+
+    // Helper to notify all subscribers after refresh
+    const notifyRefreshSubscribers = (tokenRefreshSuccess) => {
+        refreshSubscribers.current.forEach(callback => callback(tokenRefreshSuccess));
+        refreshSubscribers.current = [];
+    };
 
     // loading -> pehle check karo user looged in hai ya nhai -> agar hai to user data set karo -> agar nhai to user null set karo -> loading false set karo taki app render ho sake
     // App load hone pe check karo user looged in hai ?
@@ -23,12 +35,56 @@ export const AuthProvider = ({ children }) => {
         const interceptor = axios.interceptors.response.use(
             response => response,
             async (error) => {
-                if (error.response?.status === 401) {
-                    if (!isRefreshing.current) {
-                        setUser(null);
+                const originalRequest = error.config;
+
+                // If error is 401 and we haven't retried yet
+                if (error.response?.status === 401 && !originalRequest._retry) {
+                    if (isRefreshing.current) {
+                        // If already refreshing, queue the request
+                        return new Promise((resolve, reject) => {
+                            addRefreshSubscriber((tokenRefreshSuccess) => {
+                                if (tokenRefreshSuccess) {
+                                    // Retry original request after successful refresh
+                                    return axios(originalRequest)
+                                        .then(response => resolve(response))
+                                        .catch(err => reject(err));
+                                } else {
+                                    // Refresh failed, reject the queued request
+                                    reject(error);
+                                }
+                            });
+                        });
+                    }
+
+                    originalRequest._retry = true;
+                    isRefreshing.current = true;
+
+                    try {
+                        // Attempt to refresh token
+                        await axios.post(
+                            `${API}/auth/refresh-token`,
+                            {},
+                            { withCredentials: true }
+                        );
+
+                        // Refresh successful - notify subscribers and retry queued requests
+                        notifyRefreshSubscribers(true);
                         
+                        // Retry the original request
+                        return axios(originalRequest);
+                    } catch (refreshError) {
+                        // Refresh failed - notify subscribers to reject queued requests
+                        notifyRefreshSubscribers(false);
+                        
+                        // Clear user state and redirect to login
+                        setUser(null);
+                        navigate('/');
+                        return Promise.reject(refreshError);
+                    } finally {
+                        isRefreshing.current = false;
                     }
                 }
+
                 return Promise.reject(error);
             }
         );
@@ -60,18 +116,36 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function checkAuth() {
+        if (isRefreshing.current) {
+            // Wait for current refresh to complete
+            return new Promise((resolve) => {
+                addRefreshSubscriber(() => {
+                    fetchUser().then(() => resolve()).catch(() => {
+                        setUser(null);
+                        setLoading(false);
+                        resolve();
+                    });
+                });
+            });
+        }
+
         try {
             await fetchUser();
         } catch (error) {
             try {
-                //access tken is expire try to refresh
+                // Access token expired, try to refresh
+                isRefreshing.current = true;
                 await axios.post(`${API}/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );
                 await fetchUser();  // retry after refresh token 
+                notifyRefreshSubscribers(true);
             } catch {
                 setUser(null);
+                notifyRefreshSubscribers(false);
+            } finally {
+                isRefreshing.current = false;
             }
         } finally {
             setLoading(false);
@@ -89,8 +163,10 @@ export const AuthProvider = ({ children }) => {
                 { withCredentials: true }
             );
             await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
+            notifyRefreshSubscribers(true);
         } catch (error) {
             const status = error.response?.status;
+            notifyRefreshSubscribers(false);
             if (status == 401 || status == 403) {
                 if (userRef.current) {
                     setUser(null);
@@ -160,4 +236,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
-
