@@ -25,3 +25,9 @@ dist-ssr
 *.sw?
 *.env
 .env*
+
+
+# development md files
+implementation.md
+execution.md
+feature_description.md
