@@ -3,7 +3,7 @@ import { createContext, useContext, useRef, useState, useEffect, useCallback } f
 const AudioCtx = createContext(null);
 
 export function AudioProvider({ children }) {
-    const audioRef = useRef(new Audio()); //lives forever , never unmounts
+    const audioRef = useRef(new Audio());
 
     const [playingTrack, setplayingTrack] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -146,6 +146,18 @@ export function AudioProvider({ children }) {
         }
     }, []);
 
+    // ── Cleanup audio element on unmount to prevent memory leaks ──
+    useEffect(() => {
+        return () => {
+            const audio = audioRef.current;
+            if (audio) {
+                audio.pause();
+                audio.src = '';
+                audio.load();
+            }
+        };
+    }, []);
+
     function addToRecentlyPlayed(track) {
         setRecentlyPlayed((prev) => {
 
@@ -272,4 +284,3 @@ export function AudioProvider({ children }) {
     );
 }
 export const useAudio = () => useContext(AudioCtx)
-
