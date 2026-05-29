@@ -7,10 +7,9 @@ import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 import { AudioProvider } from './Context/AudioContext';
 
-
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
-const Forgotpass = React.lazy(() => import('./Components/ForgotPass'))
+const Forgotpass = React.lazy(() => import('./Components/ForgotPass'));
 const LandingPage = React.lazy(() => import('./assets/LandingPage'));
 
 // Admin page
@@ -29,8 +28,10 @@ const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
 const About = React.lazy(() => import('./pages/UserPage/About'));
 const Album = React.lazy(() => import('./pages/UserPage/Album'));
 const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
-const Artist = React.lazy(() => import('./pages/UserPage/Artist'))
+const Artist = React.lazy(() => import('./pages/UserPage/Artist'));
 
+// NSOC '26: Personalized Dashboard Page Component Import
+const PersonalizedDashboard = React.lazy(() => import('./pages/PersonalizedDashboard'));
 
 function AppContent() {
     return (
@@ -54,7 +55,7 @@ function AppContent() {
                 {/* Artist routes */}
                 <Route path='/artist-Dashboard' element={
                     <ProtectedRoute allowedRole="artist">
-                        <ArtistDashboard />  {/* renamed */}
+                        <ArtistDashboard />
                     </ProtectedRoute>
                 } />
 
@@ -80,6 +81,13 @@ function AppContent() {
                 <Route path='/user-Dashboard' element={
                     <ProtectedRoute allowedRole="user">
                         <UserDashboard />
+                    </ProtectedRoute>
+                } />
+
+                {/* NSOC '26: New Personalized EWMA Dashboard Route */}
+                <Route path='/personalized-dashboard' element={
+                    <ProtectedRoute>
+                        <PersonalizedDashboard />
                     </ProtectedRoute>
                 } />
 
