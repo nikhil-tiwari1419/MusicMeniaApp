@@ -1,6 +1,55 @@
 import { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 
 const AudioCtx = createContext(null);
+const RECENTLY_PLAYED_KEY = "recentlyPlayed";
+
+function removeStoredRecentlyPlayed() {
+    try {
+        localStorage.removeItem(RECENTLY_PLAYED_KEY);
+    } catch (error) {
+        console.error("Failed to clear recently played from localStorage:", error);
+    }
+}
+
+function getStoredRecentlyPlayed() {
+    try {
+        const stored = localStorage.getItem(RECENTLY_PLAYED_KEY);
+        if (!stored) return [];
+
+        const saved = JSON.parse(stored);
+        if (!saved || typeof saved !== "object" || !Array.isArray(saved.data)) {
+            removeStoredRecentlyPlayed();
+            return [];
+        }
+
+        const twoDays = 24 * 60 * 60 * 1000;
+
+        if (Date.now() - saved.timestamp > twoDays) {
+            removeStoredRecentlyPlayed();
+            return [];
+        }
+
+        return saved.data;
+    } catch (error) {
+        console.error("Failed to parse recently played from localStorage:", error);
+        removeStoredRecentlyPlayed();
+        return [];
+    }
+}
+
+function saveRecentlyPlayed(tracks) {
+    try {
+        localStorage.setItem(
+            RECENTLY_PLAYED_KEY,
+            JSON.stringify({
+                data: tracks,
+                timestamp: Date.now()
+            })
+        );
+    } catch (error) {
+        console.error("Failed to save recently played to localStorage:", error);
+    }
+}
 
 export function AudioProvider({ children }) {
     const audioRef = useRef(new Audio()); //lives forever , never unmounts
@@ -10,20 +59,7 @@ export function AudioProvider({ children }) {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
-    const [recentlyPlayed, setRecentlyPlayed] = useState(() => {
-        const saved = JSON.parse(localStorage.getItem("recentlyPlayed"));
-
-        if (!saved) return [];
-
-        const twoDays = 24 * 60 * 60 * 1000;
-
-        if (Date.now() - saved.timestamp > twoDays) {
-            localStorage.removeItem("recentlyPlayed");
-            return [];
-        }
-
-        return saved.data || [];
-    });
+    const [recentlyPlayed, setRecentlyPlayed] = useState(getStoredRecentlyPlayed);
 
     // is playing is delivered - true only when audio is excately running
     const [isPlaying, setIsPlaying] = useState(false);
@@ -96,10 +132,7 @@ export function AudioProvider({ children }) {
                     setRecentlyPlayed((prev) => {
                         const filtered = prev.filter((item) => item._id !== nextTrack._id);
                         const updated = [nextTrack, ...filtered].slice(0, 5);
-                        localStorage.setItem(
-                            "recentlyPlayed",
-                            JSON.stringify({ data: updated, timestamp: Date.now() })
-                        );
+                        saveRecentlyPlayed(updated);
                         return updated;
                     });
                     setProgress(0);
@@ -158,13 +191,7 @@ export function AudioProvider({ children }) {
             const updated = [track, ...filtered].slice(0, 5);
 
             // save to localStorage
-            localStorage.setItem(
-                "recentlyPlayed",
-                JSON.stringify({
-                    data: updated,
-                    timestamp: Date.now()
-                })
-            );
+            saveRecentlyPlayed(updated);
 
             return updated;
         });
