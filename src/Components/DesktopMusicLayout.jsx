@@ -190,73 +190,126 @@ export default function DesktopMusicLayout({
     const hasPrev = currentQueueIndex > 0;
 
     return (
-        <div className="hidden sm:block max-w-7xl mx-auto px-4 py-18">
+        <div className="hidden sm:block max-w-7xl mx-auto px-4 pt-18 pb-32">
 
             {/* ── Now Playing banner (desktop only) ── */}
             {playingId && playingTrack && (
-                <div className={`mb-7 px-5 py-3.5 rounded flex items-center gap-4 border
-                    ${dark ? 'bg-emerald-500/8 border-emerald-500/25' : 'bg-emerald-50 border-emerald-200'}`}>
-                    <EqBars size="lg" />
-                    <div className="flex-1 min-w-0">
-                        <p className="text-emerald-500 text-[10px] font-bold uppercase tracking-widest">Now Playing</p>
-                        <p className={`font-bold truncate mt-0.5 ${dark ? 'text-white' : 'text-gray-900'}`}>
-                            {playingTrack.title}
-                            <span className={`ml-2 text-sm font-normal ${sub}`}>
-                                · {playingTrack.artist?.username || 'Unknown Artist'}
-                            </span>
-                        </p>
+                <div className={`fixed bottom-0 left-0 right-0 z-50 border-t shadow-[0_-4px_10px_rgba(0,0,0,0.05)] backdrop-blur-xl
+                    ${dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'}`}>
+                    
+                    <div className="relative h-1 w-full group">
+                        <div className={`h-full ${dark ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                            <div
+                                className="h-full bg-emerald-500 transition-all duration-100"
+                                style={{ width: `${progress}%` }}
+                            />
+                        </div>
+                        <input
+                            type="range" min="0" max="100"
+                            value={Math.round(progress)} step="0.5"
+                            onChange={e => handleSeek(parseFloat(e.target.value))}
+                            className="absolute inset-0 w-full opacity-0 cursor-pointer h-4 -top-1.5"
+                        />
                     </div>
 
-                    {/* ── Queue Controls ── */}
-                    <div className="flex items-center gap-1">
-                        {/* Repeat / Play Again */}
-                        <button
-                            onClick={toggleRepeat}
-                            title={repeat ? 'Repeat: On' : 'Repeat: Off'}
-                            className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200
-                                ${repeat
-                                    ? 'bg-emerald-500/20 text-emerald-400 shadow-sm shadow-emerald-500/20'
-                                    : dark ? 'text-gray-500 hover:text-gray-300 hover:bg-gray-800' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                                }`}
-                        >
-                            <Repeat size={14} />
-                            {repeat && (
-                                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                            )}
-                        </button>
+                    <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                        
+                        {/* ── Left: Thumbnail & Info ── */}
+                        <div className="w-1/3 flex items-center gap-3 min-w-0">
+                            <div className="relative w-12 h-12 rounded bg-gray-800 flex-shrink-0 overflow-hidden shadow-sm">
+                                {playingTrack.thumbnail ? (
+                                    <img src={playingTrack.thumbnail} alt={playingTrack.title} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                                        <Music2 size={20} className={dark ? 'text-gray-500' : 'text-gray-400'} />
+                                    </div>
+                                )}
+                                {isPlaying && (
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <EqBars size="sm" />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className={`font-bold text-sm truncate ${dark ? 'text-white' : 'text-gray-900'}`}>
+                                    {playingTrack.title}
+                                </p>
+                                <p className={`text-xs truncate mt-0.5 ${sub}`}>
+                                    {playingTrack.artist?.username || 'Unknown Artist'}
+                                </p>
+                            </div>
+                        </div>
 
-                        {/* Previous */}
-                        <button
-                            onClick={playPrevious}
-                            disabled={!hasPrev}
-                            title="Previous"
-                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
-                                ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
-                        >
-                            <SkipBack size={14} className="fill-current" />
-                        </button>
+                        {/* ── Center: Queue Controls ── */}
+                        <div className="flex-1 flex justify-center items-center gap-2">
+                            {/* Repeat / Play Again */}
+                            <button
+                                onClick={toggleRepeat}
+                                title={repeat ? 'Repeat: On' : 'Repeat: Off'}
+                                className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200
+                                    ${repeat
+                                        ? 'bg-emerald-500/20 text-emerald-400 shadow-sm shadow-emerald-500/20'
+                                        : dark ? 'text-gray-500 hover:text-gray-300 hover:bg-gray-800' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                    }`}
+                            >
+                                <Repeat size={14} />
+                                {repeat && (
+                                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                )}
+                            </button>
 
-                        {/* Play / Pause */}
-                        <button
-                            onClick={() => togglePlay(playingTrack)}
-                            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-semibold transition
-                                ${dark ? 'border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/15' : 'border-emerald-300 text-emerald-600 hover:bg-emerald-100'}`}
-                        >
-                            {isPlaying
-                                ? <> <Pause size={12} className="fill-current" />Pause</>
-                                : <> <Play size={12} className="fill-current" /> Play</>}
-                        </button>
+                            {/* Previous */}
+                            <button
+                                onClick={playPrevious}
+                                disabled={!hasPrev}
+                                title="Previous"
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
+                                    ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+                            >
+                                <SkipBack size={14} className="fill-current" />
+                            </button>
 
-                        {/* Next */}
-                        <button
-                            onClick={playNext}
-                            disabled={!hasNext}
-                            title="Next"
-                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
-                                ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
-                        >
-                            <SkipForward size={14} className="fill-current" />
-                        </button>
+                            {/* Play / Pause */}
+                            <button
+                                onClick={() => togglePlay(playingTrack)}
+                                className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform shadow-lg shadow-emerald-500/30 ml-1 mr-1"
+                            >
+                                {isPlaying
+                                    ? <Pause size={18} className="text-white fill-white" />
+                                    : <Play size={18} className="text-white fill-white ml-0.5" />
+                                }
+                            </button>
+
+                            {/* Next */}
+                            <button
+                                onClick={playNext}
+                                disabled={!hasNext}
+                                title="Next"
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-25
+                                    ${dark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+                            >
+                                <SkipForward size={14} className="fill-current" />
+                            </button>
+                        </div>
+
+                        {/* ── Right: Volume Control ── */}
+                        <div className="w-1/3 flex justify-end items-center gap-3 pr-2">
+                            <Volume2 size={16} className={sub} />
+                            <div className="w-24 relative h-1.5 rounded-full overflow-hidden group/vol cursor-pointer"
+                                style={{ background: dark ? '#374151' : '#e5e7eb' }}>
+                                <div
+                                    className="h-full bg-emerald-500/80 transition-all duration-100"
+                                    style={{ width: `${volume * 100}%` }}
+                                />
+                                <input
+                                    type="range" min="0" max="1" step="0.02"
+                                    value={volume}
+                                    onChange={e => handleVolume(parseFloat(e.target.value))}
+                                    className="absolute inset-0 w-full opacity-0 cursor-pointer h-full"
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             )}
