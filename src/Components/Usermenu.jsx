@@ -4,6 +4,16 @@ import { LogOut, User, ChevronDown, MessageSquareHeart, KeySquare } from 'lucide
 import { useAuth } from '../Context/useAuth';
 import { useTheme } from '../Context/Theme';
 
+const getInitials = (name) => {
+    if (!name) return 'U';
+    const parts = name.split(/[\s_.-]+/);
+    const validParts = parts.filter(p => p.length > 0);
+    if (validParts.length > 1) {
+        return (validParts[0].charAt(0) + validParts[validParts.length - 1].charAt(0)).toUpperCase();
+    }
+    return name.charAt(0).toUpperCase();
+};
+
 function UserMenu() {
     const { user, logout } = useAuth();
     const { theme } = useTheme();
@@ -56,24 +66,9 @@ function UserMenu() {
             {/* Avatar */}
             <button
                 onClick={() => setOpen(!open)}
-                className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border transition-colors cursor-pointer
-                    ${dark
-                        ? "border-gray-700 hover:bg-gray-800 text-white"
-                        : "border-gray-200 hover:bg-gray-100 text-gray-800"
-                    }`}
+                className="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-600 transition-colors flex items-center justify-center text-white text-sm font-bold shadow-sm cursor-pointer"
             >
-                <div className="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
-                    {user.username?.charAt(0).toUpperCase()}
-                </div>
-
-                <span className="hidden sm:block text-sm font-medium max-w-24 truncate">
-                    {user.username}
-                </span>
-
-                <ChevronDown
-                    size={14}
-                    className={`transition-transform ${open ? 'rotate-180' : ''}`}
-                />
+                {getInitials(user.username)}
             </button>
 
             {/* Dropdown */}
