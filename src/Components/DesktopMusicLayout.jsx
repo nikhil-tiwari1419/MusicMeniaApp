@@ -190,14 +190,31 @@ export default function DesktopMusicLayout({
     const hasPrev = currentQueueIndex > 0;
 
     return (
-        <div className="hidden sm:block max-w-7xl mx-auto px-4 py-18">
+        <div className="hidden sm:block max-w-7xl mx-auto px-4 pt-18 pb-32">
 
             {/* ── Now Playing banner (desktop only) ── */}
             {playingId && playingTrack && (
-                <div className={`mb-7 px-5 py-3.5 rounded flex items-center gap-4 border
-                    ${dark ? 'bg-emerald-500/8 border-emerald-500/25' : 'bg-emerald-50 border-emerald-200'}`}>
-                    <EqBars size="lg" />
-                    <div className="flex-1 min-w-0">
+                <div className={`fixed bottom-0 left-0 right-0 z-50 border-t shadow-[0_-4px_10px_rgba(0,0,0,0.05)] backdrop-blur-xl
+                    ${dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'}`}>
+                    
+                    <div className="relative h-1 w-full group">
+                        <div className={`h-full ${dark ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                            <div
+                                className="h-full bg-emerald-500 transition-all duration-100"
+                                style={{ width: `${progress}%` }}
+                            />
+                        </div>
+                        <input
+                            type="range" min="0" max="100"
+                            value={Math.round(progress)} step="0.5"
+                            onChange={e => handleSeek(parseFloat(e.target.value))}
+                            className="absolute inset-0 w-full opacity-0 cursor-pointer h-4 -top-1.5"
+                        />
+                    </div>
+
+                    <div className="max-w-7xl mx-auto px-5 py-3.5 flex items-center gap-4">
+                        <EqBars size="lg" />
+                        <div className="flex-1 min-w-0">
                         <p className="text-emerald-500 text-[10px] font-bold uppercase tracking-widest">Now Playing</p>
                         <p className={`font-bold truncate mt-0.5 ${dark ? 'text-white' : 'text-gray-900'}`}>
                             {playingTrack.title}
@@ -258,6 +275,7 @@ export default function DesktopMusicLayout({
                             <SkipForward size={14} className="fill-current" />
                         </button>
                     </div>
+                </div>
                 </div>
             )}
             
