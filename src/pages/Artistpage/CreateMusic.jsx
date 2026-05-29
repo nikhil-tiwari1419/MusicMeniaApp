@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Navbar from '../../Components/Navbar';
 import { useTheme } from '../../Context/Theme';
+import { handleError } from '../../utils/errorHandler';
 
 function CreateMusic() {
   const navigate = useNavigate();
@@ -120,8 +121,9 @@ function CreateMusic() {
       }
 
     } catch (error) {
-      console.error('Upload error:', error);
-      toast.error(error.response?.data?.message || "Error creating music, please try again");
+      handleError(error, "Error creating music, please try again", {
+        logMessage: 'Upload error:',
+      });
     } finally {
       setLoading(false);
     }

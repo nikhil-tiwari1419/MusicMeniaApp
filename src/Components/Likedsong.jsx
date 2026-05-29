@@ -5,6 +5,7 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import DesktopMusicLayout from "./DesktopMusicLayout";
 import MobileMusicLayout from "./MobileMusicLayout";
+import { handleError } from "../utils/errorHandler";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -63,7 +64,10 @@ export default function Likedsong() {
             setLikedSongs(fetchedMusics.map(m => m._id));
             if (res.data.pagination) setpagination(res.data.pagination);
         } catch (error) {
-            setError(error.response?.data?.message || error.message || 'Failed to load liked music');
+            const message = handleError(error, "Failed to load liked music", {
+                logMessage: "Failed to load liked music:",
+            });
+            setError(message);
         } finally {
             setMusicLoad(false);
         }
@@ -80,7 +84,9 @@ export default function Likedsong() {
         try {
             await axios.post(`${API}/music/like/${musicId}`, {}, { withCredentials: true });
         } catch (err) {
-            console.error('Failed to toggle like:', err);
+            handleError(err, "Failed to update like", {
+                logMessage: "Failed to toggle like:",
+            });
             // Revert state on error
             setLikedSongs(prev => !isLiked ? prev.filter(id => id !== musicId) : [...prev, musicId]);
             fetchLikedMusic();
