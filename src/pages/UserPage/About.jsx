@@ -83,15 +83,15 @@ export default function About() {
                 <section className="max-w-4xl mx-auto px-4 pb-24">
                     <h2 className={`text-xl font-bold mb-6 ${text}`}>What we offer</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {FEATURES.map(({ icon: Icon, title, desc }) => (
-                            <div key={title} className={`flex gap-4 p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${card}`}>
+                        {FEATURES.map((feature) => (
+                            <div key={feature.title} className={`flex gap-4 p-6 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${card}`}>
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
                                     ${dark ? 'bg-emerald-500/15' : 'bg-emerald-50'}`}>
-                                    <Icon size={18} className={accent} />
+                                    <feature.icon size={18} className={accent} />
                                 </div>
                                 <div>
-                                    <p className={`font-semibold text-sm mb-1 ${text}`}>{title}</p>
-                                    <p className={`text-sm leading-relaxed ${sub}`}>{desc}</p>
+                                    <p className={`font-semibold text-sm mb-1 ${text}`}>{feature.title}</p>
+                                    <p className={`text-sm leading-relaxed ${sub}`}>{feature.desc}</p>
                                 </div>
                             </div>
                         ))}

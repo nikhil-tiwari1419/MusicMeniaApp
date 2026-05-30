@@ -44,13 +44,14 @@ export default function LocalFeed() {
         const playingId = playingTrack?._id || null;
 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (debouncedSearch && page !== 1) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setPage(1);
         } else {
             fetchMusic();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, debouncedSearch]);
 
     // fetch liked songs

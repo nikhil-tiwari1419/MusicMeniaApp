@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 import { useTheme } from "../../Context/Theme";
@@ -43,10 +43,8 @@ export default function ArtistDashboard() {
   const base = dark ? "bg-gray-950 text-white" : "bg-gray-50 text-gray-900";
   const card = dark ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200";
   const sub = dark ? "text-gray-400" : "text-gray-500";
-  const hover = dark ? "hover:bg-gray-800" : "hover:bg-gray-50";
 
-  // Shared props — ek baar banao, sab components ko bhejo
-  const themeProps = { dark, sub, hover, card };
+
 
   return (
     <>
