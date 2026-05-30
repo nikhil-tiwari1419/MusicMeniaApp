@@ -72,15 +72,15 @@ export default function UserDashboard() {
                     <section>
                         <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${sub}`}>Your Activity</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            {STATS.map(({ icon: Icon, label, value }) => (
-                                <div key={label} className={`rounded-2xl border p-5 flex flex-col gap-3 ${card}`}>
+                            {STATS.map((stat) => (
+                                <div key={stat.label} className={`rounded-2xl border p-5 flex flex-col gap-3 ${card}`}>
                                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center
                                         ${dark ? 'bg-emerald-500/15' : 'bg-emerald-50'}`}>
-                                        <Icon size={17} className="text-emerald-500" />
+                                        <stat.icon size={17} className="text-emerald-500" />
                                     </div>
                                     <div>
-                                        <p className={`text-xs font-bold ${text}`}>{value}</p>
-                                        <p className={`text-xs mt-0.5 ${sub}`}>{label}</p>
+                                        <p className={`text-xs font-bold ${text}`}>{stat.value}</p>
+                                        <p className={`text-xs mt-0.5 ${sub}`}>{stat.label}</p>
                                     </div>
                                 </div>
                             ))}
@@ -91,20 +91,20 @@ export default function UserDashboard() {
                     <section>
                         <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${sub}`}>Quick Access</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            {QUICK.map(({ icon: Icon, label, path, desc }) => (
+                            {QUICK.map((item) => (
                                 <button
-                                    key={label}
-                                    onClick={() => navigate(path)}
+                                    key={item.label}
+                                    onClick={() => navigate(item.path)}
                                     className={`group rounded-2xl border p-5 flex flex-col gap-3 text-left transition-all duration-200
                                         hover:-translate-y-0.5 hover:shadow-lg hover:border-emerald-500/40 ${card}`}
                                 >
                                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors
                                         ${dark ? 'bg-gray-800 group-hover:bg-emerald-500/15' : 'bg-gray-100 group-hover:bg-emerald-50'}`}>
-                                        <Icon size={17} className="text-emerald-500" />
+                                        <item.icon size={17} className="text-emerald-500" />
                                     </div>
                                     <div>
-                                        <p className={`text-sm font-semibold ${text}`}>{label}</p>
-                                        <p className={`text-xs mt-0.5 ${sub}`}>{desc}</p>
+                                        <p className={`text-sm font-semibold ${text}`}>{item.label}</p>
+                                        <p className={`text-xs mt-0.5 ${sub}`}>{item.desc}</p>
                                     </div>
                                 </button>
                             ))}

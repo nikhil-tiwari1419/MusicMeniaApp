@@ -29,13 +29,29 @@ const ARTIST_LINKS = [
     { label: 'About',        path: '/about-company'    },
 ]
 
+function ThemeBtn() {
+    const { theme, toggleTheme } = useTheme()
+    const dark = theme === 'dark'
+    return (
+        <button
+            onClick={toggleTheme}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-colors
+                ${dark
+                    ? 'border-gray-700 text-yellow-400 hover:bg-gray-800'
+                    : 'border-gray-200 text-gray-500 hover:bg-gray-100'}`}
+        >
+            {dark ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
+    )
+}
+
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [activeSection, setActiveSection] = useState('home')
     const drawerRef              = useRef(null)
     const navigate               = useNavigate()
     const location               = useLocation()
-    const { theme, toggleTheme } = useTheme()
+    const { theme } = useTheme()
     const { user }               = useAuth()
     const dark                   = theme === 'dark'
     const isPublicNav            = !user
@@ -70,7 +86,10 @@ export default function Navbar() {
     useEffect(() => {
         if (!isPublicNav) return
         const hash = location.hash.replace('#', '')
-        if (hash) setActiveSection(hash)
+        if (hash) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setActiveSection(hash)
+        }
     }, [location.hash, isPublicNav])
 
     useEffect(() => {
@@ -124,19 +143,7 @@ export default function Navbar() {
     const hov      = dark ? 'hover:bg-gray-800/70' : 'hover:bg-gray-100'
     const drawerBg = dark ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-100'
 
-    function ThemeBtn() {
-        return (
-            <button
-                onClick={toggleTheme}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-colors
-                    ${dark
-                        ? 'border-gray-700 text-yellow-400 hover:bg-gray-800'
-                        : 'border-gray-200 text-gray-500 hover:bg-gray-100'}`}
-            >
-                {dark ? <Sun size={15} /> : <Moon size={15} />}
-            </button>
-        )
-    }
+
 
     return (
         <>

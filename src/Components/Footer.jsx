@@ -60,15 +60,15 @@ export default function Footer() {
 
                         {/* Social icons */}
                         <div className="flex gap-2 mt-1">
-                            {SOCIAL.map(({ icon: Icon, url, label }) => (
-                                <a key={label} href={url} target="_blank" rel="noopener noreferrer"
-                                    aria-label={label}
+                            {SOCIAL.map((social) => (
+                                <a key={social.label} href={social.url} target="_blank" rel="noopener noreferrer"
+                                    aria-label={social.label}
                                     className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-150
                                         ${dark
                                             ? 'border-gray-700 text-gray-400 hover:border-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10'
                                             : 'border-gray-200 text-gray-500 hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50'
                                         }`}>
-                                    <Icon size={15} />
+                                    <social.icon size={15} />
                                 </a>
                             ))}
                         </div>
