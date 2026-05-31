@@ -42,10 +42,10 @@ const features = [
 ]
 
 const steps = [
-  { label: "Sign Up", img: "/loginImg.png" },
-  { label: "Be As an User", img: "/roleImg.png" },
-  { label: "Explore Music", img: "/exploreImg.png" },
-  { label: "Explore Artists", img: "/growImg.png" },
+  { label: "Sign Up", img: "/loginImg.png", icon: "🎵", desc: "Create your free MusicMenia account in seconds." },
+  { label: "Be As an User", img: "/roleImg.png", icon: "👤", desc: "Join our community of music lovers." },
+  { label: "Explore Music", img: "/exploreImg.png", icon: "🌍", desc: "Discover new artists and tracks." },
+  { label: "Explore Artists", img: "/growImg.png", icon: "🎸", desc: "Connect with your favorite musicians." },
 ]
 
 export default function LandingPage() {
@@ -156,28 +156,45 @@ export default function LandingPage() {
       </section>
 
       {/* ── How it works ── */}
-      <section id="listener-workflow" className={`py-12 sm:py-20 px-4 sm:px-6 ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
-        <h2 className={`text-center text-xl sm:text-2xl font-bold mb-10 sm:mb-12
-          ${dark ? "text-gray-100" : "text-gray-800"}`}>
-          How it works For Listeners
+      <section id="listener-workflow" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden" style={{ background: dark ? "linear-gradient(135deg,#0f0f1a 0%,#0d1117 100%)" : "linear-gradient(135deg,#f0f4ff 0%,#e8f0fe 100%)" }}>
+        <h2 className={`text-center font-bold text-4xl md:text-5xl mb-4
+          ${dark ? "text-white" : "text-gray-800"}`}>
+          How it works <span className="text-green-400">For Listeners</span> 
         </h2>
 
         <div className="grid grid-cols-1
-         md:grid-cols-4 gap-26 max-w-4xl mx-auto items-center justify-center">
+         sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {steps.map((step, i) => (
-            <div key={step.label} className="flex flex-col items-center gap-10">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-blue-800 flex items-center justify-center font-bold text-white text-sm sm:text-base flex-shrink-0">
+            <div key={step.label} className="flex flex-col items-center gap-4 rounded-2xl p-5 cursor-pointer transition-transform duration-300 hover:scale-105"
+            style={{
+              background: dark
+                ? "rgba(255,255,255,0.05)"
+                : "rgba(255,255,255,0.7)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+              border: dark
+                ? "1px solid rgba(74,222,128,0.25)"
+                : "1px solid rgba(74,222,128,0.4)",
+              boxShadow: dark
+                ? "0 0 20px rgba(74,222,128,0.1), 0 4px 24px rgba(0,0,0,0.4)"
+                : "0 4px 24px rgba(0,0,0,0.08)",
+            }}>
+              <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center font-bold text-white text-sm flex-shrink-0"
+                style={{ boxShadow: "0 0 12px rgba(74,222,128,0.6)" }}>
                 {i + 1}
               </div>
-              <span className={`text-xl flex whitespace-nowrap text-center ${dark ? "text-gray-400" : "text-gray-500"}`}>
-                {step.label}
-              </span>
-          <div className='items-center flex justify-center'>
+              <span className="text-3xl">{step.icon}
+               </span>
+                <h3 className={`text-lg font-bold text-center ${dark ? "text-white" : "text-gray-800"}`}>
+                  {step.label}</h3>
+                <p className={`text-sm text-center leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                  {step.desc}</p>
+          <div className='w-full overflow-hidden rounded-xl mt-2'>
 
               <img
                 src={step.img}
                 alt={step.label}
-                className=" max-w-full  md:h-auto h-auto w-80  object-cover rounded"
+                className=" w-full h-auto object-cover rounded-xl"
                 />
           </div>
              
