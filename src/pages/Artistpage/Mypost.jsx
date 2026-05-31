@@ -4,6 +4,7 @@ import Musics from '../../Components/Musics';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { handleError } from '../../utils/errorHandler';
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -47,7 +48,10 @@ export default function Mypost() {
                 setMusics(res.data.musics);
             }
         } catch (err) {
-            setError(err.response?.data?.message || err.message || 'Failed to load your music');
+            const message = handleError(err, 'Failed to load your music', {
+                logMessage: 'Failed to load your music:',
+            });
+            setError(message);
         } finally {
             setLoad(false);
         }
@@ -61,8 +65,9 @@ export default function Mypost() {
             setMusics(prev => prev.filter(m => m._id !== postId));
             toast.success('Track deleted successfully');
         } catch (err) {
-            console.error('Error deleting:', err);
-            toast.error(err.response?.data?.message || 'Failed to delete track');
+            handleError(err, 'Failed to delete track', {
+                logMessage: 'Error deleting:',
+            });
         } finally {
             setDeleteId(null);
         }

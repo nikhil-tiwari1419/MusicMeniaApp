@@ -5,6 +5,7 @@ import axios from 'axios';
 import Navbar from '../../Components/Navbar';
 import DesktopMusicLayout from "../../Components/DesktopMusicLayout";
 import MobileMusicLayout from "../../Components/MobileMusicLayout";
+import { handleError } from "../../utils/errorHandler";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -70,7 +71,9 @@ export default function LocalFeed() {
             const fetchedMusics = res.data.musics || res.data.liked || [];
             setLikedSongs(fetchedMusics.map(m => m._id));
         } catch (err) {
-            console.error(err);
+            handleError(err, "Failed to load liked songs", {
+                logMessage: "Failed to load liked songs:",
+            });
         }
     }
 
@@ -80,7 +83,9 @@ export default function LocalFeed() {
         try {
             await axios.post(`${API}/music/like/${musicId}`, {}, { withCredentials: true });
         } catch (err) {
-            console.error('Failed to toggle like:', err);
+            handleError(err, "Failed to update like", {
+                logMessage: "Failed to toggle like:",
+            });
             setLikedSongs(prev => !isLiked ? prev.filter(id => id !== musicId) : [...prev, musicId]);
         }
     };
@@ -102,7 +107,10 @@ export default function LocalFeed() {
                 setpagination(res.data.pagination);
             }
         } catch (error) {
-            setError(error.response?.data?.message || error.message || 'Failed to load music');
+            const message = handleError(error, "Failed to load music", {
+                logMessage: "Failed to load music:",
+            });
+            setError(message);
         } finally {
             setMusicLoad(false);
         }
