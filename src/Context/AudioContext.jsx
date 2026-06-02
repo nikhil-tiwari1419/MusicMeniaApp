@@ -51,6 +51,7 @@ export function AudioProvider({ children }) {
         setProgress(0);
         setCurrentTime(0);
         setDuration(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -270,6 +271,5 @@ export function AudioProvider({ children }) {
         </AudioCtx.Provider>
     );
 }
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAudio = () => useContext(AudioCtx)
 

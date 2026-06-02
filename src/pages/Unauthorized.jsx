@@ -1,8 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/useAuth';
 
 function Unauthorized() {
     const path = useNavigate();
+    const { user } = useAuth();
     return (
         <>
             <div className='min-h-screen '>

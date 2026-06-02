@@ -21,77 +21,25 @@ export const AuthProvider = ({ children }) => {
     }, [user]);
 
     useEffect(() => {
-        async function fetchUser() {
-            const res = await axios.get(`${API}/auth/is-auth`,
-                { withCredentials: true }
-            );
-            if (res.data.success) {
-                setUser(res.data.user);
-            } else {
-                setUser(null); // explicitly set null
-            }
-        }
-
-        async function checkAuth() {
-            try {
-                await fetchUser();
-            } catch {
-                try {
-                    //access tken is expire try to refresh
-                    await axios.post(`${API}/auth/refresh-token`,
-                        {},
-                        { withCredentials: true }
-                    );
-                    await fetchUser();  // retry after refresh token 
-                } catch {
-                    setUser(null);
-                }
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function refreshToken() {
-            if (isRefreshing.current) return; // already refreshing, skip
-            isRefreshing.current = true;
-
-            try {
-                await axios.post(
-                    `${API}/auth/refresh-token`,
-                    {},
-                    { withCredentials: true }
-                );
-                await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
-            } catch (error) {
-                const status = error.response?.status;
-                if (status == 401 || status == 403) {
-                    if (userRef.current) {
-                        setUser(null);
-                        navigate('/');
-                    }
-                }
-            }
-            finally {
-                isRefreshing.current = false;
-            }
-        }
-
         const interceptor = axios.interceptors.response.use(
             response => response,
             async (error) => {
                 if (error.response?.status === 401) {
                     if (!isRefreshing.current) {
                         setUser(null);
+                        
                     }
                 }
                 return Promise.reject(error);
             }
         );
 
+        // eslint-disable-next-line react-hooks/immutability
         checkAuth();
         const interval = setInterval(() => {
             if (!userRef.current) return;
             if (isRefreshing.current) return;
+            // eslint-disable-next-line react-hooks/immutability
             refreshToken();
         }, 14 * 60 * 1000);
 
@@ -99,9 +47,65 @@ export const AuthProvider = ({ children }) => {
             clearInterval(interval)
             axios.interceptors.response.eject(interceptor);
         };
-    }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
+    async function fetchUser() {
+        const res = await axios.get(`${API}/auth/is-auth`,
+            { withCredentials: true }
+        );
+        if (res.data.success) {
 
+            setUser(res.data.user);
+        } else {
+            setUser(null); // explicitly set null
+        }
+
+    }
+
+    async function checkAuth() {
+        try {
+            await fetchUser();
+        } catch {
+            try {
+                //access tken is expire try to refresh
+                await axios.post(`${API}/auth/refresh-token`,
+                    {},
+                    { withCredentials: true }
+                );
+                await fetchUser();  // retry after refresh token 
+            } catch {
+                setUser(null);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function refreshToken() {
+        if (isRefreshing.current) return; // already refreshing, skip
+        isRefreshing.current = true;
+
+        try {
+            await axios.post(
+                `${API}/auth/refresh-token`,
+                {},
+                { withCredentials: true }
+            );
+            await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
+        } catch (error) {
+            const status = error.response?.status;
+            if (status == 401 || status == 403) {
+                if (userRef.current) {
+                    setUser(null);
+                    navigate('/');
+                }
+            }
+        }
+        finally {
+            isRefreshing.current = false;
+        }
+    }
 
     //login page
     async function login(formData) {
