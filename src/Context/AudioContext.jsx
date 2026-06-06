@@ -95,7 +95,7 @@ export function AudioProvider({ children }) {
                     // Add next track to recently played
                     setRecentlyPlayed((prev) => {
                         const filtered = prev.filter((item) => item._id !== nextTrack._id);
-                        const updated = [nextTrack, ...filtered].slice(0, 5);
+                        const updated = [nextTrack, ...filtered].slice(0, 10);
                         localStorage.setItem(
                             "recentlyPlayed",
                             JSON.stringify({ data: updated, timestamp: Date.now() })

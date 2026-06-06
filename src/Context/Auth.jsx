@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             );
-            await fetchUser(); // token refresh hone ke baad user data fetch karo taki latest user state mile
+            await fetchUser(); // [this is not neede also because it refresh again after 14 minute ] token refresh hone ke baad user data fetch karo taki latest user state mile
         } catch (error) {
             const status = error.response?.status;
             if (status == 401 || status == 403) {

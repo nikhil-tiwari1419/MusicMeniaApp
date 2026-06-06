@@ -128,7 +128,7 @@ export default function Navbar() {
         return (
             <button
                 onClick={toggleTheme}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-colors
+                className={`w-8 h-8 rounded-lg flex items-center cursor-pointer justify-center border 
                     ${dark
                         ? 'border-gray-700 text-yellow-400 hover:bg-gray-800'
                         : 'border-gray-200 text-gray-500 hover:bg-gray-100'}`}

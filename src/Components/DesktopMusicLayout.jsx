@@ -133,7 +133,7 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                 </div>
 
                 {/* Volume row */}
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                     <Volume2 size={13} className={sub} />
                     <div className="flex-1 relative h-1 rounded-full overflow-hidden cursor-pointer"
                         style={{ background: dark ? '#374151' : '#e5e7eb' }}>
@@ -148,7 +148,7 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                             className="absolute inset-0 w-full opacity-0 cursor-pointer"
                         />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
@@ -196,7 +196,7 @@ export default function DesktopMusicLayout({
             {playingId && playingTrack && (
                 <div className={`fixed bottom-0 left-0 right-0 z-50 border-t shadow-[0_-4px_10px_rgba(0,0,0,0.05)] backdrop-blur-xl
                     ${dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'}`}>
-                    
+
                     <div className="relative h-1 w-full group">
                         <div className={`h-full ${dark ? 'bg-gray-800' : 'bg-gray-200'}`}>
                             <div
@@ -212,8 +212,9 @@ export default function DesktopMusicLayout({
                         />
                     </div>
 
+
                     <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-                        
+
                         {/* ── Left: Thumbnail & Info ── */}
                         <div className="w-1/3 flex items-center gap-3 min-w-0">
                             <div className="relative w-12 h-12 rounded bg-gray-800 flex-shrink-0 overflow-hidden shadow-sm">
@@ -234,10 +235,18 @@ export default function DesktopMusicLayout({
                                 <p className={`font-bold text-sm truncate ${dark ? 'text-white' : 'text-gray-900'}`}>
                                     {playingTrack.title}
                                 </p>
+
+                                {/* Time labels */}
+                                <div className={`flex gap-2 text-[10px] tabular-nums ${sub}`}>
+                                    <span>{isPlaying ? fmt(currentTime) : '0:00'}</span> / 
+                                    <span>{isPlaying ? fmt(duration) : fmt(0)}</span>
+                                </div>
+
                                 <p className={`text-xs truncate mt-0.5 ${sub}`}>
                                     {playingTrack.artist?.username || 'Unknown Artist'}
                                 </p>
                             </div>
+
                         </div>
 
                         {/* ── Center: Queue Controls ── */}
@@ -313,7 +322,7 @@ export default function DesktopMusicLayout({
                     </div>
                 </div>
             )}
-            
+
             {/* ── Recently Played ── */}
             <RecentlyPlayed />
             {/* ── Error ── */}
