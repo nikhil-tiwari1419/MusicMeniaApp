@@ -21,8 +21,8 @@ function RecentlyPlayed() {
     const SongCard = ({ song, index }) => (
         <div
             onClick={() => togglePlay(song, recentlyPlayed)}
-            className={`group flex items-center justify-between p-1 rounded transition-all duration-300 cursor-pointer border
-      ${dark
+            className={`group flex items-center justify-between p-1 rounded transition-all duration-300 cursor-pointer border 
+                    ${dark
                     ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800"
                     : "bg-gray-50 border-gray-200 hover:bg-gray-100"
                 }`}
@@ -76,7 +76,7 @@ function RecentlyPlayed() {
 
     return (
         <div
-            className={`w-full rounded p-2 shadow-lg border transition-all duration-300
+            className={`w-full rounded p-2 shadow-lg border transition-all duration-300 
       ${dark
                     ? "bg-gradient-to-b from-zinc-950 to-black border-zinc-800"
                     : "bg-gradient-to-b from-white to-gray-100 border-gray-200"

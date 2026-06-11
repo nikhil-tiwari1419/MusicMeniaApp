@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const userRef = useRef(null);
     const isRefreshing = useRef(false);
-
+    const isCheckingAuth = useRef(true); // app load pe true hai
     // loading -> pehle check karo user looged in hai ya nhai -> agar hai to user data set karo -> agar nhai to user null set karo -> loading false set karo taki app render ho sake
     // App load hone pe check karo user looged in hai ?
 
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             response => response,
             async (error) => {
                 if (error.response?.status === 401) {
-                    if (!isRefreshing.current) {
+                    if (!isRefreshing.current && !isCheckingAuth.current) {
                         setUser(null);
                         
                     }
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function checkAuth() {
+        isCheckingAuth.current = true;
         try {
             await fetchUser();
         } catch (error) {
@@ -74,6 +75,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(null);
             }
         } finally {
+            isCheckingAuth.current = false;
             setLoading(false);
         }
     }
@@ -88,7 +90,7 @@ export const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             );
-            await fetchUser(); // [this is not neede also because it refresh again after 14 minute ] token refresh hone ke baad user data fetch karo taki latest user state mile
+           
         } catch (error) {
             const status = error.response?.status;
             if (status == 401 || status == 403) {

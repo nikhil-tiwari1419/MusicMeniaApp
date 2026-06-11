@@ -40,11 +40,9 @@ export default function LocalFeed() {
         handleVolume,
         volume } = useAudio();
 
-        // Derive playingId from the full track object
-        const playingId = playingTrack?._id || null;
+    // Derive playingId from the full track object
+    const playingId = playingTrack?._id || null;
 
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (debouncedSearch && page !== 1) {
             setPage(1);
@@ -91,7 +89,7 @@ export default function LocalFeed() {
             setError(null);
 
             // Fetch everything if searching globally, else use normal pagination
-            const currentLimit = debouncedSearch ? 1000 : 12;
+            const currentLimit = debouncedSearch ? 1000 : 10;
 
             const res = await axios.get(
                 `${API}/music/get-music?page=${page}&limit=${currentLimit}`,

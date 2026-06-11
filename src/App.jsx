@@ -27,8 +27,9 @@ const Likedsong = React.lazy(() => import('./Components/Likedsong'));
 const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
 const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
 const About = React.lazy(() => import('./pages/UserPage/About'));
-const Album = React.lazy(() => import('./pages/UserPage/Album'));
 const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
+const Album       = React.lazy(() => import('./pages/UserPage/Albums/Album'));
+const AlbumDetail = React.lazy(() => import('./pages/UserPage/Albums/AlbumDetails'));
 const Artist = React.lazy(() => import('./pages/UserPage/Artist'))
 
 
@@ -98,6 +99,12 @@ function AppContent() {
                 <Route path='/album' element={
                     <ProtectedRoute>
                         <Album />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/album/:albumId' element={
+                    <ProtectedRoute>
+                        <AlbumDetail />
                     </ProtectedRoute>
                 } />
 

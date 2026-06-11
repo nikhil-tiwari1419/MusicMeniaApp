@@ -155,7 +155,7 @@ export function AudioProvider({ children }) {
             );
 
             // add newest track at beginning
-            const updated = [track, ...filtered].slice(0, 5);
+            const updated = [track, ...filtered].slice(0, 10);
 
             // save to localStorage
             localStorage.setItem(

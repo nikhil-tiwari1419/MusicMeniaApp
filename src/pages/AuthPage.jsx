@@ -199,7 +199,7 @@ export default function AuthPage() {
           else navigate("/user-dashboard");
         }}
       >
-        <img src="/logoo.png" alt="logo" className="h-20 sm:h-50 w-auto" />
+        <img src="/music_logo.png" alt="logo" className="h-20 sm:h-50 w-auto" />
       </div>
 
       {/* Card */}

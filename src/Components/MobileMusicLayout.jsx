@@ -201,10 +201,10 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
     );
 }
 
-/* ════════════════════════════════════════════════════════════════
+/* 
    MAIN MOBILE LAYOUT EXPORT
    Rendered inside LocalFeed only on mobile (sm:hidden wrapper there)
-════════════════════════════════════════════════════════════════ */
+ */
 export default function MobileMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack,
     togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
@@ -278,7 +278,7 @@ export default function MobileMusicLayout({
                                 <MobileTrackRow
                                     music={music}
                                     isPlaying={String(playingId) === String(music._id)}
-                                    isActuallyPlaying={isPlaying && String(playingId)=== String(music._id)}
+                                    isActuallyPlaying={isPlaying && String(playingId) === String(music._id)}
                                     onPlay={(track) => togglePlay(track, filtered)}
                                     dark={dark}
                                     index={i}
@@ -323,7 +323,6 @@ export default function MobileMusicLayout({
             {/* Bottom sticky player — always rendered, hidden when no track */}
             <MobilePlayerBar
                 track={playingTrack}
-                // isPlaying={String(playingId) === String(music._id)}
                 isActuallyPlaying={!!playingId && isPlaying}
                 onToggle={togglePlay}
                 progress={progress}
