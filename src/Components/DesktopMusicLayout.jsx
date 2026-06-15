@@ -132,23 +132,6 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                     </div>
                 </div>
 
-                {/* Volume row */}
-                {/* <div className="flex items-center gap-2">
-                    <Volume2 size={13} className={sub} />
-                    <div className="flex-1 relative h-1 rounded-full overflow-hidden cursor-pointer"
-                        style={{ background: dark ? '#374151' : '#e5e7eb' }}>
-                        <div
-                            className="h-full bg-emerald-500/70"
-                            style={{ width: `${volume * 100}%` }}
-                        />
-                        <input
-                            type="range" min="0" max="1" step="0.02"
-                            value={volume}
-                            onChange={e => onVolume(parseFloat(e.target.value))}
-                            className="absolute inset-0 w-full opacity-0 cursor-pointer"
-                        />
-                    </div>
-                </div> */}
             </div>
         </div>
     );
@@ -192,23 +175,37 @@ export default function DesktopMusicLayout({
     return (
         <div className="hidden sm:block max-w-7xl mx-auto px-4 pt-18 pb-32">
 
+            {/* BOTTOM MUSIC CONTROLS  start */}
             {/* ── Now Playing banner (desktop only) ── */}
             {playingId && playingTrack && (
                 <div className={`fixed bottom-0 left-0 right-0 z-50 border-t shadow-[0_-4px_10px_rgba(0,0,0,0.05)] backdrop-blur-xl
                     ${dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'}`}>
 
-                    <div className="relative h-1 w-full group">
-                        <div className={`h-full ${dark ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                    <div className="relative h-1 w-full max-w-xl mx-auto group m-2">
+                        {/* Track */}
+                        <div className={`h-1 w-full rounded-full overflow-hidden ${dark ? "bg-gray-500" : "bg-gray-800"}`}>
                             <div
-                                className="h-full bg-emerald-500 transition-all duration-100"
+                                className="h-full bg-emerald-500 rounded-full transition-all duration-100"
                                 style={{ width: `${progress}%` }}
                             />
                         </div>
+
+                        {/* Thumb */}
+                        <div
+                            className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-emerald-500 shadow
+                   opacity-100 transition-opacity pointer-events-none"
+                            style={{ left: `calc(${progress}% - 5px)` }}
+                        />
+
+                        {/* Hit area */}
                         <input
-                            type="range" min="0" max="100"
-                            value={Math.round(progress)} step="0.5"
-                            onChange={e => handleSeek(parseFloat(e.target.value))}
-                            className="absolute inset-0 w-full opacity-0 cursor-pointer h-4 -top-1.5"
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="0.5"
+                            value={Math.round(progress)}
+                            onChange={(e) => handleSeek(parseFloat(e.target.value))}
+                            className="absolute inset-0 w-full h-4 -top-1.5 opacity-0 cursor-pointer"
                         />
                     </div>
 
@@ -238,7 +235,7 @@ export default function DesktopMusicLayout({
 
                                 {/* Time labels */}
                                 <div className={`flex gap-2 text-[10px] tabular-nums ${sub}`}>
-                                    <span>{isPlaying ? fmt(currentTime) : '0:00'}</span> / 
+                                    <span>{isPlaying ? fmt(currentTime) : '0:00'}</span> /
                                     <span>{isPlaying ? fmt(duration) : fmt(0)}</span>
                                 </div>
 
@@ -246,7 +243,6 @@ export default function DesktopMusicLayout({
                                     {playingTrack.artist?.username || 'Unknown Artist'}
                                 </p>
                             </div>
-
                         </div>
 
                         {/* ── Center: Queue Controls ── */}
@@ -320,6 +316,8 @@ export default function DesktopMusicLayout({
                         </div>
 
                     </div>
+                    {/* BOTTOM MUSIC CONTROLS  end */}
+
                 </div>
             )}
 

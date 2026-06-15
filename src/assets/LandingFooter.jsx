@@ -29,7 +29,7 @@ function LandingFooter() {
                 <div className="lg:col-span-2">
                     <div className="flex items-center gap-3 mb-4">
                         <img
-                            src="/music.png"
+                            src="/music_logo.png"
                             alt="MusicMenia"
                             className="h-10 w-10 object-contain"
                         />

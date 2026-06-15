@@ -15,13 +15,13 @@ function LoadingState() {
     <div className="animate-pulse">
       <div className="flex gap-6">
         <div className="bg-gray-300 dark:bg-gray-600 rounded-lg w-16 h-16" />
-        <div className="flex-1">
+        <div className="flex-1 p-3">
           <div className="bg-gray-300 dark:bg-gray-600 h-4 rounded w-full mb-2"></div>
           <div className="bg-gray-300 dark:bg-gray-600 h-4 rounded w-3/4"></div>
         </div>
       </div>
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="h-14 rounded-xl bg-neutral-200 dark:bg-neutral-800"></div>
+        <div key={i} className="h-14 p-2 m-4 rounded-xl bg-neutral-200 dark:bg-neutral-400"></div>
       ))}
     </div>
   );
@@ -54,7 +54,7 @@ function SongRow({ song, index, isActive, isPlaying, onClick }) {
       className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-colors
         ${isActive
           ? 'bg-neutral-200 dark:bg-neutral-700'
-          : 'hover:bg-neutral-100 dark:hover:bg-neutral-800'
+          : 'hover:bg-neutral-100 dark:hover:bg-neutral-300'
         }`}>
 
       <div className="w-6 text-center shrink-0">
@@ -143,7 +143,7 @@ function AlbumDetails() {
 
 
   const songs = album?.musics ?? [];
-console.log('Ek song ka object :', songs[0]);
+// console.log('Ek song ka object :', songs[0]);
   
   const formattedQueue = useMemo(() => songs.map(s => ({
     _id: s._id,

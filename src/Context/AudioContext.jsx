@@ -146,6 +146,18 @@ export function AudioProvider({ children }) {
         }
     }, []);
 
+     // ── Cleanup audio element on unmount to prevent memory leaks ──
+    useEffect(() => {
+        return () => {
+            const audio = audioRef.current;
+            if (audio) {
+                audio.pause();
+                audio.src = '';
+                audio.load();
+            }
+        };
+    }, []);
+    
     function addToRecentlyPlayed(track) {
         setRecentlyPlayed((prev) => {
 
