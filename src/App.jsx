@@ -18,7 +18,7 @@ const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 
 // Artist pages
 const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashboard'));
-const Albums = React.lazy(() => import('./pages/Artistpage/Albums'));
+const Artist_Albums = React.lazy(() => import('./pages/Artistpage/AlbumsArtist'));
 const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
 const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
 const Likedsong = React.lazy(() => import('./Components/Likedsong'));
@@ -71,9 +71,9 @@ function AppContent() {
                     </ProtectedRoute>
                 } />
 
-                <Route path='/Admin-album' element={
+                <Route path='/Artist-album' element={
                     <ProtectedRoute allowedRole="artist">
-                        <Albums />
+                        <Artist_Albums />
                     </ProtectedRoute>
                 } />
 

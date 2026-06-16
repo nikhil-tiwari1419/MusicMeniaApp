@@ -13,32 +13,33 @@ const PUBLIC_LINKS = [
 ]
 
 const USER_LINKS = [
-    { label: 'Home',       path: '/user-Dashboard' },
-    { label: 'Music Feed', path: '/Local-Feed'      },
-    { label: 'Album',      path: '/album'           },
-    { label: 'Artist',     path: '/artist'          },
-    { label: 'About',      path: '/about'           },
-    { label: 'Profile',    path: '/Profile'         },
+    { label: 'Home', path: '/user-Dashboard' },
+    { label: 'Music Feed', path: '/Local-Feed' },
+    { label: 'Album', path: '/album' },
+    { label: 'Artist', path: '/artist' },
+    { label: 'About', path: '/about' },
+    { label: 'Profile', path: '/Profile' },
 ]
 
 const ARTIST_LINKS = [
-    { label: 'Home',         path: '/artist-Dashboard' },
-    { label: 'Upload Track', path: '/create-music'     },
-    { label: 'Album',        path: '/Admin-album'      },
-    { label: 'My Posts',     path: '/your-post'        },
-    { label: 'About',        path: '/about-company'    },
+    { label: 'Home', path: '/artist-Dashboard' },
+    { label: 'Upload Track', path: '/create-music' },
+    { label: 'Album', path: '/Artist-album' },
+    { label: 'My Posts', path: '/your-post' },
+    { label: 'Profile', path: '/Profile' },
+    { label: 'About', path: '/about' },
 ]
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [activeSection, setActiveSection] = useState('home')
-    const drawerRef              = useRef(null)
-    const navigate               = useNavigate()
-    const location               = useLocation()
+    const drawerRef = useRef(null)
+    const navigate = useNavigate()
+    const location = useLocation()
     const { theme, toggleTheme } = useTheme()
-    const { user }               = useAuth()
-    const dark                   = theme === 'dark'
-    const isPublicNav            = !user
+    const { user } = useAuth()
+    const dark = theme === 'dark'
+    const isPublicNav = !user
 
     const navLinks = user
         ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS
@@ -118,10 +119,10 @@ export default function Navbar() {
     }, [])
 
     // ── theme tokens ──
-    const bg       = dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'
-    const text     = dark ? 'text-white'    : 'text-gray-900'
-    const sub      = dark ? 'text-gray-400' : 'text-gray-500'
-    const hov      = dark ? 'hover:bg-gray-800/70' : 'hover:bg-gray-100'
+    const bg = dark ? 'bg-gray-950/90 border-gray-800' : 'bg-white/90 border-gray-200'
+    const text = dark ? 'text-white' : 'text-gray-900'
+    const sub = dark ? 'text-gray-400' : 'text-gray-500'
+    const hov = dark ? 'hover:bg-gray-800/70' : 'hover:bg-gray-100'
     const drawerBg = dark ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-100'
 
     function ThemeBtn() {
@@ -148,10 +149,10 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <button onClick={() => navigate('/')} className="flex items-center gap-2 flex-shrink-0">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-sm">
-                            <Music2 size={16} className="text-white" />
+                        <div className="sm:w-11 sm:h-10 w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center shadow-sm">
+                            <Music2 size={36} className="text-white" />
                         </div>
-                        <span className="text-base font-bold tracking-tight">MusicMenia</span>
+                        <span className="text-2xl font-medium tracking-tight">MusicMenia</span>
                     </button>
 
                     {/* Desktop nav links */}
@@ -162,7 +163,7 @@ export default function Navbar() {
                                     key={link.label}
                                     type="button"
                                     onClick={() => scrollToSection(link.section)}
-                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
+                                    className={`px-3 py-1.5 rounded-lg text-xl font-medium transition-colors
                                         ${activeSection === link.section
                                             ? 'text-emerald-500 bg-emerald-500/10'
                                             : `${sub} ${hov}`}`}
@@ -172,7 +173,7 @@ export default function Navbar() {
                             ) : (
                                 <NavLink key={link.label} to={link.path}
                                     className={({ isActive }) =>
-                                        `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
+                                        `px-3 py-1.5 rounded-lg text-xl font-medium transition-colors
                                         ${isActive
                                             ? 'text-emerald-500 bg-emerald-500/10'
                                             : `${sub} ${hov}`}`
@@ -228,12 +229,12 @@ export default function Navbar() {
                         <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
                             <Music2 size={14} className="text-white" />
                         </div>
-                        <span className="text-sm font-bold">MusicMenia</span>
+                        <span className="text-xl font-medium">MusicMenia</span>
                     </div>
                     <button
                         onClick={() => setOpen(false)}
                         aria-label="Close menu"
-                        className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${hov}`}
+                        className={`w-10 h-10 flex items-center justify-center rounded-lg transition-colors ${hov}`}
                     >
                         <X size={16} />
                     </button>
@@ -247,7 +248,7 @@ export default function Navbar() {
                                 key={link.label}
                                 type="button"
                                 onClick={() => scrollToSection(link.section)}
-                                className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                                className={`flex items-center px-4 py-3 rounded-xl text-xl font-medium transition-colors
                                     ${activeSection === link.section
                                         ? 'text-emerald-500 bg-emerald-500/10'
                                         : `${text} ${hov}`}`}
@@ -258,7 +259,7 @@ export default function Navbar() {
                             <NavLink key={link.label} to={link.path}
                                 onClick={() => setOpen(false)}
                                 className={({ isActive }) =>
-                                    `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                                    `flex items-center px-4 py-3 rounded-xl text-xl font-medium transition-colors
                                     ${isActive
                                         ? 'text-emerald-500 bg-emerald-500/10'
                                         : `${text} ${hov}`}`
@@ -277,7 +278,7 @@ export default function Navbar() {
                     {user ? (
                         <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl
                             ${dark ? 'bg-gray-800/60' : 'bg-gray-50'}`}>
-                            <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                                 {user.username?.[0]?.toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -287,7 +288,7 @@ export default function Navbar() {
                         </div>
                     ) : (
                         <NavLink to="/login" onClick={() => setOpen(false)}
-                            className="block text-center py-2.5 rounded-xl text-sm font-semibold
+                            className="block text-center py-2.5 rounded-xl text-sm font-medium
                                 bg-emerald-500 hover:bg-emerald-400 text-white transition-colors">
                             Login / Sign up
                         </NavLink>
@@ -295,7 +296,7 @@ export default function Navbar() {
 
                     {/* Theme toggle */}
                     <div className="flex items-center justify-between px-1">
-                        <span className={`text-xs ${sub}`}>{dark ? 'Dark mode' : 'Light mode'}</span>
+                        <span className={`text-xl ${sub}`}>{dark ? 'Dark mode' : 'Light mode'}</span>
                         <ThemeBtn />
                     </div>
                 </div>
