@@ -47,8 +47,7 @@ function RecentlyPlayed() {
                 ${dark
                     ? "bg-zinc-900 border-zinc-800 hover:bg-zinc-800"
                     : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                }`}
-        >
+                }`}>
             <div className="flex items-center gap-3">
                 <div className="relative flex-shrink-0">
                     <img
@@ -57,7 +56,7 @@ function RecentlyPlayed() {
                         loading="lazy"
                         className="w-10 h-10 rounded-lg object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 ">
                         {playingTrack?._id === song._id && isPlaying
                             ? <Pause size={16} className="text-white fill-white" />
                             : <Play size={16} className="text-white fill-white" />
@@ -94,7 +93,7 @@ function RecentlyPlayed() {
     const Trigger = () => (
         <div
             onClick={() => setOpen(prev => !prev)}
-            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer border transition-all duration-200
+            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer border 
                 ${dark
                     ? "bg-gray-900 border-gray-800 hover:bg-gray-800"
                     : "bg-white border-gray-200 hover:bg-gray-50"
@@ -115,7 +114,7 @@ function RecentlyPlayed() {
     return (
         <>
             {/* ── DESKTOP: dropdown ── */}
-            <div className="hidden sm:block relative" ref={dropdownRef}>
+            <div className="hidden sm:block " ref={dropdownRef}>
                 <Trigger />
 
                 {open && (

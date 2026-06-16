@@ -233,7 +233,7 @@ export default function DesktopMusicLayout({
                 <div className={`w-px self-stretch ${dark ? 'bg-gray-800' : 'bg-gray-200'}`} />
 
                 {/* RIGHT — Music Grid */}
-                <main className="flex-1 min-w-0">
+                <main className="flex-1 min-w-0 ">
                     <p className={`text-xs font-semibold uppercase tracking-widest mb-3 ${sub}`}>
                         All Music
                     </p>
