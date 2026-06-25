@@ -274,7 +274,7 @@ export default function AuthPage() {
 
         ) : (
           /* Main Form */
-          <div className="flex flex-col">
+          <form className="flex flex-col">
             <h2 className="text-blue-600 text-xl font-semibold mb-1">
               {isLogin ? "Welcome back 👋" : "Join MusicMenia 🎵"}
             </h2>
@@ -406,7 +406,7 @@ export default function AuthPage() {
                 {isLogin ? "Sign Up" : "Sign In"}
               </span>
             </p>
-          </div>
+          </form>
         )}
       </div>
 

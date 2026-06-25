@@ -3,9 +3,9 @@ import { useAuth } from "../Context/useAuth";
 import Pageloder from "./Pageloder";
 
 function ProtectedRoute({ children, allowedRole }) {
-    const { user, loading } = useAuth();
+    const { user, loading, isRefreshing } = useAuth();
 
-    if (loading) return <Pageloder />;
+    if (loading || isRefreshing) return <Pageloder />;
 
     if (!user) return <Navigate to="/login" replace />;
 
