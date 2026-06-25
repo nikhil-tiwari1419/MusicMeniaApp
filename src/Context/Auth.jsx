@@ -40,9 +40,20 @@ export const AuthProvider = ({ children }) => {
             refreshToken();
         }, 14 * 60 * 1000);
 
+        const handlevisibilityChange = () =>{
+            if(document.visibilityState === 'visible' && userRef.current ){
+                refreshToken();
+            }
+            if(document.visibilityState === 'visible' && !userRef.current){
+                checkAuth();
+            }
+        };
+        document.addEventListener('visibilitychange', handlevisibilityChange);
+
         return () => {
             clearInterval(interval)
             axios.interceptors.response.eject(interceptor);
+            document.removeEventListener('visibilitychange', handlevisibilityChange)
         };
     }, []);
 
@@ -90,10 +101,11 @@ export const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             );
+            await fetchUser();
            
         } catch (error) {
             const status = error.response?.status;
-            if (status == 401 || status == 403) {
+            if (status === 401 || status === 403) {
                 if (userRef.current) {
                     setUser(null);
                     navigate('/');
