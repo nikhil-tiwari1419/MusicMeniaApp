@@ -1,10 +1,202 @@
+// import React, { useState } from 'react'
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+// import toast from 'react-hot-toast';
+// import Navbar from '../../Components/Navbar';
+// import { useTheme } from '../../Context/Theme';
+// import { Upload, Music, Image, FileText, ArrowLeft, Loader2, X } from 'lucide-react';
+
+// function CreateMusic() {
+//   const navigate = useNavigate();
+//   const { theme } = useTheme();
+//   const dark = theme === "dark";
+
+//   const [musicPreview, setMusicPreview] = useState(null);
+//   const [imagePreview, setImagePreview] = useState(null);
+//   const [selectedFile, setSelectedFile] = useState(null);
+//   const [selectedImage, setSelectedImage] = useState(null);
+//   const [caption, setCaption] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [audioFileName, setAudioFileName] = useState('');
+//   const [imageFileName, setImageFileName] = useState('');
+
+//   const maxLength = 100;
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (!file) return;
+//     if (file.size > 10 * 1024 * 1024) { toast.error('Image must be under 10MB'); return; }
+//     setImageFileName(file.name);
+//     setSelectedImage(file);
+//     setImagePreview(URL.createObjectURL(file));
+//   };
+
+//   const handleAudioChange = (e) => {
+//     const file = e.target.files[0];
+//     if (!file) return;
+//     setAudioFileName(file.name);
+//     setSelectedFile(file);
+//     setMusicPreview(URL.createObjectURL(file));
+//   };
+
+//   const clearAudio = () => { setMusicPreview(null); setAudioFileName(''); setSelectedFile(null); document.getElementById('file-upload').value = ''; };
+//   const clearImg = () => { setImagePreview(null); setImageFileName(''); setSelectedImage(null); };
+
+//   const resetForm = () => {
+//     setMusicPreview(null); setImagePreview(null); setAudioFileName(''); setImageFileName('');
+//     setSelectedFile(null); setSelectedImage(null); setCaption('');
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!selectedFile) { toast.error('Please select an audio file'); return; }
+//     // if (!selectedImage) { toast.error('Please select a cover image'); return; }
+//     if (!caption.trim()) { toast.error('Please add a title'); return; }
+
+//     setLoading(true);
+//     const formData = new FormData();
+//     formData.append('audio', selectedFile);
+//     formData.append('title', caption);
+//     if (selectedImage) formData.append('thumbnail', selectedImage);
+
+//     try {
+//       const response = await axios.post(
+//         `${import.meta.env.VITE_API_URL}/music/upload-music`,
+//         formData,
+//         { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
+//       );
+//       if (response.data.success || response.status === 201) {
+//         toast.success('Music published Succesfully !');
+//         resetForm();
+//       }
+//     } catch (error) {
+//       toast.error(error.response?.data?.message || "Upload failed, please try again");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const field = `rounded-xl border p-5 ${dark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`;
+//   const label = `text-sm font-medium mb-3 flex items-center gap-2 ${dark ? 'text-zinc-100' : 'text-zinc-800'}`;
+//   const dropzone = `flex flex-col items-center justify-center rounded-xl border-2 border-dashed cursor-pointer transition-colors
+//     ${dark ? 'border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50' : 'border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50'}`;
+
+//   return (
+//     <>
+//       <Navbar />
+//       <main className={`min-h-screen pt-20 pb-16 px-4 ${dark ? 'bg-zinc-950' : 'bg-zinc-50'}`}>
+//         <div className="max-w-lg mx-auto">
+
+//           {/* Header */}
+//           <div className="mb-8">
+//             <button
+//               onClick={() => navigate('/')}
+//               className={`flex items-center gap-1.5 text-sm mb-5 transition-colors ${dark ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'}`}
+//             >
+//               <ArrowLeft size={15} /> Back
+//             </button>
+//             <h1 className={`text-xl font-semibold ${dark ? 'text-white' : 'text-zinc-900'}`}>Upload Track</h1>
+//             <p className={`text-sm mt-1 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>Share your music</p>
+//           </div>
+
+//           <form onSubmit={handleSubmit} className="space-y-3">
+
+//             {/* Audio */}
+//             <div className={field}>
+//               <p className={label}><Music size={15} className="text-emerald-500" /> Audio File</p>
+//               {musicPreview ? (
+//                 <div className={`rounded-lg p-3 border ${dark ? 'bg-zinc-800 border-zinc-700' : 'bg-zinc-50 border-zinc-200'}`}>
+//                   <audio src={musicPreview} controls className="w-full h-9" />
+//                   <div className="flex items-center justify-between mt-2">
+//                     <span className={`text-xs truncate max-w-[85%] ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>{audioFileName}</span>
+//                     <button type="button" onClick={clearAudio} className={`p-1 rounded transition-colors ${dark ? 'hover:bg-zinc-700 text-zinc-400' : 'hover:bg-zinc-200 text-zinc-500'}`}>
+//                       <X size={13} />
+//                     </button>
+//                   </div>
+//                 </div>
+//               ) : (
+//                 <>
+//                   <input type="file" accept="audio/*" onChange={handleAudioChange} className="hidden" id="file-upload" />
+//                   <label htmlFor="file-upload" className={`${dropzone} h-24`}>
+//                     <Upload size={18} className={`mb-1.5 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`} />
+//                     <span className={`text-sm ${dark ? 'text-zinc-300' : 'text-zinc-600'}`}>Click to upload audio</span>
+//                     <span className="text-xs text-zinc-400 mt-0.5">MP3, WAV, FLAC</span>
+//                   </label>
+//                 </>
+//               )}
+//             </div>
+
+//             {/* Cover */}
+//             <div className={field}>
+//               <p className={label}><Image size={15} className="text-emerald-500" /> Cover Art <span className='text-xs text-zinc-400 font-normal ml-1 underline '>optional</span> </p>
+//               {imagePreview ? (
+//                 <div className="relative">
+//                   <img src={imagePreview} alt="Cover" className="w-full h-44 object-cover rounded-lg" />
+//                   <button type="button" onClick={clearImg}
+//                     className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/50 hover:bg-black/70 text-white transition-colors">
+//                     <X size={13} />
+//                   </button>
+//                   <span className={`block mt-2 text-xs truncate ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>{imageFileName}</span>
+//                 </div>
+//               ) : (
+//                 <>
+//                   <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="thumbnail-upload" />
+//                   <label htmlFor="thumbnail-upload" className={`${dropzone} h-36`}>
+//                     <Image size={18} className={`mb-1.5 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`} />
+//                     <span className={`text-sm ${dark ? 'text-zinc-300' : 'text-zinc-600'}`}>Click to upload cover</span>
+//                     <span className="text-xs text-zinc-400 mt-0.5">PNG, JPG · Max 10MB</span>
+//                   </label>
+//                 </>
+//               )}
+//             </div>
+
+//             {/* Title */}
+//             <div className={field}>
+//               <p className={label}><FileText size={15} className="text-emerald-500" /> Title</p>
+//               <textarea
+//                 rows={2}
+//                 maxLength={maxLength}
+//                 value={caption}
+//                 placeholder="Track title or description..."
+//                 onChange={(e) => setCaption(e.target.value)}
+//                 className={`w-full px-3 py-2.5 rounded-lg text-sm border outline-none resize-none transition-colors placeholder-zinc-400
+//                   focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50
+//                   ${dark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'}`}
+//               />
+//               <p className={`text-xs mt-1.5 text-right tabular-nums ${caption.length > maxLength * 0.9 ? 'text-red-400' : dark ? 'text-zinc-600' : 'text-zinc-400'}`}>
+//                 {caption.length}/{maxLength}
+//               </p>
+//             </div>
+
+//             {/* Submit */}
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-white font-medium text-sm
+//                 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-1"
+//             >
+//               {loading
+//                 ? <><Loader2 size={15} className="animate-spin" /> Uploading...</>
+//                 : <><Upload size={15} /> Publish Track</>
+//               }
+//             </button>
+//           </form>
+//         </div>
+//       </main>
+//     </>
+//   );
+// }
+
+// export default CreateMusic;
+
+
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Navbar from '../../Components/Navbar';
 import { useTheme } from '../../Context/Theme';
-import { Upload, Music, Image, FileText, ArrowLeft, Loader2, X, CheckCircle2 } from 'lucide-react';
+import { Upload, Music, Image, FileText, ArrowLeft, Loader2, X } from 'lucide-react';
 
 function CreateMusic() {
   const navigate = useNavigate();
@@ -15,18 +207,17 @@ function CreateMusic() {
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [captionLength, setCaptionLength] = useState(0);
+  const [caption, setCaption] = useState('');
   const [loading, setLoading] = useState(false);
   const [audioFileName, setAudioFileName] = useState('');
   const [imageFileName, setImageFileName] = useState('');
-  const [caption, setCaption] = useState('');
 
   const maxLength = 100;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 10 * 1024 * 1024) { toast.error('Image must be under 10MB'); e.target.value = ''; return; }
+    if (file.size > 10 * 1024 * 1024) { toast.error('Image must be under 10MB'); return; }
     setImageFileName(file.name);
     setSelectedImage(file);
     setImagePreview(URL.createObjectURL(file));
@@ -35,15 +226,9 @@ function CreateMusic() {
   const handleAudioChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { toast.error('Audio must be under 5MB'); e.target.value = ''; return; }
     setAudioFileName(file.name);
     setSelectedFile(file);
     setMusicPreview(URL.createObjectURL(file));
-  };
-
-  const handleCaptionChange = (e) => {
-    setCaption(e.target.value);
-    setCaptionLength(e.target.value.length);
   };
 
   const clearAudio = () => { setMusicPreview(null); setAudioFileName(''); setSelectedFile(null); document.getElementById('file-upload').value = ''; };
@@ -51,20 +236,19 @@ function CreateMusic() {
 
   const resetForm = () => {
     setMusicPreview(null); setImagePreview(null); setAudioFileName(''); setImageFileName('');
-    setSelectedFile(null); setSelectedImage(null); setCaptionLength(0); setCaption('');
+    setSelectedFile(null); setSelectedImage(null); setCaption('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (!selectedFile) { toast.error('Please select an audio file!'); setLoading(false); return; }
-    if (!selectedImage) { toast.error('Please select a thumbnail!'); setLoading(true); return; }
-    if (!caption.trim()) { toast.error('Please add a description!'); setLoading(false); return; }
+    if (!selectedFile) { toast.error('Please select an audio file'); return; }
+    if (!caption.trim()) { toast.error('Please add a title'); return; }
 
+    setLoading(true);
     const formData = new FormData();
     formData.append('audio', selectedFile);
     formData.append('title', caption);
-    formData.append('thumbnail', selectedImage);
+    if (selectedImage) formData.append('thumbnail', selectedImage);
 
     try {
       const response = await axios.post(
@@ -73,7 +257,7 @@ function CreateMusic() {
         { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
       );
       if (response.data.success || response.status === 201) {
-        toast.success('Music published successfully 🎉');
+        toast.success('Music published successfully!');
         resetForm();
       }
     } catch (error) {
@@ -83,195 +267,132 @@ function CreateMusic() {
     }
   };
 
-  const steps = [
-    { label: 'Audio', done: !!selectedFile },
-    { label: 'Cover', done: !!selectedImage },
-    { label: 'Details', done: !!caption.trim() },
-  ];
+  const bg = dark ? 'bg-zinc-950' : 'bg-white';
+  const card = `border-2 border-black shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-900' : 'bg-white'}`;
+  const sub = dark ? 'text-zinc-400' : 'text-zinc-500';
+  const sectionLabel = `text-xs font-black uppercase tracking-[0.15em] font-mono flex items-center gap-2 mb-3 ${dark ? 'text-white' : 'text-black'}`;
+  const btn = `border-2 border-black shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`;
 
   return (
     <>
       <Navbar />
-      <main className={`min-h-screen pt-20 pb-12 px-4 transition-colors ${dark ? 'bg-gray-950' : 'bg-gray-50'}`}>
-
-        {/* bg glow */}
-        <div className={`fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none
-          ${dark ? 'bg-emerald-500/5' : 'bg-emerald-400/8'}`} />
-
-        <div className="max-w-2xl mx-auto">
+      <main className={`min-h-screen pt-20 pb-16 px-4 font-mono ${bg}`}>
+        <div className="max-w-lg mx-auto">
 
           {/* Header */}
           <div className="mb-8">
             <button
               onClick={() => navigate('/')}
-              className={`flex items-center gap-2 text-sm mb-6 transition-colors
-                ${dark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}
+              className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-widest mb-5 ${btn} px-3 py-1.5
+                ${dark ? 'bg-zinc-800 text-white border-black' : 'bg-white text-black border-black'}`}
             >
-              <ArrowLeft size={16} /> Back to Home
+              <ArrowLeft size={13} /> Back
             </button>
 
-            <h1 className={`text-2xl font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>
-              Upload Music
-            </h1>
-            <p className={`text-sm mt-1 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
-              Share your sound with the world
-            </p>
-          </div>
-
-          {/* Progress steps */}
-          <div className="flex items-center gap-2 mb-8">
-            {steps.map((step, i) => (
-              <React.Fragment key={step.label}>
-                <div className="flex items-center gap-2">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all
-                    ${step.done
-                      ? 'bg-emerald-500 text-white'
-                      : dark ? 'bg-gray-800 text-gray-500' : 'bg-gray-200 text-gray-400'
-                    }`}>
-                    {step.done ? <CheckCircle2 size={14} /> : i + 1}
-                  </div>
-                  <span className={`text-xs font-medium ${step.done
-                    ? 'text-emerald-500'
-                    : dark ? 'text-gray-500' : 'text-gray-400'}`}>
-                    {step.label}
-                  </span>
-                </div>
-                {i < steps.length - 1 && (
-                  <div className={`flex-1 h-px ${step.done
-                    ? 'bg-emerald-500/50'
-                    : dark ? 'bg-gray-800' : 'bg-gray-200'}`} />
-                )}
-              </React.Fragment>
-            ))}
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-2 h-8 bg-yellow-400 border-2 border-black" />
+              <h1 className={`text-xl font-black uppercase tracking-tight ${dark ? 'text-white' : 'text-black'}`}>
+                Upload Track
+              </h1>
+            </div>
+            <p className={`text-xs ml-5 uppercase tracking-wider ${sub}`}>Share your music</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Audio Upload */}
-            <div className={`rounded-2xl border p-5 transition-all
-              ${dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-
-              <div className="flex items-center gap-2 mb-4">
-                <div className={`p-1.5 rounded-lg ${dark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <Music size={15} className={dark ? 'text-emerald-400' : 'text-emerald-600'} />
-                </div>
-                <span className={`text-sm font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>
-                  Audio File
-                </span>
-                <span className="text-xs text-gray-400 ml-auto">MP3 · Max 5MB</span>
+            {/* Audio */}
+            <div className={card}>
+              <div className="px-5 py-3 border-b-2 border-black flex items-center justify-between">
+                <p className={sectionLabel}><Music size={14} /> Audio File</p>
+                <span className={`text-[10px] font-black uppercase tracking-wider ${sub}`}>MP3 · WAV · FLAC</span>
               </div>
-
-              {musicPreview ? (
-                <div className={`rounded-xl p-3 border ${dark ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
-                  <audio src={musicPreview} controls className="w-full h-10" />
-                  <div className="flex items-center justify-between mt-2">
-                    <p className={`text-xs truncate max-w-[80%] ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
-                      {audioFileName}
-                    </p>
-                    <button type="button" onClick={clearAudio}
-                      className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors">
-                      <X size={14} />
-                    </button>
+              <div className="p-4">
+                {musicPreview ? (
+                  <div className={`border-2 border-black p-3 ${dark ? 'bg-zinc-800' : 'bg-zinc-100'}`}>
+                    <audio src={musicPreview} controls className="w-full h-9" />
+                    <div className="flex items-center justify-between mt-2">
+                      <span className={`text-xs truncate max-w-[80%] ${sub}`}>{audioFileName}</span>
+                      <button type="button" onClick={clearAudio}
+                        className={`p-1.5 border-2 border-black ${btn} ${dark ? 'bg-zinc-700 text-white' : 'bg-white text-black'}`}>
+                        <X size={12} />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <>
-                  <input type="file" name="file" accept="audio/*" onChange={handleAudioChange}
-                    className="hidden" id="file-upload" />
-                  <label htmlFor="file-upload"
-                    className={`flex flex-col items-center justify-center h-28 rounded-xl border-2 border-dashed cursor-pointer transition-all
-                      ${dark
-                        ? 'border-gray-700 hover:border-emerald-500/50 hover:bg-emerald-500/5'
-                        : 'border-gray-200 hover:border-emerald-400 hover:bg-emerald-50'
-                      }`}>
-                    <Upload size={22} className={`mb-2 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
-                    <p className={`text-sm font-medium ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Click to upload audio
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5">or drag and drop</p>
-                  </label>
-                </>
-              )}
+                ) : (
+                  <>
+                    <input type="file" accept="audio/*" onChange={handleAudioChange} className="hidden" id="file-upload" />
+                    <label htmlFor="file-upload"
+                      className={`flex flex-col items-center justify-center h-24 border-2 border-black border-dashed cursor-pointer transition-colors
+                        ${dark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-50'}`}>
+                      <Upload size={20} className={`mb-2 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`} />
+                      <span className={`text-xs font-black uppercase tracking-wider ${dark ? 'text-zinc-300' : 'text-black'}`}>
+                        Click to upload audio
+                      </span>
+                    </label>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Thumbnail Upload */}
-            <div className={`rounded-2xl border p-5 transition-all
-              ${dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-
-              <div className="flex items-center gap-2 mb-4">
-                <div className={`p-1.5 rounded-lg ${dark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <Image size={15} className={dark ? 'text-emerald-400' : 'text-emerald-600'} />
-                </div>
-                <span className={`text-sm font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>
-                  Cover Art
+            {/* Cover Art */}
+            <div className={card}>
+              <div className="px-5 py-3 border-b-2 border-black flex items-center justify-between">
+                <p className={sectionLabel}><Image size={14} /> Cover Art</p>
+                <span className={`text-[10px] font-black uppercase tracking-wider ${dark ? 'text-yellow-400' : 'text-zinc-500'}`}>
+                  Optional
                 </span>
-                <span className="text-xs text-gray-400 ml-auto">PNG, JPG · Max 10MB</span>
               </div>
-
-              {imagePreview ? (
-                <div className="relative">
-                  <img src={imagePreview} alt="Cover preview"
-                    className="w-full h-52 object-cover rounded-xl" />
-                  <div className="absolute inset-0 bg-black/20 rounded-xl" />
-                  <button type="button" onClick={clearImg}
-                    className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white transition-colors">
-                    <X size={14} />
-                  </button>
-                  <p className={`mt-2 text-xs truncate ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {imageFileName}
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <input type="file" name="thumbnail" accept="image/*" onChange={handleImageChange}
-                    className="hidden" id="thumbnail-upload" />
-                  <label htmlFor="thumbnail-upload"
-                    className={`flex flex-col items-center justify-center h-40 rounded-xl border-2 border-dashed cursor-pointer transition-all
-                      ${dark
-                        ? 'border-gray-700 hover:border-emerald-500/50 hover:bg-emerald-500/5'
-                        : 'border-gray-200 hover:border-emerald-400 hover:bg-emerald-50'
-                      }`}>
-                    <Image size={22} className={`mb-2 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
-                    <p className={`text-sm font-medium ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Click to upload cover
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5">or drag and drop</p>
-                  </label>
-                </>
-              )}
+              <div className="p-4">
+                {imagePreview ? (
+                  <div className="relative border-2 border-black">
+                    <img src={imagePreview} alt="Cover" className="w-full h-44 object-cover" />
+                    <button type="button" onClick={clearImg}
+                      className={`absolute top-2 right-2 p-1.5 border-2 border-black bg-black text-white hover:bg-zinc-800 transition-colors`}>
+                      <X size={12} />
+                    </button>
+                    <div className={`px-2 py-1 border-t-2 border-black text-xs truncate ${dark ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-500'}`}>
+                      {imageFileName}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="thumbnail-upload" />
+                    <label htmlFor="thumbnail-upload"
+                      className={`flex flex-col items-center justify-center h-36 border-2 border-black border-dashed cursor-pointer transition-colors
+                        ${dark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-50'}`}>
+                      <Image size={20} className={`mb-2 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`} />
+                      <span className={`text-xs font-black uppercase tracking-wider ${dark ? 'text-zinc-300' : 'text-black'}`}>
+                        Click to upload cover
+                      </span>
+                      <span className={`text-[10px] mt-1 uppercase tracking-wide ${sub}`}>PNG · JPG · Max 10MB</span>
+                    </label>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Caption */}
-            <div className={`rounded-2xl border p-5
-              ${dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
-
-              <div className="flex items-center gap-2 mb-4">
-                <div className={`p-1.5 rounded-lg ${dark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                  <FileText size={15} className={dark ? 'text-emerald-400' : 'text-emerald-600'} />
-                </div>
-                <span className={`text-sm font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>
-                  Title / Description
-                </span>
+            {/* Title */}
+            <div className={card}>
+              <div className="px-5 py-3 border-b-2 border-black">
+                <p className={sectionLabel}><FileText size={14} /> Title</p>
               </div>
-
-              <textarea
-                id="caption"
-                rows={3}
-                maxLength={maxLength}
-                value={caption}
-                placeholder="Give your track a title or short description..."
-                onChange={handleCaptionChange}
-                className={`w-full px-4 py-3 rounded-xl text-sm border outline-none resize-none transition-all placeholder-gray-400
-                  focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/50
-                  ${dark
-                    ? 'bg-gray-800 border-gray-700 text-white'
-                    : 'bg-gray-50 border-gray-200 text-gray-900'
-                  }`}
-              />
-              <div className="flex justify-end mt-1.5">
-                <span className={`text-xs tabular-nums ${captionLength > maxLength * 0.9 ? 'text-red-400' : 'text-gray-400'}`}>
-                  {captionLength}/{maxLength}
-                </span>
+              <div className="p-4">
+                <textarea
+                  rows={2}
+                  maxLength={maxLength}
+                  value={caption}
+                  placeholder="TRACK TITLE OR DESCRIPTION..."
+                  onChange={(e) => setCaption(e.target.value)}
+                  className={`w-full px-3 py-2.5 text-sm border-2 border-black outline-none resize-none font-mono font-bold uppercase tracking-wide
+                    placeholder:text-zinc-400 placeholder:font-normal placeholder:normal-case placeholder:tracking-normal
+                    focus:shadow-[inset_2px_2px_0_#000] transition-all
+                    ${dark ? 'bg-zinc-800 text-white' : 'bg-zinc-50 text-black'}`}
+                />
+                <div className="flex justify-end mt-1.5">
+                  <span className={`text-[10px] font-black tabular-nums ${caption.length > maxLength * 0.9 ? 'text-red-500' : sub}`}>
+                    {caption.length}/{maxLength}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -279,15 +400,16 @@ function CreateMusic() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-sm
-                transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed
-                shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2"
+              className={`w-full py-3 border-2 border-black bg-yellow-400 text-black font-black text-sm uppercase tracking-widest
+                flex items-center justify-center gap-2
+                shadow-[4px_4px_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]
+                transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-[4px_4px_0_#000]
+                disabled:hover:translate-x-0 disabled:hover:translate-y-0`}
             >
-              {loading ? (
-                <><Loader2 size={16} className="animate-spin" /> Uploading...</>
-              ) : (
-                <><Upload size={16} /> Publish Track</>
-              )}
+              {loading
+                ? <><Loader2 size={15} className="animate-spin" /> Uploading...</>
+                : <><Upload size={15} /> Publish Track</>
+              }
             </button>
 
           </form>

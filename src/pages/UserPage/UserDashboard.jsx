@@ -26,61 +26,70 @@ export default function UserDashboard() {
     const navigate = useNavigate()
     const dark = theme === 'dark'
 
-    const bg = dark ? 'bg-gray-950' : 'bg-gray-50'
-    const text = dark ? 'text-white' : 'text-gray-900'
-    const sub = dark ? 'text-gray-400' : 'text-gray-500'
-    const card = dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
+    const bg = dark ? 'bg-zinc-950' : 'bg-white'
+    const text = dark ? 'text-white' : 'text-black'
+    const sub = dark ? 'text-zinc-400' : 'text-zinc-500'
+    const card = `border-2 border-black shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-900' : 'bg-white'}`
+    const btn = `border-2 border-black shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`
 
     return (
         <>
             <Navbar />
 
-            <main className={`min-h-screen ${bg} ${text} transition-colors duration-200`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-16 flex flex-col gap-10">
+            <main className={`min-h-screen ${bg} ${text} font-mono`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-16 flex flex-col gap-8">
 
                     {/* ── Hero ── */}
-                    <section className="relative overflow-hidden rounded-3xl px-6 py-10 sm:px-10 sm:py-14 flex flex-col gap-4"
-                        style={{ background: dark ? 'linear-gradient(135deg,#052e16 0%,#111827 100%)' : 'linear-gradient(135deg,#ecfdf5 0%,#f0fdf4 100%)' }}>
+                    <section className={`relative border-2 border-black shadow-[6px_6px_0_#000] overflow-hidden
+                        ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
 
-                        {/* Decorative glow */}
-                        <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none" />
-                        <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-emerald-400/10 blur-2xl pointer-events-none" />
+                        {/* Yellow accent bar top */}
+                        <div className="h-3 w-full bg-yellow-400 border-b-2 border-black" />
 
-                        <span className={`inline-flex items-center gap-1.5 w-fit text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full
-                            ${dark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-100 text-emerald-600'}`}>
-                            <Music2 size={11} /> MusicMenia
-                        </span>
+                        <div className="px-6 py-10 sm:px-10 sm:py-12">
+                            {/* Badge */}
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.2em]
+                                px-3 py-1.5 border-2 border-black bg-yellow-400 text-black mb-6">
+                                <Music2 size={11} /> MusicMenia
+                            </span>
 
-                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
-                            Welcome back,{' '}
-                            <span className="text-emerald-500">{user?.username || 'Listener'}</span> 👋
-                        </h1>
+                            <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight leading-tight mb-3">
+                                Welcome back,{' '}
+                                <span className="bg-yellow-400 px-2 border-2 border-black inline-block">
+                                    {user?.username || 'Listener'}
+                                </span>
+                            </h1>
 
-                        <p className={`text-sm sm:text-base ${sub} max-w-md`}>
-                            Listen to music — what your ears deserve. Pick up where you left off.
-                        </p>
+                            <p className={`text-sm max-w-md mb-6 ${sub}`}>
+                                Listen to music — what your ears deserve. Pick up where you left off.
+                            </p>
 
-                        <button
-                            onClick={() => navigate('/Local-Feed')}
-                            className="mt-2 w-fit flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-colors shadow-md"
-                        >
-                            <Play size={14} className="ml-0.5" /> Start Listening
-                        </button>
+                            <button
+                                onClick={() => navigate('/Local-Feed')}
+                                className={`flex items-center gap-2 px-5 py-2.5 bg-black text-white text-xs font-black uppercase tracking-widest ${btn}`}
+                            >
+                                <Play size={13} className="fill-white" /> Start Listening
+                            </button>
+                        </div>
                     </section>
 
                     {/* ── Stats ── */}
                     <section>
-                        <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${sub}`}>Your Activity</h2>
+                        <div className={`px-4 py-2 border-2 border-black mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                                Your Activity
+                            </h2>
+                        </div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             {STATS.map(({ icon: Icon, label, value }) => (
-                                <div key={label} className={`rounded-2xl border p-5 flex flex-col gap-3 ${card}`}>
-                                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center
-                                        ${dark ? 'bg-emerald-500/15' : 'bg-emerald-50'}`}>
-                                        <Icon size={17} className="text-emerald-500" />
+                                <div key={label} className={`${card} p-5 flex flex-col gap-3`}>
+                                    <div className={`w-9 h-9 border-2 border-black flex items-center justify-center
+                                        ${dark ? 'bg-zinc-800' : 'bg-zinc-100'}`}>
+                                        <Icon size={16} className={dark ? 'text-zinc-300' : 'text-black'} />
                                     </div>
                                     <div>
-                                        <p className={`text-xs font-bold ${text}`}>{value}</p>
-                                        <p className={`text-xs mt-0.5 ${sub}`}>{label}</p>
+                                        <p className="text-2xl font-black">{value}</p>
+                                        <p className={`text-[10px] uppercase tracking-wider mt-0.5 ${sub}`}>{label}</p>
                                     </div>
                                 </div>
                             ))}
@@ -89,31 +98,38 @@ export default function UserDashboard() {
 
                     {/* ── Quick Actions ── */}
                     <section>
-                        <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 ${sub}`}>Quick Access</h2>
+                        <div className={`px-4 py-2 border-2 border-black mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                                Quick Access
+                            </h2>
+                        </div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             {QUICK.map(({ icon: Icon, label, path, desc }) => (
                                 <button
                                     key={label}
                                     onClick={() => navigate(path)}
-                                    className={`group rounded-2xl border p-5 flex flex-col gap-3 text-left transition-all duration-200
-                                        hover:-translate-y-0.5 hover:shadow-lg hover:border-emerald-500/40 ${card}`}
+                                    className={`${card} ${btn} p-5 flex flex-col gap-3 text-left`}
                                 >
-                                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors
-                                        ${dark ? 'bg-gray-800 group-hover:bg-emerald-500/15' : 'bg-gray-100 group-hover:bg-emerald-50'}`}>
-                                        <Icon size={17} className="text-emerald-500" />
+                                    <div className={`w-9 h-9 border-2 border-black flex items-center justify-center
+                                        ${dark ? 'bg-zinc-800' : 'bg-yellow-400'}`}>
+                                        <Icon size={16} className={dark ? 'text-zinc-300' : 'text-black'} />
                                     </div>
                                     <div>
-                                        <p className={`text-sm font-semibold ${text}`}>{label}</p>
-                                        <p className={`text-xs mt-0.5 ${sub}`}>{desc}</p>
+                                        <p className={`text-sm font-black uppercase tracking-tight ${text}`}>{label}</p>
+                                        <p className={`text-[10px] mt-0.5 font-mono ${sub}`}>{desc}</p>
                                     </div>
                                 </button>
                             ))}
                         </div>
                     </section>
 
-                    {/* ── Music UI (existing component) ── */}
+                    {/* ── Music UI ── */}
                     <section>
-                        <h2 className={`text-xs font-semibold uppercase tracking-widest mb-4 underline ${sub}`}>Playlists , Recently Played, Album's</h2>
+                        <div className={`px-4 py-2 border-2 border-black mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                                Playlists · Recently Played · Albums
+                            </h2>
+                        </div>
                         <MusicUIUser />
                     </section>
 

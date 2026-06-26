@@ -1,13 +1,12 @@
 import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat } from 'lucide-react';
 
-//Animated bars shown next to the playing track number
 function PlayingBars() {
     return (
         <div className="flex gap-[2px] items-end h-4">
             {[1, 2, 3, 4].map(i => (
                 <div
                     key={i}
-                    className="w-[3px] rounded-full bg-blue-400"
+                    className="w-[3px] bg-yellow-400"
                     style={{
                         animation: `mBar${i} 0.7s ease-in-out infinite`,
                         animationDelay: `${i * 0.12}s`,
@@ -19,44 +18,42 @@ function PlayingBars() {
     );
 }
 
-/* ── Single track row ── */
 function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlaying, isLiked, onToggleLike }) {
-    const sub = dark ? 'text-gray-400' : 'text-gray-500';
-    const rowBg = isPlaying
-        ? dark ? 'bg-emerald-500/10' : 'bg-emerald-50'
-        : dark ? 'active:bg-gray-800/60' : 'active:bg-gray-100';
+    const sub = dark ? 'text-zinc-400' : 'text-zinc-500';
 
     return (
         <button
             onClick={() => onPlay(music)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150 text-left ${rowBg}`}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors border-b-2 border-black
+                ${isPlaying
+                    ? 'bg-yellow-400'
+                    : dark ? 'bg-zinc-900 active:bg-zinc-800' : 'bg-white active:bg-zinc-100'}`}
         >
-            {/* Track number or animated bars */}
+            {/* Track number or bars */}
             <div className="w-5 flex-shrink-0 flex items-center justify-center">
                 {isPlaying
-                    ? <PlayingBars dark={dark} />
-                    : <span className={`text-xs tabular-nums ${sub}`}>{index + 1}</span>
+                    ? <PlayingBars />
+                    : <span className={`text-xs tabular-nums font-black font-mono ${sub}`}>{index + 1}</span>
                 }
             </div>
 
-            {/* Thumbnail */}
-            <div className="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
+            {/* Thumbnail — square, hard border */}
+            <div className="w-11 h-11 border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px_0_#000]">
                 {music.thumbnail
                     ? <img src={music.thumbnail} alt={music.title} loading="lazy" className="w-full h-full object-cover" />
-                    : (
-                        <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                            <Music2 size={16} className={sub} />
-                        </div>
-                    )
+                    : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
+                        <Music2 size={16} className={isPlaying ? 'text-black' : sub} />
+                    </div>
                 }
             </div>
 
             {/* Title + artist */}
             <div className="flex-1 min-w-0">
-                <p className={`text-sm font-semibold truncate leading-tight ${isPlaying ? 'text-emerald-500' : dark ? 'text-white' : 'text-gray-900'}`}>
+                <p className={`text-sm font-black uppercase tracking-tight truncate leading-tight font-mono
+                    ${isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                     {music.title}
                 </p>
-                <p className={`text-xs truncate mt-0.5 ${sub}`}>
+                <p className={`text-xs truncate mt-0.5 font-mono ${isPlaying ? 'text-black/60' : sub}`}>
                     {music.artist?.username || 'Unknown Artist'}
                 </p>
             </div>
@@ -65,39 +62,40 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
             {onToggleLike && (
                 <button
                     onClick={(e) => { e.stopPropagation(); onToggleLike(music._id); }}
-                    className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-transform active:scale-90"
+                    className={`flex-shrink-0 w-7 h-7 border-2 border-black flex items-center justify-center transition-all
+                        active:scale-90 ${isPlaying ? 'bg-black' : dark ? 'bg-zinc-800' : 'bg-white'}`}
                 >
-                    <Heart size={16} className={isLiked ? 'fill-emerald-500 text-emerald-500' : sub} />
+                    <Heart size={13} className={isLiked
+                        ? isPlaying ? 'fill-yellow-400 text-yellow-400' : 'fill-black text-black'
+                        : isPlaying ? 'text-white' : sub} />
                 </button>
             )}
 
-            {/* Play / Pause icon on right */}
+            {/* Play/Pause icon */}
             <div className="flex-shrink-0 w-6 flex items-center justify-center">
                 {isActuallyPlaying
-                    ? <Pause size={15} className="text-emerald-500 fill-emerald-500" />
-                    : <Play size={15} className={`${sub} opacity-40`} />
+                    ? <Pause size={14} className={isPlaying ? 'text-black fill-black' : 'text-black fill-black'} />
+                    : <Play size={14} className={`${sub} opacity-40`} />
                 }
             </div>
         </button>
     );
 }
 
-/* ── Skeleton row shown while loading ── */
 function MobileSkeletonRow({ dark }) {
-    const base = dark ? 'bg-gray-800' : 'bg-gray-200';
+    const base = dark ? 'bg-zinc-800' : 'bg-zinc-200';
     return (
-        <div className="flex items-center gap-3 px-3 py-2.5 animate-pulse">
-            <div className={`w-5 h-3 rounded ${base}`} />
-            <div className={`w-11 h-11 rounded-lg ${base}`} />
+        <div className={`flex items-center gap-3 px-3 py-2.5 animate-pulse border-b-2 border-black ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+            <div className={`w-5 h-3 ${base}`} />
+            <div className={`w-11 h-11 border-2 border-black ${base}`} />
             <div className="flex-1 space-y-2">
-                <div className={`h-3 rounded-full ${base} w-2/3`} />
-                <div className={`h-2 rounded-full ${base} w-1/3`} />
+                <div className={`h-3 ${base} w-2/3`} />
+                <div className={`h-2 ${base} w-1/3`} />
             </div>
         </div>
     );
 }
 
-/* ── Sticky bottom player bar (shown when a track is playing) ── */
 function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, currentTime, duration, onSeek, dark,
     playNext, playPrevious, repeat, toggleRepeat, hasNext, hasPrev }) {
     if (!track) return null;
@@ -108,19 +106,13 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
     }
 
     return (
-        <div className={`fixed bottom-0 left-0 right-0 z-50 
-            ${dark ? 'bg-gray-900/97 border-gray-700/50' : 'bg-white/97 border-gray-200'}
-            border-t backdrop-blur-2xl`}
-        >
-            {/* Thin seekbar at very top of player */}
-            <div className="relative h-1 w-full group">
-                <div className={`h-full ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                    <div
-                        className="h-full bg-emerald-500 transition-all duration-100"
-                        style={{ width: `${progress}%` }}
-                    />
-                </div>
-                {/* Invisible range input overlaid for touch interaction */}
+        <div className={`fixed bottom-0 left-0 right-0 z-50 border-t-4 border-black
+            ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+
+            {/* Progress bar — raw yellow fill */}
+            <div className="relative h-2 w-full bg-zinc-300 border-b-2 border-black">
+                <div className="h-full bg-yellow-400 transition-all duration-100"
+                    style={{ width: `${progress}%` }} />
                 <input
                     type="range" min="0" max="100"
                     value={Math.round(progress)} step="0.5"
@@ -129,82 +121,63 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                 />
             </div>
 
-            {/* Player row */}
             <div className="flex items-center gap-3 px-4 py-3 pb-5">
+
                 {/* Thumbnail */}
-                <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow">
+                <div className="w-10 h-10 border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px_0_#000]">
                     {track.thumbnail
                         ? <img src={track.thumbnail} alt={track.title} className="w-full h-full object-cover" />
-                        : (
-                            <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                                <Music2 size={14} className={dark ? 'text-gray-500' : 'text-gray-400'} />
-                            </div>
-                        )
+                        : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
+                            <Music2 size={14} className={dark ? 'text-zinc-500' : 'text-zinc-400'} />
+                        </div>
                     }
                 </div>
 
                 {/* Title + time */}
                 <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-bold truncate ${dark ? 'text-white' : 'text-gray-900'}`}>
+                    <p className={`text-xs font-black uppercase tracking-tight truncate font-mono ${dark ? 'text-white' : 'text-black'}`}>
                         {track.title}
                     </p>
-                    <p className={`text-xs mt-0.5 ${dark ? 'text-gray-500' : 'text-gray-400'} tabular-nums`}>
+                    <p className={`text-[10px] mt-0.5 font-mono tabular-nums ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                         {fmt(currentTime)} / {fmt(duration)}
                     </p>
                 </div>
 
-                {/* ── Queue Controls ── */}
                 {/* Repeat */}
-                <button
-                    onClick={toggleRepeat}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90
-                        ${repeat
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : dark ? 'text-gray-500' : 'text-gray-400'
-                        }`}
-                >
-                    <Repeat size={14} />
+                <button onClick={toggleRepeat}
+                    className={`w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0 transition-all active:scale-90
+                        ${repeat ? 'bg-yellow-400 text-black' : dark ? 'bg-zinc-800 text-zinc-400' : 'bg-white text-zinc-400'}`}>
+                    <Repeat size={13} />
                 </button>
 
                 {/* Previous */}
-                <button
-                    onClick={playPrevious}
-                    disabled={!hasPrev}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
-                        ${dark ? 'text-gray-400' : 'text-gray-500'}`}
-                >
-                    <SkipBack size={16} className="fill-current" />
+                <button onClick={playPrevious} disabled={!hasPrev}
+                    className={`w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
+                        ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
+                    <SkipBack size={15} className="fill-current" />
                 </button>
 
-                {/* Play / Pause button */}
-                <button
-                    onClick={() => onToggle(track)}
-                    className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform shadow-lg shadow-emerald-500/30"
-                >
+                {/* Play/Pause */}
+                <button onClick={() => onToggle(track)}
+                    className="w-11 h-11 border-2 border-black bg-yellow-400 flex items-center justify-center flex-shrink-0
+                        shadow-[3px_3px_0_#000] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all">
                     {isActuallyPlaying
-                        ? <Pause size={18} className="text-white fill-white" />
-                        : <Play size={18} className="text-white fill-white ml-0.5" />
+                        ? <Pause size={18} className="text-black fill-black" />
+                        : <Play size={18} className="text-black fill-black ml-0.5" />
                     }
                 </button>
 
                 {/* Next */}
-                <button
-                    onClick={playNext}
-                    disabled={!hasNext}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
-                        ${dark ? 'text-gray-400' : 'text-gray-500'}`}
-                >
-                    <SkipForward size={16} className="fill-current" />
+                <button onClick={playNext} disabled={!hasNext}
+                    className={`w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
+                        ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
+                    <SkipForward size={15} className="fill-current" />
                 </button>
             </div>
         </div>
     );
 }
 
-/* 
-   MAIN MOBILE LAYOUT EXPORT
-   Rendered inside LocalFeed only on mobile (sm:hidden wrapper there)
- */
 export default function MobileMusicLayout({
     dark, musicLoad, error, filtered, playingId, playingTrack,
     togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
@@ -212,25 +185,27 @@ export default function MobileMusicLayout({
     progress, currentTime, duration, handleSeek, isPlaying,
     likedSongs = [], onToggleLike
 }) {
-    const sub = dark ? 'text-gray-400' : 'text-gray-500';
+    const sub = dark ? 'text-zinc-400' : 'text-zinc-500';
 
-    // Determine if there is a next/previous track available in the queue
     const currentQueueIndex = queue?.length > 0 && playingTrack
-        ? queue.findIndex(t => t._id === playingTrack._id)
-        : -1;
+        ? queue.findIndex(t => t._id === playingTrack._id) : -1;
     const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
     const hasPrev = currentQueueIndex > 0;
 
+    const pgBtn = `px-5 py-2 border-2 border-black text-xs font-black uppercase tracking-widest font-mono
+        shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]
+        transition-all disabled:opacity-30 disabled:hover:shadow-[3px_3px_0_#000] disabled:hover:translate-x-0 disabled:hover:translate-y-0`;
+
     return (
-        /* pb-28 = space so last track isn't hidden behind bottom player bar */
-        <div className="sm:hidden pb-28">
+        <div className={`sm:hidden pb-28 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
 
             {/* Error */}
             {error && !musicLoad && (
-                <div className={`mx-4 mt-4 rounded-2xl p-5 text-center border
-                    ${dark ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-red-50 border-red-200 text-red-600'}`}>
-                    <p className="font-semibold text-sm">{error}</p>
-                    <button onClick={fetchMusic} className="mt-3 px-4 py-1.5 bg-red-500 text-white text-xs rounded-lg">
+                <div className="mx-4 mt-4 border-2 border-black shadow-[4px_4px_0_#000] bg-red-400 p-5 text-center">
+                    <p className="font-black uppercase text-sm text-black mb-3">{error}</p>
+                    <button onClick={fetchMusic}
+                        className="px-4 py-1.5 border-2 border-black bg-black text-white text-xs font-black uppercase
+                            shadow-[2px_2px_0_#fff] hover:shadow-none transition-all">
                         Try Again
                     </button>
                 </div>
@@ -245,18 +220,20 @@ export default function MobileMusicLayout({
 
             {/* Empty state */}
             {!musicLoad && !error && filtered.length === 0 && (
-                <div className="text-center py-20 px-6">
-                    <Music2 size={40} className={`mx-auto mb-3 ${sub}`} />
-                    <p className={`text-base font-bold mb-1 ${dark ? 'text-white' : 'text-gray-900'}`}>
-                        {search ? 'No results found' : 'No music yet'}
+                <div className={`mx-4 mt-8 border-2 border-black shadow-[4px_4px_0_#000] text-center py-16 px-6
+                    ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+                    <Music2 size={36} className={`mx-auto mb-3 ${sub}`} />
+                    <p className={`text-base font-black uppercase tracking-tight mb-1 font-mono ${dark ? 'text-white' : 'text-black'}`}>
+                        {search ? 'No results' : 'No music yet'}
                     </p>
-                    <p className={`text-sm ${sub}`}>
+                    <p className={`text-xs font-mono ${sub}`}>
                         {search ? `Nothing matches "${search}"` : 'Be the first to upload a track!'}
                     </p>
                     {search && (
                         <button onClick={() => setSearch('')}
-                            className="mt-4 px-4 py-2 bg-emerald-500 text-white rounded-xl text-sm">
-                            Clear search
+                            className="mt-4 px-4 py-2 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase
+                                shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
+                            Clear Search
                         </button>
                     )}
                 </div>
@@ -266,53 +243,40 @@ export default function MobileMusicLayout({
             {!musicLoad && !error && filtered.length > 0 && (
                 <>
                     {/* Section label */}
-                    <div className="px-4 pt-10 pb-1">
-                        <p className={`text-[10px] font-bold uppercase tracking-widest ${sub}`}>
+                    <div className={`px-4 pt-6 pb-2 border-b-2 border-black ${dark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+                        <p className={`text-[10px] font-black uppercase tracking-[0.2em] font-mono ${sub}`}>
                             {filtered.length} tracks
                         </p>
                     </div>
 
-                    <div className="px-1">
+                    <div>
                         {filtered.map((music, i) => (
-                            <div key={String(music._id)}>
-                                <MobileTrackRow
-                                    music={music}
-                                    isPlaying={String(playingId) === String(music._id)}
-                                    isActuallyPlaying={isPlaying && String(playingId) === String(music._id)}
-                                    onPlay={(track) => togglePlay(track, filtered)}
-                                    dark={dark}
-                                    index={i}
-                                    isLiked={likedSongs.includes(music._id)}
-                                    onToggleLike={onToggleLike}
-                                />
-                                {/* Subtle divider between rows */}
-                                {i < filtered.length - 1 && (
-                                    <div className={`ml-[3.75rem] h-px ${dark ? 'bg-gray-800' : 'bg-gray-100'}`} />
-                                )}
-                            </div>
+                            <MobileTrackRow
+                                key={String(music._id)}
+                                music={music}
+                                isPlaying={String(playingId) === String(music._id)}
+                                isActuallyPlaying={isPlaying && String(playingId) === String(music._id)}
+                                onPlay={(track) => togglePlay(track, filtered)}
+                                dark={dark}
+                                index={i}
+                                isLiked={likedSongs.includes(music._id)}
+                                onToggleLike={onToggleLike}
+                            />
                         ))}
                     </div>
 
-                    {/* Mobile pagination — prev/next only (compact) */}
-                    {pagination && pagination.totalPages > 1 && (
+                    {/* Pagination */}
+                    {pagination?.totalPages > 1 && (
                         <div className="flex items-center justify-between px-4 py-5 mt-2">
-                            <button
-                                onClick={() => setPage(p => Math.max(1, p - 1))}
-                                disabled={page === 1}
-                                className={`px-5 py-2 rounded-xl text-sm font-semibold border transition disabled:opacity-30
-                                    ${dark ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-700'}`}
-                            >
+                            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                                className={`${pgBtn} ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
                                 ← Prev
                             </button>
-                            <span className={`text-sm tabular-nums ${sub}`}>
+                            <span className={`text-xs font-black tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
                                 {page} / {pagination.totalPages}
                             </span>
-                            <button
-                                onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
-                                disabled={page === pagination.totalPages}
-                                className={`px-5 py-2 rounded-xl text-sm font-semibold border transition disabled:opacity-30
-                                    ${dark ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-700'}`}
-                            >
+                            <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
+                                className={`${pgBtn} ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
                                 Next →
                             </button>
                         </div>
@@ -320,7 +284,6 @@ export default function MobileMusicLayout({
                 </>
             )}
 
-            {/* Bottom sticky player — always rendered, hidden when no track */}
             <MobilePlayerBar
                 track={playingTrack}
                 isActuallyPlaying={!!playingId && isPlaying}

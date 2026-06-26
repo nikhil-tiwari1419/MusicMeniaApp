@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, ChevronDown, MessageSquareHeart, KeySquare } from 'lucide-react';
+import { LogOut, User, MessageSquareHeart, KeySquare } from 'lucide-react';
 import { useAuth } from '../Context/useAuth';
 import { useTheme } from '../Context/Theme';
 
 const getInitials = (name) => {
     if (!name) return 'U';
-    const parts = name.split(/[\s_.-]+/);
-    const validParts = parts.filter(p => p.length > 0);
-    if (validParts.length > 1) {
-        return (validParts[0].charAt(0) + validParts[validParts.length - 1].charAt(0)).toUpperCase();
-    }
+    const parts = name.split(/[\s_.-]+/).filter(p => p.length > 0);
+    if (parts.length > 1) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     return name.charAt(0).toUpperCase();
 };
 
@@ -22,12 +19,9 @@ function UserMenu() {
     const menuRef = useRef(null);
     const navigate = useNavigate();
 
-    // Close on outside click
     useEffect(() => {
         const handler = (e) => {
-            if (menuRef.current && !menuRef.current.contains(e.target)) {
-                setOpen(false);
-            }
+            if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
         };
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
@@ -39,105 +33,96 @@ function UserMenu() {
         navigate('/');
     }
 
-    // Not logged in
+    // ── Not logged in ──
     if (!user) {
         return (
-            <>
+            <div className="flex items-center gap-2">
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-2 p-1 border border-none bg-blue-400 hover:bg-blue-600 text-black md:text-sx text-sm font-semibold font-mono rounded transition-colors cursor-pointer"
+                    className={`px-3 py-1.5 border-2 border-black text-xs font-black uppercase tracking-widest font-mono
+                        shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
+                        ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
                 >
                     Login
                 </button>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-3 p-1 border border-none bg-blue-400 hover:bg-blue-600 text-black md:text-sx text-sm font-semibold font-mono rounded transition-colors cursor-pointer"
+                    className="px-3 py-1.5 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase tracking-widest font-mono
+                        shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                 >
                     Get Access
                 </button>
-            </>
+            </div>
         );
     }
 
-    const isArtist = user?.role === "artist";
+    const isArtist = user?.role === 'artist';
+
+    const menuItem = `w-full font-mono flex items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-wide
+        border-b-2 border-black transition-colors cursor-pointer text-left`;
 
     return (
         <div className="relative" ref={menuRef}>
-            {/* Avatar */}
+
+            {/* Avatar button */}
             <button
                 onClick={() => setOpen(!open)}
-                className="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-600 transition-colors flex items-center justify-center text-white text-sm font-bold shadow-sm cursor-pointer"
+                className={`w-9 h-9 border-2 border-black flex items-center justify-center text-sm font-black font-mono
+                    shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
+                    ${open ? 'bg-yellow-400 text-black shadow-none translate-x-[2px] translate-y-[2px]' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
             >
                 {getInitials(user.username)}
             </button>
 
             {/* Dropdown */}
             {open && (
-                <div className={`absolute right-0 top-11 w-56 rounded-xl border shadow-xl z-50 overflow-hidden
-                    ${dark
-                        ? "bg-gray-900 border-gray-700"
-                        : "bg-white border-gray-200"
-                    }`}
+                <div className={`absolute right-0 top-12 w-56 border-2 border-black shadow-[4px_4px_0_#000] z-50 overflow-hidden
+                    ${dark ? 'bg-zinc-900' : 'bg-white'}`}
                 >
-                    {/* User Info */}
-                    <div className={`px-4 py-3 border-b ${dark ? "border-gray-700" : "border-gray-100"}`}>
-                        <p className={`text-sm font-semibold ${dark ? "text-white" : "text-gray-900"}`}>
+                    {/* User info header */}
+                    <div className={`px-4 py-3 border-b-2 border-black ${dark ? 'bg-zinc-800' : 'bg-yellow-400'}`}>
+                        <p className={`text-sm font-black uppercase tracking-tight font-mono truncate ${dark ? 'text-white' : 'text-black'}`}>
                             {user.username}
                         </p>
-                        <p className="text-xs text-gray-400">
+                        <p className={`text-xs font-mono truncate mt-0.5 ${dark ? 'text-zinc-400' : 'text-black/60'}`}>
                             {user.email}
                         </p>
                     </div>
 
-                    {/* Menu */}
-                    <div className="p-1.5">
-
-                        {/* Liked Songs */}
+                    {/* Menu items */}
+                    <div>
                         <button
                             onClick={() => { navigate('/liked-songs'); setOpen(false); }}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                                ${dark
-                                    ? "hover:bg-gray-800 text-gray-300"
-                                    : "hover:bg-gray-50 text-gray-700"
-                                }`}
+                            className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
                         >
-                            <MessageSquareHeart size={15} />
+                            <MessageSquareHeart size={14} />
                             Liked Songs
                         </button>
 
-                        {/* Your Posts (Artist only logic) */}
                         {isArtist && (
                             <button
                                 onClick={() => { navigate('/your-post'); setOpen(false); }}
-                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-            ${dark
-                                        ? "hover:bg-gray-800 text-gray-300 cursor-pointer"
-                                        : "hover:bg-gray-50 text-gray-700 cursor-pointer"
-                                    }`}
+                                className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
                             >
-                                <User size={15} />
+                                <User size={14} />
                                 Your Posts
                             </button>
                         )}
 
                         <button
-                            onClick={() => navigate("/forgot-password")}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                                ${dark
-                                    ? "hover:bg-gray-800 text-gray-300"
-                                    : "hover:bg-gray-50 text-gray-700"
-                                }`}
+                            onClick={() => { navigate('/forgot-password'); setOpen(false); }}
+                            className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
                         >
-                            <KeySquare size={15} />
-                            Forgot password
+                            <KeySquare size={14} />
+                            Forgot Password
                         </button>
 
-                        {/* Logout */}
+                        {/* Logout — red accent */}
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-blue-500 hover:bg-red-50 dark:hover:text-red-500 transition-colors cursor-pointer"
+                            className={`${menuItem} border-b-0 text-red-500 hover:bg-red-500 hover:text-white`}
                         >
-                            <LogOut size={15} />
+                            <LogOut size={14} />
                             Logout
                         </button>
                     </div>
@@ -148,4 +133,3 @@ function UserMenu() {
 }
 
 export default UserMenu;
-

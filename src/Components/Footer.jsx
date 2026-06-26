@@ -4,150 +4,198 @@ import { useTheme } from '../Context/Theme'
 import { useState } from 'react'
 
 const SOCIAL = [
-    { icon: Linkedin,  url: 'https://linkedin.com',  label: 'LinkedIn'  },
+    { icon: Linkedin, url: 'https://linkedin.com', label: 'LinkedIn' },
     { icon: Instagram, url: 'https://instagram.com', label: 'Instagram' },
-    { icon: Facebook,  url: 'https://facebook.com',  label: 'Facebook'  },
-    { icon: Github,    url: 'https://github.com',    label: 'Github'    },
+    { icon: Facebook, url: 'https://facebook.com', label: 'Facebook' },
+    { icon: Github, url: 'https://github.com', label: 'Github' },
 ]
 
 const SUPPORT = [
-    { label: 'FAQ',              path: '/faq'     },
-    { label: 'Contact Us',       path: '/contact' },
-    { label: 'Privacy Policy',   path: '/privacy' },
-    { label: 'Terms of Service', path: '/terms'   },
+    { label: 'FAQ', path: '/faq' },
+    { label: 'Contact Us', path: '/contact' },
+    { label: 'Privacy Policy', path: '/privacy' },
+    { label: 'Terms of Service', path: '/terms' },
 ]
 
 const EXPLORE = [
-    { label: 'Home',             path: '/'             },
-    { label: 'Music Feed',       path: '/music-feed'   },
-    { label: 'Album',            path: '/album'        },
-    { label: 'About',            path: '/about'        },
+    { label: 'Home', path: '/' },
+    { label: 'Music Feed', path: '/music-feed' },
+    { label: 'Album', path: '/album' },
+    { label: 'About', path: '/about' },
 ]
 
 export default function Footer() {
-    const { theme }   = useTheme()
-    const navigate    = useNavigate()
-    const dark        = theme === 'dark'
+    const { theme } = useTheme()
+    const navigate = useNavigate()
+    const dark = theme === 'dark'
     const [email, setEmail] = useState('')
 
-    const bg      = dark ? 'bg-gray-950'  : 'bg-gray-50'
-    const border  = dark ? 'border-gray-800' : 'border-gray-200'
-    const text    = dark ? 'text-white'   : 'text-gray-900'
-    const sub     = dark ? 'text-gray-400': 'text-gray-500'
-    const linkHov = dark ? 'hover:text-white' : 'hover:text-gray-900'
-    const inputCl = dark
-        ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-emerald-500'
-        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-emerald-500'
+    const bg = dark ? 'bg-black' : 'bg-white'
+    const borderClr = dark ? 'border-white' : 'border-black'
+    const text = dark ? 'text-white' : 'text-black'
+    const sub = dark ? 'text-gray-400' : 'text-gray-600'
+    const colBorder = dark ? 'border-gray-800' : 'border-gray-300'
+    const inputBg = dark ? 'bg-black border-gray-700 text-white placeholder-gray-600'
+        : 'bg-white border-gray-400 text-black placeholder-gray-400'
 
     return (
-        <footer className={`${bg} border-t ${border} transition-colors duration-200`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <footer
+            className={`${bg} border-t-4 ${borderClr} font-mono transition-colors duration-0`}
+            style={{ fontFamily: "'Courier New', monospace" }}
+        >
+            <div
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b-4 ${borderClr}`}
+            >
+                {/* ── Brand ── */}
+                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
+                    <p
+                        className="text-xs font-black tracking-widest uppercase"
+                        style={{ color: '#00ff', borderBottom: '1px solid #00ff88', paddingBottom: 8 }}
+                    >
+                        MusicMenia
+                    </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-                    {/* ── Brand ── */}
-                    <div className="flex flex-col gap-4">
-                        <button onClick={() => navigate('/')} className="flex items-center gap-2 w-fit">
-                            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-                                <Music2 size={16} className="text-white" />
-                            </div>
-                            <span className={`text-lg font-bold tracking-tight ${text}`}>MusicMenia</span>
-                        </button>
-
-                        <p className={`text-sm leading-relaxed ${sub}`}>
-                            Discover, share, and celebrate music. A space where artists and fans come together.
-                        </p>
-
-                        {/* Social icons */}
-                        <div className="flex gap-2 mt-1">
-                            {SOCIAL.map(({ icon: Icon, url, label }) => (
-                                <a key={label} href={url} target="_blank" rel="noopener noreferrer"
-                                    aria-label={label}
-                                    className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-150
-                                        ${dark
-                                            ? 'border-gray-700 text-gray-400 hover:border-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10'
-                                            : 'border-gray-200 text-gray-500 hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50'
-                                        }`}>
-                                    <Icon size={15} />
-                                </a>
-                            ))}
+                    <button
+                        onClick={() => navigate('/')}
+                        className={`flex items-center gap-3 w-fit`}
+                    >
+                        <div
+                            className="w-9 h-9 flex items-center justify-center flex-shrink-0"
+                            style={{ background: '#00ff88' }}
+                        >
+                            <Music2 size={18} color="#000" />
                         </div>
-                    </div>
+                        <span className={`text-base font-black tracking-widest uppercase ${text}`}>
+                            MusicMenia
+                        </span>
+                    </button>
 
-                    {/* ── Explore ── */}
-                    <div className="flex flex-col gap-3">
-                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Explore</h3>
-                        <ul className="flex flex-col gap-2">
-                            {EXPLORE.map(({ label, path }) => (
-                                <li key={label}>
-                                    <button
-                                        onClick={() => navigate(path)}
-                                        className={`text-sm transition-colors duration-150 ${sub} ${linkHov}`}
-                                    >
-                                        {label}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <p className={`text-xs leading-relaxed ${sub}`}>
+                        Discover, share, and celebrate music. A space where artists and fans collide.
+                    </p>
 
-                    {/* ── Support ── */}
-                    <div className="flex flex-col gap-3">
-                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Support</h3>
-                        <ul className="flex flex-col gap-2">
-                            {SUPPORT.map(({ label, path }) => (
-                                <li key={label}>
-                                    <button
-                                        onClick={() => navigate(path)}
-                                        className={`text-sm transition-colors duration-150 ${sub} ${linkHov}`}
-                                    >
-                                        {label}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* ── Newsletter ── */}
-                    <div className="flex flex-col gap-3">
-                        <h3 className={`text-xs font-semibold uppercase tracking-widest ${sub}`}>Stay Updated</h3>
-                        <p className={`text-sm ${sub}`}>Get the latest drops and artist news in your inbox.</p>
-
-                        <div className="flex flex-col gap-2 mt-1">
-                            <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all ${inputCl}`}>
-                                <Mail size={14} className="text-gray-400 flex-shrink-0" />
-                                <input
-                                    type="email"
-                                    placeholder="your@email.com"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    className="flex-1 bg-transparent outline-none text-sm"
-                                />
-                            </div>
-                            <button
-                                className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold transition-colors duration-150"
+                    <div className="flex gap-1.5 mt-1">
+                        {SOCIAL.map(({ icon: Icon, url, label }) => (
+                            <a
+                                key={label}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={label}
+                                className={`w-8 h-8 flex items-center justify-center border-2 transition-none ${dark
+                                        ? 'border-gray-700 text-gray-400 hover:border-[#00ff88] hover:text-[#00ff88]'
+                                        : 'border-gray-400 text-gray-500 hover:border-[#00cc6e] hover:text-[#00cc6e]'
+                                    }`}
                             >
-                                Subscribe <ArrowRight size={14} />
-                            </button>
-                        </div>
+                                <Icon size={14} />
+                            </a>
+                        ))}
                     </div>
-
                 </div>
 
-                {/* ── Bottom bar ── */}
-                <div className={`border-t ${border} mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2`}>
-                    <p className={`text-xs ${sub}`}>
-                        © {new Date().getFullYear()} MusicMenia. All rights reserved.
+                {/* ── Explore ── */}
+                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
+                    <p
+                        className="text-xs font-black tracking-widest uppercase"
+                        style={{ color: '#00ff88', borderBottom: '1px solid #00ff88', paddingBottom: 8 }}
+                    >
+                        Explore
                     </p>
-                    <a href="http://linkedin.com/in/nikhil-tiwari-53743b339" target="_blank" rel="noopener noreferrer"
-                        className={`text-xs md:text-md underline underline-offset-4 tracking-widest ${dark ? "text-gray-400 hover:text-gray-400" : "text-gray-700 hover:text-gray-900"} transition-colors`}>
-                            Developed by Nikhil Tiwari.
-                        </a>
-                    <p className={`text-xs ${sub}`}>
-                        Made with <span className="text-emerald-500">♪</span> for music lovers
-                    </p>
+                    <ul className="flex flex-col">
+                        {EXPLORE.map(({ label, path }) => (
+                            <li key={label} className={`border-b ${colBorder}`}>
+                                <button
+                                    onClick={() => navigate(path)}
+                                    className={`w-full text-left text-xs py-2 tracking-wide transition-none ${sub} hover:text-[#00ff88]`}
+                                >
+                                    <span className={`${dark ? 'text-gray-700' : 'text-gray-300'}`}>→ </span>
+                                    {label}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
+                {/* ── Support ── */}
+                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
+                    <p
+                        className="text-xs font-black tracking-widest uppercase"
+                        style={{ color: '#00ff88', borderBottom: '1px solid #00ff88', paddingBottom: 8 }}
+                    >
+                        Support
+                    </p>
+                    <ul className="flex flex-col">
+                        {SUPPORT.map(({ label, path }) => (
+                            <li key={label} className={`border-b ${colBorder}`}>
+                                <button
+                                    onClick={() => navigate(path)}
+                                    className={`w-full text-left text-xs py-2 tracking-wide transition-none ${sub} hover:text-[#00ff88]`}
+                                >
+                                    <span className={`${dark ? 'text-gray-700' : 'text-gray-300'}`}>→ </span>
+                                    {label}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* ── Newsletter ── */}
+                <div className="p-7 flex flex-col gap-4">
+                    <p
+                        className="text-xs font-black tracking-widest uppercase"
+                        style={{ color: '#00ff88', borderBottom: '1px solid #00ff88', paddingBottom: 8 }}
+                    >
+                        Stay Updated
+                    </p>
+                    <p className={`text-xs leading-relaxed tracking-wide ${sub}`}>
+                        Latest drops + artist news. No spam. Unsubscribe anytime.
+                    </p>
+
+                    <div className="flex flex-col gap-2 mt-1">
+                        <div className={`flex items-center border-2 ${dark ? 'border-gray-700 bg-black' : 'border-gray-400 bg-white'} focus-within:border-[#00ff88] transition-colors duration-0`}>
+                            <div className={`w-9 flex items-center justify-center flex-shrink-0 ${sub}`}>
+                                <Mail size={13} />
+                            </div>
+                            <input
+                                type="email"
+                                placeholder="your@email.com"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                className={`flex-1 bg-transparent outline-none text-xs py-2 pr-2 font-mono ${inputBg.split(' ').filter(c => c.startsWith('text-') || c.startsWith('placeholder-')).join(' ')}`}
+                                style={{ fontFamily: "'Courier New', monospace" }}
+                            />
+                        </div>
+                        <button
+                            className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-black tracking-widest uppercase transition-none"
+                            style={{ background: '#00ff88', color: '#000' }}
+                            onMouseEnter={e => e.currentTarget.style.background = '#00e07a'}
+                            onMouseLeave={e => e.currentTarget.style.background = '#00ff88'}
+                            onMouseDown={e => e.currentTarget.style.background = '#00c96e'}
+                            onMouseUp={e => e.currentTarget.style.background = '#00e07a'}
+                        >
+                            Subscribe <ArrowRight size={13} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── Bottom bar ── */}
+            <div className={`flex flex-col sm:flex-row items-center justify-between gap-2 px-7 py-4 ${dark ? 'bg-black' : 'bg-gray-50'}`}>
+                <p className={`text-xs tracking-widest uppercase ${sub}`}>
+                    © {new Date().getFullYear()} MusicMenia. All rights reserved.
+                </p>
+                <a
+                    href="http://linkedin.com/in/nikhil-tiwari-53743b339"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-xs tracking-widest uppercase underline underline-offset-4 ${dark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-black'}`}
+                    style={{ fontFamily: "'Courier New', monospace" }}
+                >
+                    Developed by Nikhil Tiwari
+                </a>
+                <p className={`text-xs tracking-widest uppercase ${sub}`}>
+                    Made with <span style={{ color: '#00ff88' }}>♪</span> for music lovers
+                </p>
             </div>
         </footer>
     )

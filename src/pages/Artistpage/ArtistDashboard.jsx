@@ -9,18 +9,11 @@ import {
 } from "lucide-react";
 
 const quickActions = [
-  { label: "Upload Track", icon: Plus, path: "/create-music", color: "emerald" },
-  { label: "Music Feed", icon: Radio, path: "/Local-Feed", color: "blue" },
-  { label: "My Album", icon: ListMusic, path: "/album", color: "violet" },
-  { label: "My Posts", icon: Mic2, path: "/your-post", color: "orange" },
+  { label: "Upload Track", icon: Plus, path: "/create-music" },
+  { label: "Music Feed", icon: Radio, path: "/Local-Feed" },
+  { label: "My Album", icon: ListMusic, path: "/album" },
+  { label: "My Posts", icon: Mic2, path: "/your-post" },
 ];
-
-const colorMap = {
-  emerald: "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border-emerald-500/20",
-  blue: "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border-blue-500/20",
-  violet: "bg-violet-500/10 text-violet-400 hover:bg-violet-500/20 border-violet-500/20",
-  orange: "bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 border-orange-500/20",
-};
 
 const weekData = [
   { day: "Mon", views: 45, plays: 20 },
@@ -33,18 +26,11 @@ const weekData = [
 ];
 
 const stats = [
-  { label: "Total Views", value: "2.4K", change: "+12%", icon: Eye, color: "blue" },
-  { label: "Total Plays", value: "1.1K", change: "+8%", icon: Music2, color: "emerald" },
-  { label: "Tracks", value: "14", change: "+2", icon: ListMusic, color: "violet" },
-  { label: "Trending", value: "#3", change: "↑4", icon: TrendingUp, color: "orange" },
+  { label: "Total Views", value: "2.4K", change: "+12%", icon: Eye },
+  { label: "Total Plays", value: "1.1K", change: "+8%", icon: Music2 },
+  { label: "Tracks", value: "14", change: "+2", icon: ListMusic },
+  { label: "Trending", value: "#3", change: "↑4", icon: TrendingUp },
 ];
-
-const statColor = {
-  blue: { bg: "bg-blue-500/10", text: "text-blue-400" },
-  emerald: { bg: "bg-emerald-500/10", text: "text-emerald-400" },
-  violet: { bg: "bg-violet-500/10", text: "text-violet-400" },
-  orange: { bg: "bg-orange-500/10", text: "text-orange-400" },
-};
 
 export default function ArtistDashboard() {
   const { user } = useAuth();
@@ -54,11 +40,13 @@ export default function ArtistDashboard() {
 
   const maxViews = Math.max(...weekData.map(d => d.views));
 
-  const card = dark ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200";
-  const sub = dark ? "text-gray-400" : "text-gray-500";
+  const bg = dark ? "bg-zinc-950 text-white" : "bg-white text-black";
+  const card = `border-2 border-black shadow-[4px_4px_0_#000] ${dark ? "bg-zinc-900" : "bg-white"}`;
+  const sub = dark ? "text-zinc-400" : "text-zinc-500";
+  const btn = `border-2 border-black shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`;
 
   return (
-    <div className={`min-h-screen transition-colors ${dark ? "bg-gray-950 text-white" : "bg-gray-50 text-gray-900"}`}>
+    <div className={`min-h-screen ${bg}`}>
       <Navbar />
 
       <div className="pt-20 px-4 sm:px-6 max-w-6xl mx-auto pb-16">
@@ -66,14 +54,17 @@ export default function ArtistDashboard() {
         {/* ── Header ── */}
         <div className="flex items-center justify-between mb-8 mt-2">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold">
-              Hey, {user?.username || "Musician"} 👋
-            </h1>
-            <p className={`text-sm mt-0.5 ${sub}`}>Here's what's happening with your music</p>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-2 h-8 bg-yellow-400 border-2 border-black" />
+              <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tight font-mono">
+                Hey, {user?.username || "Musician"}
+              </h1>
+            </div>
+            <p className={`text-xs font-mono ml-5 ${sub}`}>Here's what's happening with your music</p>
           </div>
           <button
             onClick={() => navigate("/create-music")}
-            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-emerald-500/25 active:scale-95"
+            className={`flex items-center gap-2 bg-yellow-400 text-black px-4 py-2.5 text-sm font-black uppercase tracking-widest font-mono ${btn}`}
           >
             <Plus size={15} /> Upload
           </button>
@@ -81,80 +72,84 @@ export default function ArtistDashboard() {
 
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-          {stats.map(({ label, value, change, icon: Icon, color }) => (
-            <div key={label} className={`rounded-2xl border p-4 ${card}`}>
+          {stats.map(({ label, value, change, icon: Icon }, i) => (
+            <div key={label} className={`${card} p-4`}>
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-2 rounded-lg ${statColor[color].bg}`}>
-                  <Icon size={15} className={statColor[color].text} />
+                <div className={`w-8 h-8 border-2 border-black flex items-center justify-center
+                  ${dark ? "bg-zinc-800" : "bg-zinc-100"}`}>
+                  <Icon size={14} className={dark ? "text-zinc-300" : "text-black"} />
                 </div>
-                <span className="text-xs font-semibold text-emerald-400">{change}</span>
+                <span className="text-xs font-black font-mono bg-yellow-400 border border-black px-1.5 py-0.5">
+                  {change}
+                </span>
               </div>
-              <p className="text-2xl font-bold">{value}</p>
-              <p className={`text-xs mt-0.5 ${sub}`}>{label}</p>
+              <p className="text-2xl font-black font-mono">{value}</p>
+              <p className={`text-xs mt-0.5 font-mono uppercase tracking-wider ${sub}`}>{label}</p>
             </div>
           ))}
         </div>
 
-        {/* ── Middle: Chart + Actions ── */}
+        {/* ── Chart + Actions ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
 
           {/* Chart */}
-          <div className={`lg:col-span-2 rounded-2xl border p-5 ${card}`}>
-            <div className="flex items-center justify-between mb-6">
+          <div className={`lg:col-span-2 ${card} p-5`}>
+            <div className="flex items-center justify-between mb-5 pb-3 border-b-2 border-black">
               <div>
-                <h2 className="font-bold text-sm">Weekly Overview</h2>
-                <p className={`text-xs mt-0.5 ${sub}`}>Views vs Plays this week</p>
+                <h2 className="font-black text-sm uppercase tracking-widest font-mono">Weekly Overview</h2>
+                <p className={`text-xs mt-0.5 font-mono ${sub}`}>Views vs Plays this week</p>
               </div>
-              <div className="flex items-center gap-3 text-xs">
+              <div className="flex items-center gap-3 text-xs font-mono font-bold">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" /> Views
+                  <span className="w-3 h-3 border-2 border-black bg-zinc-400 inline-block" /> Views
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> Plays
+                  <span className="w-3 h-3 border-2 border-black bg-yellow-400 inline-block" /> Plays
                 </span>
               </div>
             </div>
 
-            {/* Bar chart */}
+            {/* Bar chart — brutalist: square bars, black borders */}
             <div className="flex items-end gap-2 h-40">
               {weekData.map((d) => (
                 <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full flex items-end gap-0.5 h-32">
-                    {/* Views bar */}
+                  <div className="w-full flex items-end gap-[2px] h-32">
                     <div
-                      className="flex-1 rounded-t-md bg-blue-500/30 hover:bg-blue-500/50 transition-all"
+                      className={`flex-1 border-2 border-black transition-all ${dark ? "bg-zinc-600" : "bg-zinc-300"}`}
                       style={{ height: `${(d.views / maxViews) * 100}%` }}
                       title={`Views: ${d.views}`}
                     />
-                    {/* Plays bar */}
                     <div
-                      className="flex-1 rounded-t-md bg-emerald-500/50 hover:bg-emerald-500/70 transition-all"
+                      className="flex-1 border-2 border-black bg-yellow-400 transition-all"
                       style={{ height: `${(d.plays / maxViews) * 100}%` }}
                       title={`Plays: ${d.plays}`}
                     />
                   </div>
-                  <span className={`text-[10px] ${sub}`}>{d.day}</span>
+                  <span className={`text-[10px] font-black font-mono uppercase ${sub}`}>{d.day}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className={`rounded-2xl border p-5 ${card}`}>
-            <h2 className="font-bold text-sm mb-1">Quick Actions</h2>
-            <p className={`text-xs mb-4 ${sub}`}>Jump to what you need</p>
+          <div className={`${card} p-5`}>
+            <div className="pb-3 mb-4 border-b-2 border-black">
+              <h2 className="font-black text-sm uppercase tracking-widest font-mono">Quick Actions</h2>
+              <p className={`text-xs mt-0.5 font-mono ${sub}`}>Jump to what you need</p>
+            </div>
 
-            <div className="space-y-2">
-              {quickActions.map(({ label, icon: Icon, path, color }) => (
+            <div className="space-y-2.5">
+              {quickActions.map(({ label, icon: Icon, path }) => (
                 <button
                   key={label}
                   onClick={() => navigate(path)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all
-                    ${colorMap[color]}`}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm font-black uppercase tracking-wide font-mono
+                    border-2 border-black ${btn}
+                    ${dark ? "bg-zinc-800 text-white hover:bg-zinc-700" : "bg-white text-black hover:bg-zinc-50"}`}
                 >
-                  <Icon size={15} />
+                  <Icon size={14} />
                   {label}
-                  <ArrowUpRight size={13} className="ml-auto opacity-60" />
+                  <ArrowUpRight size={12} className="ml-auto" />
                 </button>
               ))}
             </div>
@@ -162,26 +157,24 @@ export default function ArtistDashboard() {
         </div>
 
         {/* ── User Card ── */}
-        <div className={`rounded-2xl border p-4 flex items-center gap-4 ${card}`}>
-          <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+        <div className={`${card} p-4 flex items-center gap-4`}>
+          <div className="w-11 h-11 border-2 border-black bg-yellow-400 flex items-center justify-center text-black font-black text-sm flex-shrink-0">
             {user?.username?.charAt(0).toUpperCase() || "U"}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-semibold text-sm truncate">{user?.username}</p>
-            <p className={`text-xs truncate ${sub}`}>{user?.email}</p>
+            <p className="font-black text-sm uppercase tracking-tight font-mono truncate">{user?.username}</p>
+            <p className={`text-xs font-mono truncate ${sub}`}>{user?.email}</p>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
-            <span className={`text-xs px-2.5 py-1 rounded-lg font-semibold border
-              ${user?.role === "artist"
-                ? "bg-orange-500/10 text-orange-400 border-orange-500/20"
-                : "bg-blue-500/10 text-blue-400 border-blue-500/20"}`}>
+            <span className={`text-xs px-2.5 py-1 border-2 border-black font-black uppercase tracking-wider font-mono
+              ${user?.role === "artist" ? "bg-yellow-400 text-black" : "bg-zinc-200 text-black"}`}>
               {user?.role || "user"}
             </span>
             <button
               onClick={() => navigate("/profile")}
-              className={`text-xs px-3 py-1 rounded-lg border font-medium transition-all
-                ${dark ? "border-gray-700 hover:bg-gray-800 text-gray-300" : "border-gray-200 hover:bg-gray-100 text-gray-600"}`}>
-              View Profile
+              className={`text-xs px-3 py-1.5 font-black uppercase tracking-wider font-mono ${btn}
+                border-2 border-black ${dark ? "bg-zinc-800 text-white" : "bg-white text-black"}`}>
+              Profile ↗
             </button>
           </div>
         </div>

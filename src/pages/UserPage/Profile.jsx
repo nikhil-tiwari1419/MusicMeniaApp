@@ -16,11 +16,11 @@ export default function Profile() {
       .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : 'Unknown';
 
-  const roleStyle = {
-    admin: dark ? 'bg-rose-500/15 text-rose-400 border-rose-500/30' : 'bg-rose-50 text-rose-600 border-rose-200',
-    artist: dark ? 'bg-violet-500/15 text-violet-400 border-violet-500/30' : 'bg-violet-50 text-violet-600 border-violet-200',
-    user: dark ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border-emerald-200',
-  }[user.role];
+  const roleColors = {
+    admin: 'bg-red-400 text-black',
+    artist: 'bg-yellow-400 text-black',
+    user: 'bg-white text-black',
+  }[user.role] || 'bg-white text-black';
 
   const roleIcon = {
     admin: <Shield size={11} />,
@@ -49,92 +49,92 @@ export default function Profile() {
     }
   ];
 
+  const bg = dark ? 'bg-zinc-950' : 'bg-white';
+  const card = `border-2 border-black shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-900' : 'bg-white'}`;
+  const labelText = dark ? 'text-zinc-400' : 'text-zinc-500';
+  const valueText = dark ? 'text-white' : 'text-black';
+  const divider = `border-t-2 ${dark ? 'border-zinc-800' : 'border-black/10'}`;
+
   return (
     <>
-      <style>{`
-        @keyframes slideUp {
-          from { opacity:0; transform:translateY(16px); }
-          to   { opacity:1; transform:translateY(0); }
-        }
-        .s { animation: slideUp 0.4s cubic-bezier(.22,1,.36,1) forwards; opacity:0; }
-      `}</style>
-
       <Navbar />
 
-      <main className={`min-h-screen pt-20 pb-12 px-4 transition-colors ${dark ? 'bg-gray-950' : 'bg-gray-50'}`}>
-
-        {/* bg glow */}
-        <div className={`fixed top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full blur-[120px] pointer-events-none
-          ${dark ? 'bg-emerald-500/5' : 'bg-emerald-400/10'}`} />
-
+      <main className={`min-h-screen pt-20 pb-12 px-4 font-mono ${bg}`}>
         <div className="max-w-lg mx-auto space-y-4">
 
           {/* Avatar Card */}
-          <div className={`s rounded-2xl overflow-hidden border shadow-lg
-            ${dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+          <div className={card}>
 
-            {/* Banner */}
-            <div className="relative h-24">
-              <div className={`absolute inset-0 ${dark
-                ? 'bg-gradient-to-br from-emerald-900/50 via-gray-900 to-gray-800'
-                : 'bg-gradient-to-br from-emerald-100 via-teal-50 to-gray-100'}`} />
-              <div className={`absolute -top-4 -right-4 w-28 h-28 rounded-full blur-2xl
-                ${dark ? 'bg-emerald-500/15' : 'bg-emerald-300/30'}`} />
-            </div>
+            {/* Banner — thick black stripe */}
+            <div className={`h-5 w-full border-b-2 border-black ${
+              user.role === 'admin' ? 'bg-red-400' :
+              user.role === 'artist' ? 'bg-yellow-400' : 'bg-zinc-300'
+            }`} />
 
-            <div className="px-5 pb-5">
-              {/* Avatar + Name row */}
-              <div className="flex items-end justify-between -mt-8 mb-4">
-                <div className="relative">
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center
-                    text-xl font-bold border-4 shadow-md
-                    ${dark
-                      ? 'bg-gradient-to-br from-emerald-800 to-teal-900 text-emerald-200 border-gray-900'
-                      : 'bg-gradient-to-br from-emerald-400 to-teal-500 text-white border-white'}`}>
-                    {initials}
-                  </div>
-                  <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-gray-900" />
+            <div className="px-5 pb-5 pt-4">
+              <div className="flex items-start justify-between mb-4">
+
+                {/* Avatar — hard square */}
+                <div className={`w-16 h-16 border-2 border-black shadow-[3px_3px_0_#000]
+                  flex items-center justify-center text-2xl font-black
+                  ${dark ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-black'}`}>
+                  {initials}
                 </div>
 
-                <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold
-                  px-2.5 py-1 rounded-lg border uppercase tracking-wider ${roleStyle}`}>
+                {/* Role badge */}
+                <span className={`inline-flex items-center gap-1.5 text-[11px] font-black
+                  px-3 py-1.5 border-2 border-black uppercase tracking-widest
+                  shadow-[2px_2px_0_#000] ${roleColors}`}>
                   {roleIcon} {user.role}
                 </span>
               </div>
 
-              <h1 className={`text-lg font-bold capitalize ${dark ? 'text-white' : 'text-gray-900'}`}>
-                {user.username}
-              </h1>
-              <p className="text-sm text-gray-400">{user.email}</p>
+              {/* Active dot + name */}
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2.5 h-2.5 bg-yellow-400 border-2 border-black flex-shrink-0" />
+                <h1 className={`text-xl font-black uppercase tracking-tight ${valueText}`}>
+                  {user.username}
+                </h1>
+              </div>
+              <p className={`text-xs font-mono ${labelText}`}>{user.email}</p>
             </div>
           </div>
 
           {/* Info Sections */}
           {sections.map(({ title, rows }, si) => (
-            <div
-              key={title}
-              className={`s rounded-2xl border shadow-sm
-                ${dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}
-              style={{ animationDelay: `${(si + 1) * 80}ms` }}
-            >
-              <div className={`px-5 py-3 border-b text-xs font-semibold uppercase tracking-widest
-                ${dark ? 'border-gray-800 text-gray-500' : 'border-gray-100 text-gray-400'}`}>
-                {title}
+            <div key={title} className={card}>
+
+              {/* Section header */}
+              <div className={`px-5 py-2.5 border-b-2 border-black
+                ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-white">
+                  {title}
+                </p>
               </div>
 
-              <div className="px-5 py-2 divide-y divide-gray-800/50">
-                {rows.map(({ icon, label, value }) => (
-                  <div key={label} className="flex items-center justify-between py-3 gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0
-                        ${dark ? 'bg-gray-800 text-gray-400' : 'bg-gray-100 text-gray-500'}`}>
+              <div className="px-5 py-1">
+                {rows.map(({ icon, label, value }, i) => (
+                  <div key={label}
+                    className={`flex items-center justify-between py-3 gap-3 ${i !== 0 ? divider : ''}`}>
+
+                    {/* Label side */}
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-7 h-7 border-2 border-black flex items-center justify-center flex-shrink-0
+                        ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-zinc-100 text-black'}`}>
                         {icon}
                       </div>
-                      <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{label}</p>
+                      <p className={`text-xs uppercase tracking-wider font-bold ${labelText}`}>{label}</p>
                     </div>
-                    <p className={`text-sm font-medium capitalize truncate max-w-[55%] text-right
-                      ${dark ? 'text-gray-200' : 'text-gray-800'}`}>
-                      {value}
+
+                    {/* Value side */}
+                    <p className={`text-sm font-black capitalize truncate max-w-[55%] text-right ${valueText}`}>
+                      {label === 'Account Status'
+                        ? <span className="inline-flex items-center gap-1.5">
+                            <span className="w-2 h-2 bg-yellow-400 border border-black inline-block" />
+                            {value}
+                          </span>
+                        : value
+                      }
                     </p>
                   </div>
                 ))}

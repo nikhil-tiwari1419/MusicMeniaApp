@@ -189,15 +189,15 @@ export default function LocalFeed() {
                 <div className={`sticky top-13 z-20 backdrop-blur-lg border-b ${headerBg}`}>
                     <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
-                            <h1 className={`text-2xl font-bold tracking-tight ${text}`}>
+                            <h1 className={`text-2xl font-mono tracking-tight ${text}`}>
                                 Local Feed
                                 {pagination && (
                                     <span className={`ml-2 text-sm font-normal ${sub}`}>
-                                        {pagination.total} tracks
+                                        {pagination.total} Tracks
                                     </span>
                                 )}
                             </h1>
-                            <p className={`text-sm ${sub}`}>Discover music from artists around you</p>
+                            <p className={`text-sm font-mono ${sub}`}>Discover music from artists around you</p>
                         </div>
 
                         {/* Search input */}
@@ -212,7 +212,7 @@ export default function LocalFeed() {
                                 placeholder="Search songs or artists..."
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
-                                className={`w-full pl-10 pr-4 py-2 rounded-xl border text-sm outline-none
+                                className={`font-mono w-full pl-10 pr-4 py-2 border text-sm outline-none
                                     transition-all focus:ring-2 focus:ring-emerald-500/50 ${inputBg}`}
                             />
                         </div>
