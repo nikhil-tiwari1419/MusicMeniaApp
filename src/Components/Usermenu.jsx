@@ -58,8 +58,8 @@ function UserMenu() {
 
     const isArtist = user?.role === 'artist';
 
-    const menuItem = `w-full font-mono flex items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-wide
-        border-b-2 border-black transition-colors cursor-pointer text-left`;
+    const menuItem = `w-full  flex items-center gap-3 px-3 py-2.5 text-sm font-semibold  tracking-wide
+        border-b-2  ${dark ? "border-white" : " border-black"}transition-colors cursor-pointer text-left`;
 
     return (
         <div className="relative" ref={menuRef}>
@@ -67,24 +67,24 @@ function UserMenu() {
             {/* Avatar button */}
             <button
                 onClick={() => setOpen(!open)}
-                className={`w-9 h-9 border-2 border-black flex items-center justify-center text-sm font-black font-mono
-                    shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
-                    ${open ? 'bg-yellow-400 text-black shadow-none translate-x-[2px] translate-y-[2px]' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
+                className={`w-9 h-9 border-2 rounded  flex items-center justify-center text-sm font-black font-mono
+                    shadow-[2px_2px] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
+                    ${open ? 'bg-gray-400 text-black shadow-none translate-x-[2px] translate-y-[2px]' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black border-black'}`}
             >
                 {getInitials(user.username)}
             </button>
 
             {/* Dropdown */}
             {open && (
-                <div className={`absolute right-0 top-12 w-56 border-2 border-black shadow-[4px_4px_0_#000] z-50 overflow-hidden
-                    ${dark ? 'bg-zinc-900' : 'bg-white'}`}
+                <div className={`absolute rounded right-0 top-12 w-59 border-2  shadow-[4px_4px] z-50 overflow-hidden
+                    ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}
                 >
                     {/* User info header */}
-                    <div className={`px-4 py-3 border-b-2 border-black ${dark ? 'bg-zinc-800' : 'bg-yellow-400'}`}>
-                        <p className={`text-sm font-black uppercase tracking-tight font-mono truncate ${dark ? 'text-white' : 'text-black'}`}>
+                    <div className={`px-4 py-3 border-b-2 border-black ${dark ? 'bg-cyan-800' : 'bg-violet-400'}`}>
+                        <p className={`text-sm font-black uppercase tracking-wider truncate ${dark ? 'text-white' : 'text-black'}`}>
                             {user.username}
                         </p>
-                        <p className={`text-xs font-mono truncate mt-0.5 ${dark ? 'text-zinc-400' : 'text-black/60'}`}>
+                        <p className={`text-sm truncate mt-0.5 ${dark ? 'text-zinc-200' : 'text-black'}`}>
                             {user.email}
                         </p>
                     </div>

@@ -107,9 +107,8 @@ export default function Navbar() {
         return (
             <button
                 onClick={toggleTheme}
-                className={`w-8 h-8 flex items-center justify-center border-2 border-black cursor-pointer
-                    shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
-                    ${dark ? 'bg-zinc-800 text-yellow-400' : 'bg-white text-black'}`}
+                className={`w-8 h-8 flex items-center rounded-xl justify-center border-2 cursor-pointer shadow-[2px_2px_0] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
+                    ${dark ? 'bg-zinc-800 text-blue-400 border-blue ' : 'bg-white text-black'}`}
             >
                 {dark ? <Sun size={14} /> : <Moon size={14} />}
             </button>
@@ -124,11 +123,11 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <button onClick={() => navigate('/')}
-                        className="flex items-center gap-0 flex-shrink-0 border-2 border-black shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
-                        <div className="w-10 h-10 bg-yellow-400 border-r-2 border-black flex items-center justify-center">
+                        className={`flex rounded-xl items-center gap-0 flex-shrink-0 border-2 ${dark ? "border-blue-600":"border-black"}  shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all `}>
+                        <div className="w-10 h-10 bg-blue-400 border-r-2 rounded-xl border-black flex items-center justify-center">
                             <Music2 size={20} className="text-black" />
                         </div>
-                        <span className="px-3 text-base font-black uppercase tracking-tight font-mono">MusicMenia</span>
+                        <span className="px-3 text-xl font-black uppercase tracking-tight font-mono">MusicMenia</span>
                     </button>
 
                     {/* Desktop nav */}
@@ -139,7 +138,7 @@ export default function Navbar() {
                                     key={link.label}
                                     type="button"
                                     onClick={() => scrollToSection(link.section)}
-                                    className={`px-4 py-2 text-sm font-mono transition-colors border-r-2 border-black last:border-r-0
+                                    className={`px-4 py-2 text-xl font-mono transition-colors border-r-2 border-black last:border-r-0
                                         ${activeSection === link.section ? activeLink : inactiveLink}`}
                                 >
                                     {link.label}
@@ -147,7 +146,7 @@ export default function Navbar() {
                             ) : (
                                 <NavLink key={link.label} to={link.path}
                                     className={({ isActive }) =>
-                                        `px-4 py-2 text-sm font-mono transition-colors border-r-2 border-black last:border-r-0
+                                        `px-4 py-2 text-xl font-mono transition-colors border-r-2 border-black last:border-r-0
                                         ${isActive ? activeLink : inactiveLink}`
                                     }>
                                     {link.label}
@@ -163,11 +162,11 @@ export default function Navbar() {
                         <button
                             onClick={() => setOpen(o => !o)}
                             aria-label="Open menu"
-                            className={`md:hidden w-8 h-8 flex items-center justify-center border-2 border-black
+                            className={`md:hidden w-9 h-9 rounded flex items-center justify-center border-2 border-black
                                 shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
                                 ${dark ? 'bg-zinc-800' : 'bg-white'}`}
                         >
-                            <Menu size={16} />
+                            <Menu size={20} />
                         </button>
                     </div>
                 </div>
@@ -184,17 +183,17 @@ export default function Navbar() {
             {/* ── Drawer ── */}
             <div
                 ref={drawerRef}
-                className={`fixed top-0 right-0 h-full w-72 z-[70] border-l-4 border-black md:hidden
+                className={`fixed top-0 right-0 h-full w-90 z-[70] border-l-4 border-black md:hidden
                     flex flex-col transition-transform duration-200 ease-in-out
                     ${drawerBg} ${text}
                     ${open ? 'translate-x-0' : 'translate-x-full'}`}
             >
                 {/* Drawer header */}
                 <div className={`flex items-center justify-between px-4 h-14 border-b-2 border-black flex-shrink-0
-                    ${dark ? 'bg-zinc-800' : 'bg-yellow-400'}`}>
+                    ${dark ? 'bg-zinc-800' : 'bg-blue-400'}`}>
                     <div className="flex items-center gap-2">
-                        <Music2 size={18} className="text-black" />
-                        <span className="text-base font-black uppercase tracking-tight font-mono text-black">MusicMenia</span>
+                        <Music2 size={18} className={`${dark ?"text-white":"text-black"}`} />
+                        <span className="text-base font-black uppercase tracking-tight font-mono ">MusicMenia</span>
                     </div>
                     <button
                         onClick={() => setOpen(false)}
@@ -204,6 +203,7 @@ export default function Navbar() {
                         <X size={15} className="text-black" />
                     </button>
                 </div>
+                    <hr />
 
                 {/* Nav links */}
                 <nav className="flex-1 overflow-y-auto flex flex-col border-b-2 border-black">
@@ -215,8 +215,8 @@ export default function Navbar() {
                                 onClick={() => scrollToSection(link.section)}
                                 className={`flex items-center px-5 py-3.5 text-sm font-mono font-bold border-b-2 border-black transition-colors
                                     ${activeSection === link.section
-                                        ? 'bg-yellow-400 text-black'
-                                        : dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
+                                        ? 'bg-green-400 text-black'
+                                        : dark ? 'text-zinc-300 hover:bg-blue-200' : 'text-black hover:bg-green-500'}`}
                             >
                                 {link.label}
                             </button>
@@ -224,9 +224,9 @@ export default function Navbar() {
                             <NavLink key={link.label} to={link.path}
                                 onClick={() => setOpen(false)}
                                 className={({ isActive }) =>
-                                    `flex items-center px-5 py-3.5 text-sm font-mono font-bold border-b-2 border-black transition-colors
+                                    `flex items-center px-5 py-3.5 text-sm  font-bold border-b-2 border-black transition-colors
                                     ${isActive
-                                        ? 'bg-yellow-400 text-black'
+                                        ? 'bg-green-400 text-black'
                                         : dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`
                                 }>
                                 {link.label}
@@ -239,9 +239,9 @@ export default function Navbar() {
                 <div className="px-4 pb-8 pt-4 flex flex-col gap-3">
 
                     {user ? (
-                        <div className={`flex items-center gap-3 p-3 border-2 border-black shadow-[3px_3px_0_#000]
+                        <div className={`flex items-center gap-3 p-3 border-2 rounded-xl border-black shadow-[3px_3px_0_#000]
                             ${dark ? 'bg-zinc-800' : 'bg-white'}`}>
-                            <div className="w-9 h-9 bg-yellow-400 border-2 border-black flex items-center justify-center text-black text-sm font-black flex-shrink-0">
+                            <div className="w-9 h-9 bg-yellow-400 border-2 border-black flex items-center justify-center text-black text-xl font-black flex-shrink-0">
                                 {user.username?.[0]?.toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">

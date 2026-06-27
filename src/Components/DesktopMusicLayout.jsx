@@ -347,9 +347,9 @@ function EqBars({ size = 'sm' }) {
         : [[5, 12], [8, 4], [12, 7], [7, 14]];
 
     return (
-        <div className="flex gap-[2px] items-end">
+        <div className="flex gap-[4px] items-end">
             {heights.map(([a], i) => (
-                <div key={i} className={`${w} bg-yellow-400 rounded-none`}
+                <div key={i} className={`${w} bg-blue-400 rounded-xl `}
                     style={{
                         animation: `mBar${i + 1} 0.7s ease-in-out infinite`,
                         animationDelay: `${i * 0.12}s`,
@@ -504,22 +504,22 @@ export default function DesktopMusicLayout({
                         {/* Center: Controls */}
                         <div className="flex items-center gap-2">
                             <button onClick={toggleRepeat}
-                                className={`w-8 h-8 border-2 border-black flex items-center justify-center transition-all
+                                className={`w-8 h-8 border-2 flex items-center justify-center rounded transition-all
                                     ${repeat
-                                        ? 'bg-yellow-400 shadow-[2px_2px_0_#000]'
-                                        : dark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-zinc-100'}`}>
-                                <Repeat size={13} className={dark && !repeat ? 'text-zinc-400' : 'text-black'} />
+                                        ? 'bg-violet-400 shadow-[2px_2px]'
+                                        : dark ? 'bg-zinc-800 border-white' : 'bg-white border-black '}`}>
+                                <Repeat size={16} className={dark && !repeat ? 'text-zinc-400' : 'text-black'} />
                             </button>
 
                             <button onClick={playPrevious} disabled={!hasPrev}
-                                className={`w-8 h-8 border-2 border-black flex items-center justify-center transition-all disabled:opacity-25
-                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'bg-white hover:bg-zinc-100 text-black'}`}>
+                                className={`w-8 h-8 rounded border-2 border-black flex items-center justify-center transition-all disabled:opacity-25
+                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'bg-white hover:bg-blue-100 text-black'}`}>
                                 <SkipBack size={13} className="fill-current" />
                             </button>
 
                             <button onClick={() => togglePlay(playingTrack)}
-                                className={`w-11 h-11 border-2 border-black flex items-center justify-center
-                                    bg-yellow-400 shadow-[3px_3px_0_#000] hover:shadow-[1px_1px_0_#000]
+                                className={`w-11 h-11 rounded border-2 ${dark ? "bg-green-500  border-white":"bg-pink-400 border-black"}  flex items-center justify-center
+                                    shadow-[3px_3px] hover:shadow-[1px_1px]
                                     hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-100`}>
                                 {isPlaying
                                     ? <Pause size={18} className="text-black fill-black" />
@@ -527,23 +527,23 @@ export default function DesktopMusicLayout({
                             </button>
 
                             <button onClick={playNext} disabled={!hasNext}
-                                className={`w-8 h-8 border-2 border-black flex items-center justify-center transition-all disabled:opacity-25
-                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'bg-white hover:bg-zinc-100 text-black'}`}>
+                                className={`w-8 h-8 rounded border-2 ${dark ?"":""} border-black flex items-center justify-center transition-all disabled:opacity-25
+                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'bg-white hover:bg-blue-100 text-black'}`}>
                                 <SkipForward size={13} className="fill-current" />
                             </button>
                         </div>
 
                         {/* Right: Volume + Time */}
                         <div className="w-1/3 flex justify-end items-center gap-3">
-                            <Volume2 size={14} className={dark ? 'text-zinc-400' : 'text-black'} />
-                            <div className="w-24 relative h-2 border border-black bg-zinc-200">
-                                <div className="h-full bg-black transition-all duration-100"
+                            <Volume2 size={20} className={dark ? 'text-zinc-200' : 'text-black'} />
+                            <div className="w-24 relative h-2 rounded  border">
+                                <div className={` h-full ${dark ? "bg-white border-white":"bg-black border-black"} transition-all duration-100 `}
                                     style={{ width: `${volume * 100}%` }} />
                                 <input type="range" min="0" max="1" step="0.02" value={volume}
                                     onChange={e => handleVolume(parseFloat(e.target.value))}
                                     className="absolute inset-0 w-full opacity-0 cursor-pointer h-full" />
                             </div>
-                            <span className={`text-xs tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
+                            <span className={`text-sm tabular-nums font-mono ${dark ? 'text-zinc-200' : 'text-black'}`}>
                                 {fmt(currentTime)} / {fmt(duration)}
                             </span>
                         </div>
@@ -600,7 +600,7 @@ export default function DesktopMusicLayout({
                             </p>
                             {search && (
                                 <button onClick={() => setSearch('')}
-                                    className={`${btnBase} px-4 py-2 bg-yellow-400`}>
+                                    className={`${btnBase} px-4 py-2 bg-violet-400`}>
                                     Clear Search
                                 </button>
                             )}
@@ -640,7 +640,7 @@ export default function DesktopMusicLayout({
                                             <button key={p} onClick={() => setPage(p)}
                                                 className={`w-9 h-9 border-2 border-black font-black text-sm transition-all duration-100
                                                     ${page === p
-                                                        ? 'bg-yellow-400 shadow-[2px_2px_0_#000]'
+                                                        ? 'bg-blue-400 shadow-[2px_2px_0_#000]'
                                                         : dark ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-white text-black hover:bg-zinc-100'}`}>
                                                 {p}
                                             </button>

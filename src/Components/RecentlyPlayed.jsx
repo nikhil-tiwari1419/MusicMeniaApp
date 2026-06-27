@@ -41,7 +41,7 @@ function RecentlyPlayed() {
             <div
                 onClick={() => togglePlay(song, recentlyPlayed)}
                 className={`group flex items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
-                    shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]
+                    shadow-[3px_3px_0_#000]
                     ${isActive && isPlaying
                         ? 'bg-yellow-400'
                         : dark ? 'bg-zinc-900 hover:bg-zinc-800' : 'bg-white hover:bg-zinc-50'
@@ -64,16 +64,16 @@ function RecentlyPlayed() {
                         </div>
                     </div>
                     <div className="flex flex-col min-w-0">
-                        <h3 className={`font-black text-xs uppercase tracking-tight truncate font-mono
+                        <h3 className={`font-black text-xs uppercase tracking-tight truncate font-semibold
                             ${isActive && isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                             {song.title}
                         </h3>
-                        <p className={`text-[10px] font-mono truncate ${isActive && isPlaying ? 'text-black/60' : 'text-zinc-400'}`}>
+                        <p className={`text-[10px] font-semibold truncate ${isActive && isPlaying ? 'text-black/60' : 'text-zinc-400'}`}>
                             {song.artist?.username || "Unknown Artist"}
                         </p>
                     </div>
                 </div>
-                <span className={`text-[10px] font-black flex-shrink-0 ml-2 font-mono
+                <span className={`text-[10px] font-black flex-shrink-0 ml-2 font-semibold
                     ${isActive && isPlaying ? 'text-black' : dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                     #{index + 1}
                 </span>
@@ -85,10 +85,10 @@ function RecentlyPlayed() {
         <div className={`flex flex-col items-center justify-center py-15 border-2 border-black border-dashed
             ${dark ? 'bg-zinc-900' : 'bg-zinc-50'}`}>
             <Music2 size={28} className={`mb-2 ${dark ? 'text-zinc-600' : 'text-zinc-400'}`} />
-            <h3 className={`text-xs font-black uppercase tracking-widest font-mono ${dark ? 'text-white' : 'text-black'}`}>
+            <h3 className={`text-xs font-black uppercase tracking-widest font-semibold ${dark ? 'text-white' : 'text-black'}`}>
                 No Recently Played
             </h3>
-            <p className={`text-[10px] font-mono mt-1 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+            <p className={`text-[10px] font-semibold mt-1 ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                 Songs you play will appear here
             </p>
         </div>
@@ -109,11 +109,11 @@ function RecentlyPlayed() {
                 <History size={16} className={open ? 'text-yellow-400' : dark ? 'text-white' : 'text-black'} />
             </div>
             <div>
-                <h2 className={`text-xs font-black uppercase tracking-[0.15em] font-mono
+                <h2 className={`text-xs font-black uppercase tracking-[0.15em] font-semibold
                     ${open ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                     Recently Played
                 </h2>
-                <p className={`text-[10px] font-mono ${open ? 'text-black/60' : 'text-zinc-400'}`}>
+                <p className={`text-[10px] font-semibold ${open ? 'text-black/60' : 'text-zinc-400'}`}>
                     Your latest tracks
                 </p>
             </div>
@@ -133,7 +133,7 @@ function RecentlyPlayed() {
                         {/* Header */}
                         <div className={`flex items-center justify-between px-4 py-2.5 border-b-2 border-black
                             ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono text-white">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] font-semibold text-white">
                                 Recently Played
                             </span>
                             <button
@@ -179,10 +179,10 @@ function RecentlyPlayed() {
                                         <History size={14} className="text-yellow-400" />
                                     </div>
                                     <div>
-                                        <h2 className="text-xs font-black uppercase tracking-widest font-mono text-white">
+                                        <h2 className="text-xs font-black uppercase tracking-widest font-semibold text-white">
                                             Recently Played
                                         </h2>
-                                        <p className="text-[10px] font-mono text-zinc-400">Your latest tracks</p>
+                                        <p className="text-[10px] font-semibold text-zinc-400">Your latest tracks</p>
                                     </div>
                                 </div>
                                 <button
