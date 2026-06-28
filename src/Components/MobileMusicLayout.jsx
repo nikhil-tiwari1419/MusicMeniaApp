@@ -7,7 +7,7 @@ function PlayingBars() {
             {[1, 2, 3, 4].map(i => (
                 <div
                     key={i}
-                    className="w-[5px] bg-green-400"
+                    className="w-[5px] bg-red-400"
                     style={{
                         animation: `mBar${i} 0.7s ease-in-out infinite`,
                         animationDelay: `${i * 0.12}s`,
@@ -26,7 +26,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
     return (
         <button
             onClick={() => onPlay(music)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors border-b-2 border-black
+            className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors 
                 ${isPlaying
                     ? 'bg-blue-400'
                     : dark ? 'bg-zinc-900 active:bg-zinc-800' : 'bg-white active:bg-zinc-100'}`}
@@ -40,7 +40,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
             </div>
 
             {/* Thumbnail — square, hard border */}
-            <div className="w-16 h-16 border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px_0_#000]">
+            <div className="w-14 h-14 rounded border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px]">
                 {music.thumbnail
                     ? <img src={music.thumbnail} alt={music.title} loading="lazy" className="w-full h-full object-cover" />
                     : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
@@ -51,7 +51,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
 
             {/* Title + artist */}
             <div className="flex-1 min-w-0">
-                <p className={`text-sm font-black  tracking-wider truncate leading-tight 
+                <p className={`text-sm font-semibold tracking-wider truncate leading-tight 
                     ${isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                     {music.title}
                 </p>
@@ -115,7 +115,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
             <div className="relative h-1.5 w-full bg-zinc-300 border-black">
                 <div className="h-full bg-blue-400 transition-all duration-100"
                     style={{ width: `${progress}%` }} />
-                    {/* <h1 className='bg-amber-400 rounded-full'>u</h1> */}
+               
                     <div
                     className={`
                     absolute
@@ -144,7 +144,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
             <div className="flex items-center gap-3 px-4 py-3 pb-5">
 
                 {/* Thumbnail */}
-                <div className="w-10 h-10 border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px_0_#000]">
+                <div className="w-10 h-10 border-2 rounded overflow-hidden flex-shrink-0 shadow-[2px_2px]">
                     {track.thumbnail
                         ? <img src={track.thumbnail} alt={track.title} className="w-full h-full object-cover" />
                         : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
@@ -263,8 +263,8 @@ export default function MobileMusicLayout({
             {!musicLoad && !error && filtered.length > 0 && (
                 <>
                     {/* Section label */}
-                    <div className={`px-4 pt-16 pb-2 border-b-2  ${dark ? 'bg-zinc-900' : 'bg-zinc-100 border-black'}`}>
-                        <p className={`text-sm font-black uppercase tracking-[0.2em] font-mono ${sub}`}>
+                    <div className={`px-4 pt-16 pb-2   ${dark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+                        <p className={`text-sm   tracking-[0.2em]  ${sub}`}>
                             {filtered.length} tracks
                         </p>
                     </div>
@@ -304,7 +304,7 @@ export default function MobileMusicLayout({
                 </>
             )}
               <section>
-                        <div className={`px-4 py-2 border-2 border-black mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                        <div className={`px-2 py-2 border-2 rounded-r-xl   mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black border-black'}`}>
                             <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
                                 Playlists · Recently Played · Albums
                             </h2>

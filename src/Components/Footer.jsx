@@ -41,7 +41,6 @@ export default function Footer() {
     return (
         <footer
             className={`${bg} border-t-4 ${borderClr} transition-colors duration-0`}
-            style={{ fontFamily: "'Courier New', monospace" }}
         >
             <div
                 className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b-4 ${borderClr}`}
@@ -81,8 +80,8 @@ export default function Footer() {
                                 rel="noopener noreferrer"
                                 aria-label={label}
                                 className={`w-8 h-8 flex items-center justify-center border sm:border-3 rounded   transition-none ${dark
-                                    ? 'border-gray-700 text-gray-400 hover:border-[#00ff88] hover:text-[#00ff88]'
-                                    : 'border-gray-900 text-black hover:border-[#1400cc] hover:text-[#cc6600]'
+                                    ? 'border-gray-700 bg-cyan-800 text-white hover:bg-[#00ff88] hover:text-[#020705]'
+                                    : 'border-gray-900 bg-blue-800 text-white hover:bg-[#1400cc] hover:text-[#fffefe]'
                                     }`}
                             >
                                 <Icon size={18} />
@@ -181,13 +180,13 @@ export default function Footer() {
                     href="http://linkedin.com/in/nikhil-tiwari-53743b339"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-sm px-3 rounded py-1 font-black tracking-widest uppercase underline underline-offset-4 ${dark ? 'text-gray-500 hover:text-gray-300' : 'text-black hover:text-blue-500'}`}
+                    className={`text-sm px-3 rounded py-1 tracking-widest uppercase underline underline-offset-4 ${dark ? 'text-gray-500 hover:text-gray-300 ' : 'text-black hover:text-blue-500'}`}
 
                 >
                     Developed by Nikhil Tiwari
                 </a>
                 <p className={`text-xl  flex  font-black ${sub}`}>
-                    Made with <span className='px-2'> <Music2 size={16} /></span>for music lovers
+                    Every Playlist <span className='px-2'> <Music2 size={16} /></span>Tells a Story
                 </p>
             </div>
         </footer>

@@ -192,6 +192,9 @@ export function AudioProvider({ children }) {
         const audio = audioRef.current;
         if (!audio) return;
 
+        console.log("track", track);
+        console.log("trackk.url", track.url)
+
         // Update queue if a new list context is provided
         if (newQueue && Array.isArray(newQueue) && newQueue.length > 0) {
             setQueue(newQueue);
@@ -207,8 +210,9 @@ export function AudioProvider({ children }) {
             // Different track → switch
             audio.src = track.url;
             audio.load();
-            // audio.play().catch(() => {});
-
+            audio.play().catch((error) => {
+                console.log("Play error:",error)
+            });
             setplayingTrack(track);
             addToRecentlyPlayed(track);
             setProgress(0);
@@ -271,6 +275,7 @@ export function AudioProvider({ children }) {
             volume,
             queue,
             repeat,
+            setQueue,
             togglePlay,
             playNext,
             playPrevious,

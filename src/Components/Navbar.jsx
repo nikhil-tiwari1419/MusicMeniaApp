@@ -213,7 +213,7 @@ export default function Navbar() {
                                 key={link.label}
                                 type="button"
                                 onClick={() => scrollToSection(link.section)}
-                                className={`flex items-center px-5 py-3.5 text-sm font-mono font-bold border-b-2 border-black transition-colors
+                                className={`flex items-center px-5 py-3.5 text-sm  font-bold border-b-2 border-black transition-colors
                                     ${activeSection === link.section
                                         ? 'bg-green-400 text-black'
                                         : dark ? 'text-zinc-300 hover:bg-blue-200' : 'text-black hover:bg-green-500'}`}

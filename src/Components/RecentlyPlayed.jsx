@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useAudio } from "../Context/AudioContext";
 import { useTheme } from "../Context/Theme";
-import { History, X, Play, Pause, Music2 } from "lucide-react";
+import { History, X, Play, Pause, Music2, Flag } from "lucide-react";
 
 function RecentlyPlayed() {
     const { recentlyPlayed, togglePlay, playingTrack, isPlaying } = useAudio();
@@ -20,35 +20,43 @@ function RecentlyPlayed() {
         return () => { document.body.style.overflow = ""; };
     }, [open]);
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
-        };
-        const handleEscape = (e) => { if (e.key === "Escape") setOpen(false); };
-        if (open) {
-            document.addEventListener("mousedown", handleClickOutside);
-            document.addEventListener("keydown", handleEscape);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("keydown", handleEscape);
-        };
-    }, [open]);
+    // useEffect(() => {
+    //     const handleClickOutside = (e) => {
+    //         if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
+    //     };
+    //     const handleEscape = (e) => { if (e.key === "Escape") setOpen(false); };
+    //     if (open) {
+    //         document.addEventListener("mousedown", handleClickOutside);
+    //         document.addEventListener("keydown", handleEscape);
+    //     }
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //         document.removeEventListener("keydown", handleEscape);
+    //     };
+    // }, [open]);
 
     const SongCard = ({ song, index }) => {
         const isActive = playingTrack?._id === song._id;
+
+        const handlePlay = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            // console.log("handlePlay called")
+            togglePlay(song, recentlyPlayed);
+            setTimeout(() => setOpen(false), 150);  // 150ms 
+        }
         return (
             <div
-                onClick={() => togglePlay(song, recentlyPlayed)}
+                onClick={handlePlay}
                 className={`group flex items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
-                    shadow-[3px_3px_0_#000]
+                    shadow-[3px_3px]
                     ${isActive && isPlaying
                         ? 'bg-yellow-400'
                         : dark ? 'bg-zinc-900 hover:bg-zinc-800' : 'bg-white hover:bg-zinc-50'
                     }`}>
                 <div className="flex items-center gap-3">
                     <div className="relative flex-shrink-0">
-                        <div className="w-10 h-10 border-2 border-black overflow-hidden">
+                        <div className="w-10 h-10 border-2 border-black overflow-hidden rounded">
                             {song.thumbnail
                                 ? <img src={song.thumbnail} alt={song.title} loading="lazy" className="w-full h-full object-cover" />
                                 : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
@@ -56,7 +64,7 @@ function RecentlyPlayed() {
                                 </div>
                             }
                         </div>
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 ">
                             {isActive && isPlaying
                                 ? <Pause size={14} className="text-white fill-white" />
                                 : <Play size={14} className="text-white fill-white" />
@@ -64,7 +72,7 @@ function RecentlyPlayed() {
                         </div>
                     </div>
                     <div className="flex flex-col min-w-0">
-                        <h3 className={`font-black text-xs uppercase tracking-tight truncate font-semibold
+                        <h3 className={`font-black text-xs tracking-tight truncate font-semibold
                             ${isActive && isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                             {song.title}
                         </h3>
@@ -73,7 +81,7 @@ function RecentlyPlayed() {
                         </p>
                     </div>
                 </div>
-                <span className={`text-[10px] font-black flex-shrink-0 ml-2 font-semibold
+                <span className={`text-sm font-black flex-shrink-0 ml-2 font-semibold
                     ${isActive && isPlaying ? 'text-black' : dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                     #{index + 1}
                 </span>
@@ -97,23 +105,23 @@ function RecentlyPlayed() {
     const Trigger = () => (
         <div
             onClick={() => setOpen(prev => !prev)}
-            className={`flex items-center gap-3 p-3 cursor-pointer border-2 border-black transition-all duration-100
-                shadow-[4px_4px_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]
+            className={`flex rounded items-center gap-3 p-3 cursor-pointer border-2 border-black transition-all duration-100
+                shadow-[4px_4px] 
                 ${open
                     ? 'bg-yellow-400'
                     : dark ? 'bg-zinc-800' : 'bg-white'
                 }`}
         >
-            <div className={`w-9 h-9 border-2 border-black flex items-center justify-center flex-shrink-0
+            <div className={`w-9 rounded h-9 border-2 border-black flex items-center justify-center flex-shrink-0
                 ${open ? 'bg-black' : dark ? 'bg-zinc-800' : 'bg-zinc-100'}`}>
-                <History size={16} className={open ? 'text-yellow-400' : dark ? 'text-white' : 'text-black'} />
+                <History size={25}  className={open ? 'text-yellow-400' : dark ? 'text-white' : 'text-black'} />
             </div>
             <div>
-                <h2 className={`text-xs font-black uppercase tracking-[0.15em] font-semibold
+                <h2 className={`text-sm font-black uppercase tracking-wide font-semibold
                     ${open ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                     Recently Played
                 </h2>
-                <p className={`text-[10px] font-semibold ${open ? 'text-black/60' : 'text-zinc-400'}`}>
+                <p className={`text-sm font-semibold ${open ? 'text-black/60' : 'text-zinc-400'}`}>
                     Your latest tracks
                 </p>
             </div>
@@ -127,13 +135,13 @@ function RecentlyPlayed() {
                 <Trigger />
 
                 {open && (
-                    <div className={`absolute top-full left-0 mt-5 w-full z-50 border-2 border-black shadow-[6px_6px_0_#000] overflow-hidden
-                        ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+                    <div className={`absolute rounded top-full left-0 mt-5 w-full z-50 border-2  shadow-[6px_6px] overflow-hidden
+                        ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}>
 
                         {/* Header */}
                         <div className={`flex items-center justify-between px-4 py-2.5 border-b-2 border-black
                             ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] font-semibold text-white">
+                            <span className="text-xl font-black uppercase tracking-[0.2em] font-semibold text-white">
                                 Recently Played
                             </span>
                             <button
@@ -161,53 +169,60 @@ function RecentlyPlayed() {
             <div className="sm:hidden">
                 <Trigger />
 
-                {open && (
-                    <div
-                        className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 p-4"
-                        onClick={() => setOpen(false)}
-                    >
-                        <div
-                            onClick={(e) => e.stopPropagation()}
-                            className={`w-full max-w-lg max-h-[90vh] flex flex-col border-2 border-black shadow-[6px_6px_0_#000]
-                                ${dark ? 'bg-zinc-900' : 'bg-white'}`}
-                        >
-                            {/* Modal header */}
-                            <div className={`flex items-center justify-between px-5 py-3 border-b-2 border-black flex-shrink-0
-                                ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 border-2 border-white flex items-center justify-center">
-                                        <History size={14} className="text-yellow-400" />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-xs font-black uppercase tracking-widest font-semibold text-white">
-                                            Recently Played
-                                        </h2>
-                                        <p className="text-[10px] font-semibold text-zinc-400">Your latest tracks</p>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => setOpen(false)}
-                                    className="w-8 h-8 border-2 border-white flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors"
-                                >
-                                    <X size={14} />
-                                </button>
-                            </div>
+               {open && (
+    <>
+        {/* Backdrop */}
+        <div
+            className="fixed inset-0 z-[99] bg-black/80"
+            onClick={() => setOpen(false)}
+        />
 
-                            {/* Modal content */}
-                            <div className="overflow-y-auto flex-1 p-4 space-y-2">
-                                {recentlyPlayed?.length > 0
-                                    ? recentlyPlayed.map((song, index) => (
-                                        <SongCard key={song._id} song={song} index={index} />
-                                    ))
-                                    : <EmptyState />
-                                }
-                            </div>
-                        </div>
+        {/* Modal — fixed bottom */}
+        <div
+            className={`fixed rounded-xl bottom-4 left-4 right-4 z-[100] max-h-[90vh] flex flex-col 
+                border-2 border-black shadow-[6px_6px]
+                ${dark ? 'bg-blue-900' : 'bg-gray-500'}`}
+        >
+            {/* Modal header */}
+            <div className={`flex rounded-xl items-center justify-between px-5 py-3 border-b-2 border-black flex-shrink-0
+                ${dark ? 'bg-zinc-800' : 'bg-blue-700'}`}>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 border-2 rounded border-white flex items-center justify-center">
+                        <History strokeWidth={3.5} size={25} className="text-yellow-400" />
                     </div>
-                )}
+                    <div>
+                        <h2 className="text-sm font-black uppercase tracking-widest font-mono text-white">
+                            Recently Played
+                        </h2>
+                        <p className="text-sm font-mono text-zinc-400">Your latest tracks</p>
+                    </div>
+                </div>
+                <button
+                    onClick={() => setOpen(false)}
+                    className="w-10 h-10 border-2 rounded-2xl border-white flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors"
+                >
+                    <X size={26} strokeWidth={3.75} />
+                </button>
+            </div>
+
+            {/* <X strokeWidth={2.75} /> */}
+
+            {/* Modal content */}
+            <div className="overflow-y-auto flex-1 p-4 space-y-2">
+                {recentlyPlayed?.length > 0
+                    ? recentlyPlayed.map((song, index) => (
+                        <SongCard key={song._id} song={song} index={index} />
+                    ))
+                    : <EmptyState />
+                }
+            </div>
+        </div>
+    </>
+)}
             </div>
         </>
     );
 }
 
 export default RecentlyPlayed;
+

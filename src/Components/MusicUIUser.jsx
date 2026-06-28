@@ -8,7 +8,7 @@ function MusicUIUser() {
 
     return (
         <>
-            <div className=''>
+            <div className='px-4'>
                 <RecentlyPlayed />
             </div>
         </>
