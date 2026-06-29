@@ -20,21 +20,6 @@ function RecentlyPlayed() {
         return () => { document.body.style.overflow = ""; };
     }, [open]);
 
-    // useEffect(() => {
-    //     const handleClickOutside = (e) => {
-    //         if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
-    //     };
-    //     const handleEscape = (e) => { if (e.key === "Escape") setOpen(false); };
-    //     if (open) {
-    //         document.addEventListener("mousedown", handleClickOutside);
-    //         document.addEventListener("keydown", handleEscape);
-    //     }
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //         document.removeEventListener("keydown", handleEscape);
-    //     };
-    // }, [open]);
-
     const SongCard = ({ song, index }) => {
         const isActive = playingTrack?._id === song._id;
 
@@ -48,7 +33,7 @@ function RecentlyPlayed() {
         return (
             <div
                 onClick={handlePlay}
-                className={`group flex items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
+                className={`group flex rounded-xl items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
                     shadow-[3px_3px]
                     ${isActive && isPlaying
                         ? 'bg-yellow-400'
@@ -106,7 +91,6 @@ function RecentlyPlayed() {
         <div
             onClick={() => setOpen(prev => !prev)}
             className={`flex rounded items-center gap-3 p-3 cursor-pointer border-2 border-black transition-all duration-100
-                shadow-[4px_4px] 
                 ${open
                     ? 'bg-yellow-400'
                     : dark ? 'bg-zinc-800' : 'bg-white'
@@ -180,7 +164,7 @@ function RecentlyPlayed() {
         {/* Modal — fixed bottom */}
         <div
             className={`fixed rounded-xl bottom-4 left-4 right-4 z-[100] max-h-[90vh] flex flex-col 
-                border-2 border-black shadow-[6px_6px]
+                border-2
                 ${dark ? 'bg-blue-900' : 'bg-gray-500'}`}
         >
             {/* Modal header */}

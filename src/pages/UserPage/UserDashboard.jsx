@@ -26,7 +26,8 @@ export default function UserDashboard() {
     const navigate = useNavigate()
     const dark = theme === 'dark'
 
-    const bg = dark ? 'bg-zinc-950' : 'bg-white'
+
+    const bg = dark ? 'bg-blue-900':'bg-zinc-100'
     const text = dark ? 'text-white' : 'text-black'
     const sub = dark ? 'text-zinc-400 text-xl' : 'text-black text-xl'
     const card = `border-2 border-black rounded-xl shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-800' : 'bg-white'}`
@@ -36,7 +37,7 @@ export default function UserDashboard() {
         <>
             <Navbar />
 
-            <main className={`min-h-screen ${bg} ${text} font-mono`}>
+            <main className={`min-h-screen  ${text} font-mono ${bg}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-16 flex flex-col gap-8">
 
                     {/* ── Hero ── */}
@@ -48,14 +49,14 @@ export default function UserDashboard() {
 
                         <div className="px-6 py-10 sm:px-10 sm:py-12">
                             {/* Badge */}
-                            <span className="inline-flex items-center gap-1.5 text-xl font-black uppercase tracking-[0.2em]
+                            {/* <span className="inline-flex items-center gap-1.5 text-xl font-black uppercase tracking-[0.2em]
                                 px-3 py-1.5 border-2 border-black bg-blue-400 rounded-xl text-black mb-6">
                                 <Music2 size={25} /> MusicMenia
-                            </span>
+                            </span> */}
 
                             <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight leading-tight mb-3">
                                 Welcome back,{' '}
-                                <span className={`bg-red-400 rounded-xl px-2 border-2 ${dark ? "border-white":"border-black"}  inline-block`}>
+                                <span className={`bg-red-400 rounded px-2 border-2 border-none ${dark ? "border-white":"border-black"}  inline-block`}>
                                     {user?.username || 'Listener'}
                                 </span>
                             </h1>
@@ -66,7 +67,7 @@ export default function UserDashboard() {
 
                             <button
                                 onClick={() => navigate('/Local-Feed')}
-                                className={`flex items-center gap-2 px-5 py-2.5 bg-black text-white text-sm font-black uppercase tracking-widest ${btn}`}
+                                className={`flex items-center gap-2 px-5 py-2.5 ${dark ? "bg-white text-black":"  bg-black text-white "}  text-sm font-black uppercase tracking-widest ${btn}`}
                             >
                                 <Play size={19} className="fill-white" /> Start Listening
                             </button>

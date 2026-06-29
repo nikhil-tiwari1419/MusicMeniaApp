@@ -115,24 +115,24 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
             <div className="relative h-1.5 w-full bg-zinc-300 border-black">
                 <div className="h-full bg-blue-400 transition-all duration-100"
                     style={{ width: `${progress}%` }} />
-               
-                    <div
+
+                <div
                     className={`
                     absolute
                     top-1/2
                     h-4
                     w-4
                     border-2
-                    ${dark ? " bg-white":"bg-blue-900"}
+                    ${dark ? " bg-white" : "bg-blue-900"}
                     rounded-full
                     -translate-y-1/2
                     -translate-x-1/2
                     pointer-event-none
 `}
-                    style={{left: `${progress}%` }}
-                    />
+                    style={{ left: `${progress}%` }}
+                />
 
-                 
+
                 <input
                     type="range" min="0" max="100"
                     value={Math.round(progress)} step="0.5"
@@ -179,7 +179,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
 
                 {/* Play/Pause */}
                 <button onClick={() => onToggle(track)}
-                    className={` w-11 h-11 border-2 rounded ${dark ?"":"border-black" } bg-yellow-400 flex items-center justify-center flex-shrink-0
+                    className={` w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
                         shadow-[3px_3px] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all `}>
                     {isActuallyPlaying
                         ? <Pause size={18} className="text-black fill-black" />
@@ -205,7 +205,7 @@ export default function MobileMusicLayout({
     progress, currentTime, duration, handleSeek, isPlaying,
     likedSongs = [], onToggleLike
 }) {
-    const sub = dark ? 'text-zinc-400' : 'text-zinc-500';
+    const sub = dark ? 'text-blue-400' : 'text-zinc-500';
 
     const currentQueueIndex = queue?.length > 0 && playingTrack
         ? queue.findIndex(t => t._id === playingTrack._id) : -1;
@@ -239,9 +239,10 @@ export default function MobileMusicLayout({
             )}
 
             {/* Empty state */}
+
             {!musicLoad && !error && filtered.length === 0 && (
-                <div className={`mx-4 mt-8 border-2 border-black shadow-[4px_4px_0_#000] text-center py-16 px-6
-                    ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+                <div className={`mx-4 mt-17 border-2 rounded-xl shadow-[4px_4px] text-center py-16 px-6
+                    ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}>
                     <Music2 size={36} className={`mx-auto mb-3 ${sub}`} />
                     <p className={`text-base font-black uppercase tracking-tight mb-1 font-mono ${dark ? 'text-white' : 'text-black'}`}>
                         {search ? 'No results' : 'No music yet'}
@@ -251,7 +252,7 @@ export default function MobileMusicLayout({
                     </p>
                     {search && (
                         <button onClick={() => setSearch('')}
-                            className="mt-4 px-4 py-2 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase
+                            className="mt-4 rounded px-4 py-2 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase
                                 shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
                             Clear Search
                         </button>
@@ -287,7 +288,7 @@ export default function MobileMusicLayout({
 
                     {/* Pagination */}
                     {pagination?.totalPages > 1 && (
-                        <div className="flex items-center justify-between px-4 py-5 mt-2">
+                        <div className="flex items-center justify-between px-4 py-8 mt-2">
                             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                                 className={`${pgBtn} ${dark ? 'bg-zinc-500 text-white' : 'bg-violet-500 text-black'}`}>
                                 ← Prev
@@ -303,14 +304,9 @@ export default function MobileMusicLayout({
                     )}
                 </>
             )}
-              <section>
-                        <div className={`px-2 py-2 border-2 rounded-r-xl   mb-4 w-fit ${dark ? 'bg-zinc-800' : 'bg-black border-black'}`}>
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
-                                Playlists · Recently Played · Albums
-                            </h2>
-                        </div>
-                        <MusicUIUser />
-                    </section>
+            <section>
+                <MusicUIUser />
+            </section>
 
             <MobilePlayerBar
                 track={playingTrack}
