@@ -183,7 +183,7 @@ export default function Navbar() {
             {/* ── Drawer ── */}
             <div
                 ref={drawerRef}
-                className={`fixed top-0 right-0 h-full w-90 z-[70] border-l-4 border-black md:hidden
+                className={`fixed top-0 right-0 h-full w-80 z-[70]  md:hidden
                     flex flex-col transition-transform duration-200 ease-in-out
                     ${drawerBg} ${text}
                     ${open ? 'translate-x-0' : 'translate-x-full'}`}
@@ -198,9 +198,10 @@ export default function Navbar() {
                     <button
                         onClick={() => setOpen(false)}
                         aria-label="Close menu"
-                        className="w-8 h-8 flex items-center justify-center border-2 border-black bg-white hover:bg-zinc-100 transition-colors"
+                        className="w-8 h-8 flex items-center rounded-xl justify-center border-2 border-black bg-white hover:bg-zinc-100 transition-colors"
                     >
-                        <X size={15} className="text-black" />
+                        <X size={23} strokeWidth={5} className="text-black" />
+                        
                     </button>
                 </div>
                     <hr />
@@ -213,7 +214,7 @@ export default function Navbar() {
                                 key={link.label}
                                 type="button"
                                 onClick={() => scrollToSection(link.section)}
-                                className={`flex items-center px-5 py-3.5 text-sm  font-bold border-b-2 border-black transition-colors
+                                className={`flex items-center px-5 py-3.5 text-sm font-bold border-b-2 border-black transition-colors
                                     ${activeSection === link.section
                                         ? 'bg-green-400 text-black'
                                         : dark ? 'text-zinc-300 hover:bg-blue-200' : 'text-black hover:bg-green-500'}`}
@@ -224,7 +225,7 @@ export default function Navbar() {
                             <NavLink key={link.label} to={link.path}
                                 onClick={() => setOpen(false)}
                                 className={({ isActive }) =>
-                                    `flex items-center px-5 py-3.5 text-sm  font-bold border-b-2 border-black transition-colors
+                                    `flex items-center px-5 py-6.5 text-xl font-bold border-black transition-colors
                                     ${isActive
                                         ? 'bg-green-400 text-black'
                                         : dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`

@@ -1,4 +1,4 @@
-import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat } from 'lucide-react';
+import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat, MoveRight, MoveLeft } from 'lucide-react';
 import MusicUIUser from './MusicUIUser';
 
 function PlayingBars() {
@@ -212,7 +212,7 @@ export default function MobileMusicLayout({
     const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
     const hasPrev = currentQueueIndex > 0;
 
-    const pgBtn = `px-5 py-2 border-2 border-black text-sm rounded font-black uppercase tracking-widest font-mono
+    const pgBtn = `px-3 py-1  border-black text-sm rounded font-black uppercase tracking-widest font-mono
         shadow-[3px_3px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]
         transition-all disabled:opacity-30 disabled:hover:shadow-[3px_3px] disabled:hover:translate-x-0 disabled:hover:translate-y-0`;
 
@@ -221,7 +221,7 @@ export default function MobileMusicLayout({
 
             {/* Error */}
             {error && !musicLoad && (
-                <div className="mx-4 mt-4 border-2 border-black shadow-[4px_4px_0_#000] bg-red-400 p-5 text-center">
+                <div className="mx-4 mt-14 border-2 border-black shadow-[4px_4px_0_#000] bg-red-400 p-5 text-center">
                     <p className="font-black uppercase text-sm text-black mb-3">{error}</p>
                     <button onClick={fetchMusic}
                         className="px-4 py-1.5 border-2 border-black bg-black text-white text-xs font-black uppercase
@@ -291,19 +291,20 @@ export default function MobileMusicLayout({
                         <div className="flex items-center justify-between px-4 py-8 mt-2">
                             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                                 className={`${pgBtn} ${dark ? 'bg-zinc-500 text-white' : 'bg-violet-500 text-black'}`}>
-                                ← Prev
+                               <MoveLeft />
                             </button>
-                            <span className={`text-xs font-black tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
+                            <span className={` font-black tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
                                 {page} / {pagination.totalPages}
                             </span>
                             <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
                                 className={`${pgBtn} ${dark ? 'bg-violet-800 text-white' : 'bg-violet-500 text-black'}`}>
-                                Next →
+                                <MoveRight />
                             </button>
                         </div>
                     )}
                 </>
             )}
+
             <section>
                 <MusicUIUser />
             </section>
@@ -327,3 +328,4 @@ export default function MobileMusicLayout({
         </div>
     );
 }
+

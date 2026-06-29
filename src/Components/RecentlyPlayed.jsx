@@ -34,7 +34,7 @@ function RecentlyPlayed() {
             <div
                 onClick={handlePlay}
                 className={`group flex rounded-xl items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
-                    shadow-[3px_3px]
+                    shadow-[2px_2px]
                     ${isActive && isPlaying
                         ? 'bg-yellow-400'
                         : dark ? 'bg-zinc-900 hover:bg-zinc-800' : 'bg-white hover:bg-zinc-50'
@@ -157,14 +157,14 @@ function RecentlyPlayed() {
     <>
         {/* Backdrop */}
         <div
-            className="fixed inset-0 z-[99] bg-black/80"
+            className="fixed inset-0 z-[99] bg-black/70"
             onClick={() => setOpen(false)}
         />
 
         {/* Modal — fixed bottom */}
         <div
             className={`fixed rounded-xl bottom-4 left-4 right-4 z-[100] max-h-[90vh] flex flex-col 
-                border-2
+              
                 ${dark ? 'bg-blue-900' : 'bg-gray-500'}`}
         >
             {/* Modal header */}
@@ -178,7 +178,7 @@ function RecentlyPlayed() {
                         <h2 className="text-sm font-black uppercase tracking-widest font-mono text-white">
                             Recently Played
                         </h2>
-                        <p className="text-sm font-mono text-zinc-400">Your latest tracks</p>
+                        <p className="text-sm  text-zinc-400">Your latest tracks</p>
                     </div>
                 </div>
                 <button

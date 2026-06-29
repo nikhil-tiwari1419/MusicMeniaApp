@@ -11,6 +11,7 @@ const API = import.meta.env.VITE_API_URL;
 export default function LocalFeed() {
     const { theme } = useTheme();
     const dark = theme === 'dark';
+
     // Data state
     const [musics, setMusics] = useState([]);
     const [musicLoad, setMusicLoad] = useState(true);
