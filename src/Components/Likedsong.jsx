@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAudio } from "../Context/AudioContext";
 import { useTheme } from '../Context/Theme';
 import axios from 'axios';
-import Navbar from './Navbar';
+import Navbar from '../Ui/Navbar';
 import DesktopMusicLayout from "./DesktopMusicLayout";
 import MobileMusicLayout from "./MobileMusicLayout";
 
