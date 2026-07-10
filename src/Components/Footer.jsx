@@ -33,22 +33,22 @@ export default function Footer() {
     const bg = dark ? 'bg-black' : 'bg-white'
     const borderClr = dark ? 'border-white' : 'border-black'
     const text = dark ? 'text-white' : 'text-black'
-    const sub = dark ? 'text-gray-400' : 'text-gray-800 font-black'
+    const sub = dark ? 'text-gray-400' : 'text-gray-800 font-semibold'
     const colBorder = dark ? 'border-gray-600' : 'border-gray-300'
     const inputBg = dark ? 'bg-black border-gray-700 text-white placeholder-gray-600'
         : 'bg-white border-gray-400 text-black placeholder-gray-400'
 
     return (
         <footer
-            className={`${bg} border-t-4 ${borderClr} transition-colors duration-0`}
+            className={`${bg} border-t ${borderClr} transition-colors duration-0`}
         >
             <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b-4 ${borderClr}`}
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b ${borderClr}`}
             >
                 {/* ── Brand ── */}
                 <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
                     <p
-                        className="text-sm text-blue-500 font-black  uppercase "
+                        className="text-sm text-blue-500 font-semibold  uppercase "
                     >
                         MusicMenia
                     </p>
@@ -62,7 +62,7 @@ export default function Footer() {
                         >
                             <Music2 size={28} color="#000" />
                         </div>
-                        <span className={`text-xl font-black tracking-widest uppercase underline underline-offset-4 ${text}`}>
+                        <span className={`text-xl font-semibold tracking-widest uppercase underline underline-offset-4 ${text}`}>
                             MusicMenia
                         </span>
                     </button>
@@ -93,7 +93,7 @@ export default function Footer() {
                 {/* ── Explore ── */}
                 <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
                     <p
-                        className="text-sm bg-amber-300 px-3 rounded font-black tracking-widest uppercase text-black"
+                        className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"
 
                     >
                         Explore
@@ -116,7 +116,7 @@ export default function Footer() {
                 {/* ── Support ── */}
                 <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
                     <p
-                        className="text-sm bg-amber-300 px-3 rounded font-black tracking-widest uppercase text-black"
+                        className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"
 
                     >
                         Support
@@ -139,7 +139,7 @@ export default function Footer() {
                 {/* ── Newsletter ── */}
                 <div className="p-7 flex flex-col gap-4">
                     <p
-                        className="text-sm bg-amber-300 rounded px-3 font-black tracking-widest uppercase text-black"
+                        className="text-sm bg-amber-300 rounded px-3 font-semibold tracking-widest uppercase text-black"
                     >
                         Stay Updated
                     </p>
@@ -163,7 +163,7 @@ export default function Footer() {
                             />
                         </div>
                         <button
-                            className="flex rounded items-center justify-center gap-2 w-full py-2.5 text-xs font-black tracking-widest uppercase transition-none bg-blue-400"
+                            className="flex rounded items-center justify-center gap-2 w-full py-2.5 text-xs font-semibold tracking-widest uppercase transition-none bg-blue-400"
                         >
                             Subscribe <ArrowRight size={15} />
                         </button>
@@ -171,7 +171,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* ── Bottom bar ── */}
+            {/* Bottom bar */}
             <div className={`flex flex-col sm:flex-row items-center justify-between gap-2 px-7 py-4 ${dark ? 'bg-black' : 'bg-gray-50'}`}>
                 <p className={`text-sm  tracking-wider ${sub}`}>
                     © {new Date().getFullYear()} MusicMenia. All rights reserved.
@@ -185,8 +185,8 @@ export default function Footer() {
                 >
                     Developed by Nikhil Tiwari
                 </a>
-                <p className={`text-xl  flex  font-black ${sub}`}>
-                    Every Playlist <span className='px-2'> <Music2 size={16} /></span>Tells a Story
+                <p className={`text-xl  flex  font-semibold ${sub}`}>
+                    Every song <span className='px-2'> <Music2 size={26} strokeOpacity={80} /></span>Tells a Story
                 </p>
             </div>
         </footer>

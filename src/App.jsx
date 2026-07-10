@@ -28,9 +28,10 @@ const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'))
 const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
 const About = React.lazy(() => import('./pages/UserPage/About'));
 const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
-const Album       = React.lazy(() => import('./pages/UserPage/Albums/Album'));
+const Album = React.lazy(() => import('./pages/UserPage/Albums/Album'));
 const AlbumDetail = React.lazy(() => import('./pages/UserPage/Albums/AlbumDetails'));
 const Artist = React.lazy(() => import('./pages/UserPage/Artist'))
+const Musicpanal = React.lazy(() => import('./Ui/MusicPanal'))
 
 
 function AppContent() {
@@ -90,6 +91,11 @@ function AppContent() {
                     </ProtectedRoute>
                 } />
 
+                <Route path='/music_Panel' element={
+                    <ProtectedRoute>
+                        <Musicpanal />
+                    </ProtectedRoute>
+                } />
                 <Route path='/about' element={
                     <ProtectedRoute>
                         <About />

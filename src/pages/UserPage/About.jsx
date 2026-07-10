@@ -1,4 +1,4 @@
-import Navbar from '../../Components/Navbar'
+import Navbar from '../../Ui/Navbar'
 import Footer from '../../Components/Footer'
 import { useTheme } from '../../Context/Theme'
 import { Music2, Users, Headphones, Radio } from 'lucide-react'

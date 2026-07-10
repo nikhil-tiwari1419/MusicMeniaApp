@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../../Components/Navbar'
+import Navbar from '../../Ui/Navbar'
 import { useTheme } from '../../Context/Theme'
 
 function Artist() {

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import Navbar from '../../Components/Navbar'
+import Navbar from '../../Ui/Navbar'
 import { useTheme } from '../../Context/Theme'
 import { AuthContext } from '../../Context/Auth'
 import { Mail, Shield, Calendar, Music2, User, Hash, Clock } from 'lucide-react'

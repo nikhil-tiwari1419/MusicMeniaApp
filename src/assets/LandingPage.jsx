@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../Components/Navbar'
+import Navbar from '../Ui/Navbar'
 import { useTheme } from '../Context/Theme'
 import { Headset, LayoutDashboard, Globe, Frame } from 'lucide-react'
 import QnA from '../Components/QnA'

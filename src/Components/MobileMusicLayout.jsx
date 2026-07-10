@@ -1,5 +1,7 @@
 import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat, MoveRight, MoveLeft } from 'lucide-react';
 import MusicUIUser from './MusicUIUser';
+import { useNavigate } from 'react-router-dom';
+
 
 function PlayingBars() {
     return (
@@ -87,7 +89,7 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
 function MobileSkeletonRow({ dark }) {
     const base = dark ? 'bg-zinc-800' : 'bg-zinc-200';
     return (
-        <div className={`flex items-center gap-3 px-3 py-2.5 animate-pulse border-b-2 border-black ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+        <div className={`flex items-center gap-3 px-3 py-2.5 animate-pulse  ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
             <div className={`w-5 h-3 ${base}`} />
             <div className={`w-11 h-11 border-2 border-black ${base}`} />
             <div className="flex-1 space-y-2">
@@ -102,17 +104,20 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
     playNext, playPrevious, repeat, toggleRepeat, hasNext, hasPrev }) {
     if (!track) return null;
 
+    const path = useNavigate()
     function fmt(s) {
         if (!s || isNaN(s)) return '0:00';
         return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
     }
 
     return (
-        <div className={`fixed bottom-0 left-0 right-0 z-50  
+        <div 
+        onClick={()=> path('/music_Panel') }
+        className={` fixed bottom-10.5 left-0 right-0 z-5 
             ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
 
             {/* Progress bar — raw yellow fill */}
-            <div className="relative h-1.5 w-full bg-zinc-300 border-black">
+            <div className="relative mt-2 h-1.5 w-full bg-zinc-300 border-black">
                 <div className="h-full bg-blue-400 transition-all duration-100"
                     style={{ width: `${progress}%` }} />
 
@@ -141,7 +146,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                 />
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-3 pb-5">
+            <div className="flex items-center gap-3 px-4 py-1 pb-1">
 
                 {/* Thumbnail */}
                 <div className="w-10 h-10 border-2 rounded overflow-hidden flex-shrink-0 shadow-[2px_2px]">
@@ -221,7 +226,7 @@ export default function MobileMusicLayout({
 
             {/* Error */}
             {error && !musicLoad && (
-                <div className="mx-4 mt-14 border-2 border-black shadow-[4px_4px_0_#000] bg-red-400 p-5 text-center">
+                <div className="mx-4 mt-14 border bg-red-400 p-5 text-center">
                     <p className="font-black uppercase text-sm text-black mb-3">{error}</p>
                     <button onClick={fetchMusic}
                         className="px-4 py-1.5 border-2 border-black bg-black text-white text-xs font-black uppercase

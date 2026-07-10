@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import axios from 'axios';
 import { useAudio } from "../../Context/AudioContext";
 import { useTheme } from '../../Context/Theme';
-import axios from 'axios';
-import Navbar from '../../Components/Navbar';
+import Navbar from '../../Ui/Navbar';
 import DesktopMusicLayout from "../../Components/DesktopMusicLayout";
 import MobileMusicLayout from "../../Components/MobileMusicLayout";
 
@@ -159,7 +159,7 @@ export default function LocalFeed() {
 
     return (
         <>
-            {/* ── Global CSS animations (shared by both layouts) ──
+            {/*  Global CSS animations (shared by both layouts)
                 mBar1-4  : the equaliser bar bounce
                 fadeUp   : card entrance animation
                 These are here (not in layouts) because they are
@@ -182,12 +182,7 @@ export default function LocalFeed() {
 
             <main className={`min-h-screen ${bg} ${text} transition-colors duration-300`}>
 
-                {/* ════════════════════════════════════════════════
-                    STICKY HEADER  —  shared by both layouts
-                    Lives here (not in layouts) because it's truly
-                    shared and must not duplicate.
-                ════════════════════════════════════════════════ */}
-                <div className={`sticky top-13 z-20 backdrop-blur-lg border-b ${headerBg}`}>
+                <div className={`sticky top-0 z-20 backdrop-blur-lg border-b ${headerBg}`}>
                     <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                             <h1 className={`text-2xl font-mono tracking-tight ${text}`}>
@@ -220,14 +215,14 @@ export default function LocalFeed() {
                     </div>
                 </div>
 
-                {/* ════════════════════════════════════════════════
+                {/* 
                     LAYOUT COMPONENTS
                     Each handles its own visibility:
                       DesktopMusicLayout → hidden sm:block  (inside it)
                       MobileMusicLayout  → sm:hidden         (inside it)
                     So both are always rendered in the tree but only
                     one is visible at a time via CSS breakpoints.
-                ════════════════════════════════════════════════ */}
+                 */}
                 <DesktopMusicLayout {...sharedProps} />
                 <MobileMusicLayout  {...sharedProps} />
 

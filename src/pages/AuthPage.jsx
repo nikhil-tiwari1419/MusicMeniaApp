@@ -41,9 +41,9 @@ export default function AuthPage() {
     }
   }, [user, authLoading, navigate]);
 
-  // ─────────────────────────────────────────
+  // 
   // HANDLERS
-  // ─────────────────────────────────────────
+  // 
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -79,6 +79,7 @@ export default function AuthPage() {
   //  Fixed: checks result.success instead of try/catch (login/register no longer throw)
   //  Fixed: role removed from register payload
   //  Fixed: navigation uses result.data.user.role (correct shape)
+
   async function handleSubmit() {
     setLoading(true);
     try {
@@ -158,6 +159,7 @@ export default function AuthPage() {
   }
 
   //  Removed role from reset — role no longer in form state
+  
   function switchMode() {
     setIsLogin(!isLogin);
     setForm({ username: "", email: "", password: "" });

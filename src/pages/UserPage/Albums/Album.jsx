@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Disc3, Music, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
-import Navbar from '../../../Components/Navbar';
+import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 
 // ─── Constants ────────────────────────────────────────────────
@@ -200,7 +200,7 @@ function Album() {
     fetchAlbums(page);
   }, [page, fetchAlbums]);
 
-  // ── Handlers ──────────────────────────────────────────────
+  //  Handlers 
   function handlePageChange(newPage) {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -210,7 +210,7 @@ function Album() {
     navigate(`/album/${albumId}`);   // goes to AlbumDetail.jsx
   }
 
-  // ── Render ────────────────────────────────────────────────
+  //  Render 
   return (
     <>
       <Navbar />
