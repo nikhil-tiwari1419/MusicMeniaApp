@@ -194,7 +194,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Navbar from '../../Components/Navbar';
+import Navbar from '../../Ui/Navbar';
 import { useTheme } from '../../Context/Theme';
 import { Upload, Music, Image, FileText, ArrowLeft, Loader2, X } from 'lucide-react';
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 import { useTheme } from "../../Context/Theme";
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../Ui/Navbar";
 import {
   Radio, Plus, Mic2, ListMusic, TrendingUp,
   Eye, Music2, BarChart2, ArrowUpRight

@@ -4,7 +4,7 @@ import axios from 'axios'
 import {
   ArrowLeft, Disc3, Music, AlertCircle, RefreshCw, Play, Pause,
 } from 'lucide-react';
-import Navbar from '../../../Components/Navbar';
+import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 import { useAudio } from '../../../Context/AudioContext';
 
