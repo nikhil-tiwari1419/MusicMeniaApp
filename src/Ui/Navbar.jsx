@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DesktopNavbar from '../Components/DesaktopNavbar'
-import Mobilenavbar from '../Components/MobileNavbar'
+import MobileNavbar from '../Components/MobileNavbar'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/useAuth';
 import { PUBLIC_LINKS } from './Navlinks';
@@ -57,4 +57,3 @@ export default function Navbar() {
         </>
     )
 }
-
