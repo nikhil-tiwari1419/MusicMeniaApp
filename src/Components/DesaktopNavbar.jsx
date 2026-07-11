@@ -9,7 +9,7 @@ import UserMenu from '../Components/Usermenu'
 
 const SIDEBAR_WIDTH = 'w-64'
 
-export default function DesaktopNavbar() {
+export default function DesaktopNavbar({activeSection, scrollToSection }) {
     const navigate = useNavigate()
     const location = useLocation()
     const { theme, toggleTheme } = useTheme()
