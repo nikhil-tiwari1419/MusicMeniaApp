@@ -4,7 +4,7 @@ import { useTheme } from '../Context/Theme'
 import { PUBLIC_LINKS, USER_LINKS, ARTIST_LINKS } from '../Ui/Navlinks'
 import { NavLink } from 'react-router-dom'
 
-export default function Mobilenavbar({ activeSection, scrollToSection }) {
+export default function MobileNavbar({ activeSection, scrollToSection }) {
 
     const { theme } = useTheme()
     const { user } = useAuth()
