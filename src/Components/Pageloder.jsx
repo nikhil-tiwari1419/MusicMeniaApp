@@ -3,58 +3,38 @@ import { useTheme } from '../Context/Theme';
 
 function Pageloader() {
   const themeContext = useTheme();
-  // Safe fallback in case theme is not fully initialized
   const theme = themeContext ? themeContext.theme : 'light';
   const dark = theme === 'dark';
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center gap-8 transition-colors duration-300 ${
-      dark 
-        ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-black' 
-        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
-    }`}>
-      
-      {/* Audio Visualizer / Equalizer Animation */}
-      <div className='flex items-end justify-center gap-1.5 h-16 w-32'>
-        {[
-          { dur: '1.4s', del: '0.0s' },
-          { dur: '1.1s', del: '0.3s' },
-          { dur: '1.6s', del: '0.1s' },
-          { dur: '0.9s', del: '0.5s' },
-          { dur: '1.3s', del: '0.2s' },
-          { dur: '1.7s', del: '0.4s' },
-          { dur: '1.2s', del: '0.1s' },
-        ].map((anim, index) => (
+    <div className={`min-h-screen flex flex-col items-center justify-center gap-6 transition-colors duration-300
+      ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
+
+      {/* Simple equalizer — 4 bars, staggered pulse */}
+      <div className="flex items-end gap-1.5 h-10">
+        {[0, 1, 2, 3].map(i => (
           <span
-            key={index}
-            className={`w-2.5 rounded-full animate-music-wave ${
-              dark 
-                ? 'bg-gradient-to-t from-emerald-600 via-emerald-400 to-teal-300' 
-                : 'bg-gradient-to-t from-emerald-500 to-teal-400'
-            }`}
-            style={{ 
-              animationDuration: anim.dur,
-              animationDelay: anim.del,
-              height: '100%' 
-            }}
+            key={i}
+            className={`w-2 rounded-full animate-eq-pulse ${dark ? 'bg-emerald-400' : 'bg-emerald-500'}`}
+            style={{ animationDelay: `${i * 0.15}s` }}
           />
         ))}
       </div>
 
-      {/* Loading Text */}
-      <div className='text-center flex flex-col items-center'>
-        <p className={`text-xl font-bold tracking-wide ${
-          dark ? 'text-white drop-shadow-md' : 'text-gray-900 drop-shadow-sm'
-        }`}>
-          MusicMenia
-        </p>
-        <p className={`text-sm mt-2 animate-pulse font-medium ${
-          dark ? 'text-emerald-400/80' : 'text-emerald-600/80'
-        }`}>
-          Tuning in...
-        </p>
-      </div>
+      <p className={`text-sm font-semibold tracking-wide ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+        Loading MusicMenia…
+      </p>
 
+      {/* Scoped animation — no need to touch global CSS/tailwind.config */}
+      <style>{`
+        @keyframes eq-pulse {
+          0%, 100% { height: 8px; }
+          50% { height: 32px; }
+        }
+        .animate-eq-pulse {
+          animation: eq-pulse 0.9s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }

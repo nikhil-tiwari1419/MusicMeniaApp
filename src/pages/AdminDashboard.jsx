@@ -14,9 +14,9 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null); // userId of ongoing action
 
-    // ─────────────────────────────────────────
+    // 
     // Fetch all users on mount
-    // ─────────────────────────────────────────
+    // 
     useEffect(() => {
         fetchUsers();
     }, []);

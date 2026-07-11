@@ -6,6 +6,7 @@ import Pageloder from './Components/Pageloder';
 import { AuthProvider } from './Context/Auth';
 import ProtectedRoute from './Components/ProtectedRoute';
 import { AudioProvider } from './Context/AudioContext';
+import Mainlayout from './Ui/Mainlayout';
 
 
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
@@ -40,18 +41,24 @@ function AppContent() {
             <Toaster position="top-left" reverseOrder={false} />
             <Routes>
 
-                {/* Public routes */}
-                <Route path='/' element={<LandingPage />} />
+                {/* Router WITHOUT shared navbar/ Footer layout */}
                 <Route path='/unauthorized' element={<Unauthorized />} />
                 <Route path='/login' element={<Authpage />} />
                 <Route path='/forgot-password' element={<Forgotpass />} />
-
                 {/* Admin route */}
                 <Route path='/admin-dashboard' element={
                     <ProtectedRoute allowedRole="admin">
                         <AdminDashboard />
                     </ProtectedRoute>
                 } />
+                
+                {/* Now everything render it inside MainLyout's */}
+
+                <Route element={<Mainlayout/>}>
+
+                {/* Public routes */}
+                <Route path='/' element={<LandingPage />} />
+
 
                 {/* Artist routes */}
                 <Route path='/artist-Dashboard' element={
@@ -131,6 +138,9 @@ function AppContent() {
                         <Artist />
                     </ProtectedRoute>
                 } />
+
+                </Route>
+
                 <Route path='*' element={<Navigate to="/" />} />
             </Routes>
         </Suspense>

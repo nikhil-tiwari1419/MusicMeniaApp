@@ -1,7 +1,7 @@
 import { useAuth } from '../../Context/useAuth'
 import { useTheme } from '../../Context/Theme'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../../Ui/Navbar'
+// import Navbar from '../../Ui/Navbar'
 import Footer from '../../Components/Footer'
 import { Music2, Headphones, Radio, ListMusic, Play, TrendingUp, Users } from 'lucide-react'
 
@@ -23,20 +23,20 @@ export default function UserDashboard() {
     const bg = dark ? 'bg-gray-950' : 'bg-zinc-100'
     const text = dark ? 'text-white' : 'text-black'
     const sub = dark ? 'text-zinc-400 text-xl' : 'text-black text-xl'
-    const card = `border-2 border-black rounded-xl shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-800' : 'bg-white'}`
-    const btn = `border-2 rounded-xl border-black shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`
+    const card = ` rounded-xl ${dark ? 'bg-zinc-800' : 'bg-blue-500'}`
+    const btn = ` rounded-xl   hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
 
-            <main className={`min-h-screen  ${text} ${bg}`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 flex flex-col gap-8">
+            <main className={`min-h-screen   ${text} ${bg}`}>
+                <div className="max-w-7xl mx-auto px-2 sm:px-6 pt-5 flex flex-col gap-8">
 
 
                     {/* ── Hero ── */}
                     <section className={`relative rounded-xl overflow-hidden
-                        ${dark ? 'bg-zinc-900 border-white shadow-[2px_2px]' : 'bg-blue-200 border-black shadow-[2px_2px]'}`}>
+                        ${dark ? 'bg-zinc-900 border-white shadow-[2px_2px]' : 'bg-gray-200 border-black shadow-[2px_2px]'}`}>
 
                         <div className="px-6 py-4 sm:px-10 sm:py-12">
 
@@ -59,12 +59,12 @@ export default function UserDashboard() {
                                 <button
                                     key={label}
                                     onClick={() => navigate(path)}
-                                    className={`${card} ${btn} p-5 flex flex-col gap-3 text-left`}
+                                    className={`${card} ${btn} p-2 flex flex-col gap-3 text-left`}
                                 >
                                     <div>
                                         <p className={`text-xl underline underline-offset-4 tracking-wider ${text}`}>{label}</p>
 
-                                        <p className={`text-[18px] font-black mt-0.5 font-mono ${sub}`}>{desc}</p>
+                                        {/* <p className={`text-[18px] font-black mt-0.5 font-mono ${sub}`}>{desc}</p> */}
                                     </div>
                                 </button>
                             ))}

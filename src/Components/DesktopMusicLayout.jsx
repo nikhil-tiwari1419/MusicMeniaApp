@@ -92,7 +92,7 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
 
 function DesktopSkeletonCard({ dark }) {
     return (
-        <div className={`border-2 border-black shadow-[4px_4px_0_#000] animate-pulse ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+        <div className={`border-2 border-black shadow-[4px_4px_0_#000] rounded-xl animate-pulse ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
             <div className={`aspect-square border-b-2 border-black ${dark ? 'bg-zinc-800' : 'bg-zinc-200'}`} />
             <div className="p-3 space-y-2">
                 <div className={`h-3 ${dark ? 'bg-zinc-700' : 'bg-zinc-300'} w-3/4`} />
@@ -114,12 +114,12 @@ export default function DesktopMusicLayout({
     const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
     const hasPrev = currentQueueIndex > 0;
 
-    const btnBase = ` rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all duration-100
+    const btnBase = `rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all duration-100
         shadow-[3px_3px_0_#000] hover:shadow-[1px_1px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px]
         active:shadow-none active:translate-x-[3px] active:translate-y-[3px]`;
 
     return (
-        <div className={`hidden sm:block max-w-7xl mx-auto px-4 pt-20 pb-32 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
+        <div className={`hidden md:block max-w-7xl mx-auto px-4 pt-20 pb-20 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
 
             {/* ── Now Playing Bar ── */}
             {playingId && playingTrack && (
@@ -309,13 +309,13 @@ export default function DesktopMusicLayout({
                             {pagination?.totalPages > 1 && (
                                 <div className="flex items-center justify-center gap-2 mt-10">
                                     <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                                        className={`${btnBase} px-4 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
+                                        className={`rounded-full ${btnBase} px-4 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
                                         <MoveLeft strokeWidth={3} />
                                     </button>
                                     <div className="flex gap-1">
                                         {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(p => (
                                             <button key={p} onClick={() => setPage(p)}
-                                                className={`w-9 h-9 border-2 border-black font-black text-sm transition-all duration-100
+                                                className={`w-9 rounded-full h-9 border-2 border-black font-black text-sm transition-all duration-100
                                                     ${page === p
                                                         ? 'bg-blue-400 shadow-[2px_2px_0_#000]'
                                                         : dark ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-white text-black hover:bg-zinc-100'}`}>
@@ -324,7 +324,7 @@ export default function DesktopMusicLayout({
                                         ))}
                                     </div>
                                     <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
-                                        className={`${btnBase} px-4 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
+                                        className={`rounded-full ${btnBase} px-4 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
                                        <MoveRight strokeWidth={3} />
                                     </button>
                                 </div>

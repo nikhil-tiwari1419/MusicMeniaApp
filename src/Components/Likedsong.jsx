@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAudio } from "../Context/AudioContext";
 import { useTheme } from '../Context/Theme';
 import axios from 'axios';
-import Navbar from '../Ui/Navbar';
 import DesktopMusicLayout from "./DesktopMusicLayout";
 import MobileMusicLayout from "./MobileMusicLayout";
 
@@ -142,7 +141,7 @@ export default function Likedsong() {
                 .fade-up { animation: fadeUp 0.32s ease forwards; opacity:0; }
             `}</style>
 
-            <Navbar />
+         
 
             <main className={`min-h-screen ${bg} ${text} transition-colors duration-300`}>
                 <div className={`sticky top-13 z-20 backdrop-blur-lg border-b ${headerBg}`}>

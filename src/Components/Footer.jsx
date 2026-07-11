@@ -17,12 +17,6 @@ const SUPPORT = [
     { label: 'Terms of Service', path: '/terms' },
 ]
 
-const EXPLORE = [
-    { label: 'Home', path: '/' },
-    { label: 'Music Feed', path: '/music-feed' },
-    { label: 'Album', path: '/album' },
-    { label: 'About', path: '/about' },
-]
 
 export default function Footer() {
     const { theme } = useTheme()
@@ -40,18 +34,13 @@ export default function Footer() {
 
     return (
         <footer
-            className={`${bg} border-t ${borderClr} transition-colors duration-0`}
+            className={`${bg}  ${borderClr} transition-colors duration-0`}
         >
             <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b ${borderClr}`}
+                className={`grid grid-cols-1 sm:grid-cols-2 ${borderClr}`}
             >
                 {/* ── Brand ── */}
-                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
-                    <p
-                        className="text-sm text-blue-500 font-semibold  uppercase "
-                    >
-                        MusicMenia
-                    </p>
+                <div className={`p-7 ${colBorder} flex flex-col gap-4`}>
 
                     <button
                         onClick={() => navigate('/')}
@@ -71,59 +60,20 @@ export default function Footer() {
                         Discover, share, and celebrate music. A space where artists and fans collide.
                     </p>
 
-                    <div className="flex gap-1.5 mt-1">
-                        {SOCIAL.map(({ icon: Icon, url, label }) => (
-                            <a
-                                key={label}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={label}
-                                className={`w-8 h-8 flex items-center justify-center border sm:border-3 rounded   transition-none ${dark
-                                    ? 'border-gray-700 bg-cyan-800 text-white hover:bg-[#00ff88] hover:text-[#020705]'
-                                    : 'border-gray-900 bg-blue-800 text-white hover:bg-[#1400cc] hover:text-[#fffefe]'
-                                    }`}
-                            >
-                                <Icon size={18} />
-                            </a>
-                        ))}
-                    </div>
                 </div>
 
-                {/* ── Explore ── */}
-                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
-                    <p
-                        className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"
-
-                    >
-                        Explore
-                    </p>
-                    <ul className="flex flex-col">
-                        {EXPLORE.map(({ label, path }) => (
-                            <li key={label} className={`border-b ${colBorder}`}>
-                                <button
-                                    onClick={() => navigate(path)}
-                                    className={`w-full text-left text-sm py-2 tracking-wide transition-none ${sub} hover:text-[#0037ff]`}
-                                >
-                                    <span className={`${dark ? 'text-gray-700' : 'text-gray-300'}`}>→ </span>
-                                    {label}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
 
                 {/* ── Support ── */}
-                <div className={`p-7 border-r-0 lg:border-r-2 ${colBorder} flex flex-col gap-4`}>
+                <div className={`p-7 ${colBorder} flex flex-col gap-4`}>
                     <p
                         className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"
 
                     >
                         Support
                     </p>
-                    <ul className="flex flex-col">
+                    <ul className="flex justify-between">
                         {SUPPORT.map(({ label, path }) => (
-                            <li key={label} className={`border-b ${colBorder}`}>
+                            <li key={label} className={` ${colBorder}`}>
                                 <button
                                     onClick={() => navigate(path)}
                                     className={`w-full text-left text-sm py-2 tracking-wide transition-none ${sub} hover:text-[#0051ff]`}
@@ -134,40 +84,6 @@ export default function Footer() {
                             </li>
                         ))}
                     </ul>
-                </div>
-
-                {/* ── Newsletter ── */}
-                <div className="p-7 flex flex-col gap-4">
-                    <p
-                        className="text-sm bg-amber-300 rounded px-3 font-semibold tracking-widest uppercase text-black"
-                    >
-                        Stay Updated
-                    </p>
-                    <p className={`text-sm leading-relaxed tracking-wide ${sub}`}>
-                        Latest drops + artist news. No spam. Unsubscribe anytime.
-                    </p>
-
-                    <div className="flex flex-col gap-2 mt-1 ">
-                        <div className={`flex items-center rounded border-2 ${dark ? 'border-gray-700 bg-black' : 'border-gray-400 bg-white'} focus-within:border-[#0037ff] transition-colors duration-0`}>
-                            <div className={`w-9 flex items-center justify-center flex-shrink-0 ${sub}`}>
-                                <Mail size={15} />
-                            </div>
-                            <input
-                                type="email"
-                                placeholder="your@email.com"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                                className={`flex-1 bg-transparent outline-none text-xs py-2 pr-2 font-mono 
-                                    ${inputBg.split(' ')
-                                        .filter(c => c.startsWith('text-') || c.startsWith('placeholder-')).join(' ')}`}
-                            />
-                        </div>
-                        <button
-                            className="flex rounded items-center justify-center gap-2 w-full py-2.5 text-xs font-semibold tracking-widest uppercase transition-none bg-blue-400"
-                        >
-                            Subscribe <ArrowRight size={15} />
-                        </button>
-                    </div>
                 </div>
             </div>
 

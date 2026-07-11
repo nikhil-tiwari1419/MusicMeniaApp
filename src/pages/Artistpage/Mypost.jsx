@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const API = import.meta.env.VITE_API_URL;
 
-// ── Skeleton Card ─────────────────────────────────────────
+//  Skeleton Card 
 function SkeletonCard({ dark }) {
     const base = dark ? 'bg-gray-700/60' : 'bg-gray-200';
     const card = dark ? 'bg-gray-800/60 border-gray-700/40' : 'bg-white border-gray-200';

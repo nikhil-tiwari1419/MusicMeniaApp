@@ -1,4 +1,4 @@
-import Navbar from '../../Ui/Navbar'
+// import Navbar from '../../Ui/Navbar'
 import Footer from '../../Components/Footer'
 import { useTheme } from '../../Context/Theme'
 import { Music2, Users, Headphones, Radio } from 'lucide-react'
@@ -30,10 +30,10 @@ export default function About() {
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <main className={`min-h-screen ${bg} ${text} transition-colors duration-200`}>
 
-                {/* ── Hero ── */}
+                {/* Hero  */}
                 <section className="relative overflow-hidden px-4 pt-24 pb-20 text-center">
                     {/* Soft glow */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -55,7 +55,7 @@ export default function About() {
                     </div>
                 </section>
 
-                {/* ── Stats ── */}
+                {/*  Stats  */}
                 <section className="max-w-4xl mx-auto px-4 pb-16">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {STATS.map(({ label, value }) => (
@@ -67,7 +67,7 @@ export default function About() {
                     </div>
                 </section>
 
-                {/* ── Mission ── */}
+                {/*  Mission  */}
                 <section className="max-w-4xl mx-auto px-4 pb-16">
                     <div className={`rounded-3xl border p-8 sm:p-10 ${card}`}>
                         <p className={`text-xs font-semibold uppercase tracking-widest ${accent} mb-3`}>Our Mission</p>
@@ -79,7 +79,7 @@ export default function About() {
                     </div>
                 </section>
 
-                {/* ── Features ── */}
+                {/*  Features  */}
                 <section className="max-w-4xl mx-auto px-4 pb-24">
                     <h2 className={`text-xl font-bold mb-6 ${text}`}>What we offer</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

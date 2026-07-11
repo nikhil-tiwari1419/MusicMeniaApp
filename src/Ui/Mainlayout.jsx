@@ -5,8 +5,10 @@ import Footer from '../Components/Footer'
 function Mainlayout() {
   return (
     <>
-    <Navbar/>
-    <Outlet/>
+      <Navbar />
+      <div className="md:pl-64  md:pb-0">
+        <Outlet />
+      </div>
     </>
   )
 }

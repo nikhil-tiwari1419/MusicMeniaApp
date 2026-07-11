@@ -53,7 +53,7 @@ export default function Navbar() {
     return (
         <>
             <DesktopNavbar activeSection={activeSection} scrollTosection={scrollTosection} />
-            <Mobilenavbar activeSection={activeSection} scrollTosection={scrollTosection} />
+            <MobileNavbar activeSection={activeSection} scrollTosection={scrollTosection} />
         </>
     )
 }

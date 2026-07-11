@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Disc3, Music, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
-import Navbar from '../../../Ui/Navbar';
+// import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 
 // ─── Constants ────────────────────────────────────────────────
@@ -213,7 +213,7 @@ function Album() {
   //  Render 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <main className={`min-h-screen pt-20 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300
         ${dark ? 'bg-black text-white' : 'bg-white text-black'}`}

@@ -111,12 +111,12 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
     }
 
     return (
-        <div 
-        onClick={()=> path('/music_Panel') }
-        className={` fixed bottom-10.5 left-0 right-0 z-5 
+        <div
+            onClick={() => path('/music_Panel')}
+            className={` fixed bottom-10.5 left-0 right-0 z-5 
             ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
 
-            {/* Progress bar — raw yellow fill */}
+            {/* Progress bar */}
             <div className="relative mt-2 h-1.5 w-full bg-zinc-300 border-black">
                 <div className="h-full bg-blue-400 transition-all duration-100"
                     style={{ width: `${progress}%` }} />
@@ -183,7 +183,9 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                 </button>
 
                 {/* Play/Pause */}
-                <button onClick={() => onToggle(track)}
+                <button
+
+                    onClick={() => onToggle(track)}
                     className={` w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
                         shadow-[3px_3px] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all `}>
                     {isActuallyPlaying
@@ -218,11 +220,10 @@ export default function MobileMusicLayout({
     const hasPrev = currentQueueIndex > 0;
 
     const pgBtn = `px-3 py-1  border-black text-sm rounded font-black uppercase tracking-widest font-mono
-        shadow-[3px_3px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]
-        transition-all disabled:opacity-30 disabled:hover:shadow-[3px_3px] disabled:hover:translate-x-0 disabled:hover:translate-y-0`;
+        transition-all disabled:opacity-30  disabled:hover:translate-x-0 disabled:hover:translate-y-0`;
 
     return (
-        <div className={`sm:hidden pb-28 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
+        <div className={`md:hidden pb-28 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
 
             {/* Error */}
             {error && !musicLoad && (
@@ -269,7 +270,7 @@ export default function MobileMusicLayout({
             {!musicLoad && !error && filtered.length > 0 && (
                 <>
                     {/* Section label */}
-                    <div className={`px-4 pt-16 pb-2   ${dark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+                    <div className={`px-4 pt-5 pb-2   ${dark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
                         <p className={`text-sm   tracking-[0.2em]  ${sub}`}>
                             {filtered.length} tracks
                         </p>
@@ -295,14 +296,14 @@ export default function MobileMusicLayout({
                     {pagination?.totalPages > 1 && (
                         <div className="flex items-center justify-between px-4 py-8 mt-2">
                             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                                className={`${pgBtn} ${dark ? 'bg-zinc-500 text-white' : 'bg-violet-500 text-black'}`}>
-                               <MoveLeft />
+                                className={`rounded-full ${pgBtn} ${dark ? 'bg-zinc-500 text-white' : 'bg-violet-500 text-black'}`}>
+                                <MoveLeft />
                             </button>
                             <span className={` font-black tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
                                 {page} / {pagination.totalPages}
                             </span>
                             <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
-                                className={`${pgBtn} ${dark ? 'bg-violet-800 text-white' : 'bg-violet-500 text-black'}`}>
+                                className={`rounded-full ${pgBtn} ${dark ? ' bg-violet-800 text-white' : 'bg-violet-500 text-black'}`}>
                                 <MoveRight />
                             </button>
                         </div>

@@ -76,7 +76,7 @@ function UserMenu() {
 
             {/* Dropdown */}
             {open && (
-                <div className={`absolute rounded right-0 top-12 w-59 border-2  shadow-[4px_4px] z-50 overflow-hidden
+                <div className={` rounded right-0 bottom-12 w-59 border-2  z-50 overflow-hidden
                     ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}
                 >
                     {/* User info header */}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
 import { useTheme } from "../../Context/Theme";
-import Navbar from "../../Ui/Navbar";
+// import Navbar from "../../Ui/Navbar";
 import {
   Radio, Plus, Mic2, ListMusic, TrendingUp,
   Eye, Music2, BarChart2, ArrowUpRight
@@ -47,7 +47,7 @@ export default function ArtistDashboard() {
 
   return (
     <div className={`min-h-screen ${bg}`}>
-      <Navbar />
+    
 
       <div className="pt-20 px-4 sm:px-6 max-w-6xl mx-auto pb-16">
 

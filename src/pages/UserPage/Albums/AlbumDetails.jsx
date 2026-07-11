@@ -4,7 +4,7 @@ import axios from 'axios'
 import {
   ArrowLeft, Disc3, Music, AlertCircle, RefreshCw, Play, Pause,
 } from 'lucide-react';
-import Navbar from '../../../Ui/Navbar';
+// import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 import { useAudio } from '../../../Context/AudioContext';
 
@@ -165,7 +165,7 @@ function AlbumDetails() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* pb-36 leaves space for the global audio player bar at the bottom */}
       <main className={`min-h-screen pt-20 pb-36 px-4 sm:px-6 lg:px-8 transition-colors duration-300

@@ -1,13 +1,13 @@
 import React from 'react'
 import  useTheme from '../Context/Theme'
-import Navbar from '../Components/Navbar';
+// import Navbar from '../Components/Navbar';
 
 function AboutMusicMenia() {
     const theme = useTheme();
     const dark = theme === "dark";
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
     <div className={`min-h-screen ${dark ? "bg-gray-800 text-white":"bg-gray-100 text-black"}`}>
         <div className='max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
             <h1 className='text-4xl font-bold mb-6'>About Music Menia</h1>

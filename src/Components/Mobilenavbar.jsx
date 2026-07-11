@@ -15,11 +15,11 @@ export default function MobileNavbar({ activeSection, scrollToSection }) {
         ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS : PUBLIC_LINKS
 
     const navBg = dark ? 'bg-zinc-950 border-black' : 'bg-white border-black'
-    const activeLink = 'bg-blue-400 text-black'
+    const activeLink = 'bg-blue-400 rounded '
     const inactiveLink = dark ? 'text-zinc-400' : 'text-zinc-500'
 
     return (
-        <nav className={`md:hidden fixed bottom-0 left-0 w-full z-50 flex items-stretch ${navBg}`}>
+        <nav className={` md:hidden fixed bottom-0 left-0 w-full z-50 flex items-stretch ${navBg}`}>
             {navLinks.map(link => {
                 const Icon = link.icon
                 const isActive = isPublicNav
@@ -28,7 +28,7 @@ export default function MobileNavbar({ activeSection, scrollToSection }) {
 
                 const inner = (
                     <>
-                        {Icon && <Icon size={25} />}
+                        {Icon && <Icon size={25} className='text-gray-500 '/>}
                         
                     </>
                 )
