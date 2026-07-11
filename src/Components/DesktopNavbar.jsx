@@ -1,5 +1,5 @@
 import React from 'react'
-import Usermenu from '../Components/Usermenu'
+import Usermenu from './Usermenu'
 import { Sun, Moon, Music2 } from 'lucide-react'
 import { useTheme } from '../Context/Theme'
 import { useAuth } from '../Context/useAuth'
@@ -8,7 +8,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 const SIDEBAR_WIDTH = 'w-64'
 
-export default function DesaktopNavbar({ activeSection, scrollToSection }) {
+export default function DesktopNavbar({ activeSection, scrollToSection }) {
     const navigate = useNavigate()
     const location = useLocation()
     const { theme, toggleTheme } = useTheme()

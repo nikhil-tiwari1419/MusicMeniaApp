@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import DesktopNavbar from '../Components/DesaktopNavbar'
+import DesktopNavbar from '../Components/DesktopNavbar'
 import MobileNavbar from '../Components/MobileNavbar'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/useAuth';

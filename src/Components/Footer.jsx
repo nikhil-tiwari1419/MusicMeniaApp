@@ -55,19 +55,15 @@ export default function Footer() {
                             MusicMenia
                         </span>
                     </button>
-
                     <p className={`text-xl leading-relaxed ${sub}`}>
                         Discover, share, and celebrate music. A space where artists and fans collide.
                     </p>
-
                 </div>
-
 
                 {/* ── Support ── */}
                 <div className={`p-7 ${colBorder} flex flex-col gap-4`}>
                     <p
                         className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"
-
                     >
                         Support
                     </p>
@@ -108,3 +104,4 @@ export default function Footer() {
         </footer>
     )
 }
+
