@@ -1,10 +1,10 @@
 import React from 'react'
-import Usermenu from './Usermenu'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Sun, Moon, Music2 } from 'lucide-react'
 import { useTheme } from '../Context/Theme'
 import { useAuth } from '../Context/useAuth'
+import Usermenu from './Usermenu'
 import { PUBLIC_LINKS, USER_LINKS, ARTIST_LINKS } from '../Ui/Navlinks'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 const SIDEBAR_WIDTH = 'w-64'
 
@@ -28,9 +28,9 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
         return (
             <button
                 onClick={toggleTheme}
-                className={`w-8 h-8 item-center rounded-xl justify-center border-2 cursor-pointer ${dark ? 'bg-zinc-800 text-blue-400 border-blue-600' : 'bg-white text-black'}`}
+                className={`w-8 h-8 flex items-center rounded-xl justify-center border-2 cursor-pointer ${dark ? 'bg-zinc-800 text-blue-400 border-blue-600' : 'bg-white text-black'}`}
             >
-                {dark ? <Sun size={14} /> : <Moon size={14} />}
+                {dark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
         )
     }

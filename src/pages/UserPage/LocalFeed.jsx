@@ -462,7 +462,7 @@ export default function LocalFeed() {
                             <p className={`text-sm font-mono ${sub}`}>Discover music from artists around you</p>
                         </div>
 
-                        <div className="relative w-full sm:w-72">
+                        <div className="relative w-full sm:w-92">
                             <svg className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${sub}`}
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -473,8 +473,8 @@ export default function LocalFeed() {
                                 placeholder="Search songs or artists..."
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
-                                className={`font-mono w-full pl-10 pr-4 py-2 border text-sm outline-none
-                                    transition-all focus:ring-2 focus:ring-emerald-500/50 ${inputBg}`}
+                                className={`font-semibold rounded-xl w-full pl-10 pr-4 py-2 border text-sm outline-none
+                                    transition-all focus:ring-2 focus:ring-emerald-500/90 ${inputBg}`}
                             />
                         </div>
                     </div>

@@ -100,8 +100,7 @@ function MobileSkeletonRow({ dark }) {
     );
 }
 
-function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, currentTime, duration, onSeek, dark,
-    playNext, playPrevious, repeat, toggleRepeat, hasNext, hasPrev }) {
+function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, duration, onSeek, dark, toggleRepeat, hasNext, hasPrev }) {
     if (!track) return null;
 
     const path = useNavigate()
@@ -116,7 +115,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
             className={` fixed bottom-10.5 left-0 right-0 z-5 
             ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
 
-            {/* Progress bar */}
+            {/* Progress bar
             <div className="relative mt-2 h-1.5 w-full bg-zinc-300 border-black">
                 <div className="h-full bg-blue-400 transition-all duration-100"
                     style={{ width: `${progress}%` }} />
@@ -144,7 +143,7 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                     onChange={e => onSeek(parseFloat(e.target.value))}
                     className="absolute inset-0 w-full opacity-0 cursor-pointer h-6 -top-2.5"
                 />
-            </div>
+            </div> */}
 
             <div className="flex items-center gap-3 px-4 py-1 pb-1">
 
@@ -169,18 +168,18 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                 </div>
 
                 {/* Repeat */}
-                <button onClick={toggleRepeat}
+                {/* <button onClick={toggleRepeat}
                     className={`w-8 h-8 border-2 text-black rounded flex items-center justify-center flex-shrink-0 transition-all active:scale-90
                         ${repeat ? 'bg-violet-400 text-black' : dark ? 'bg-gray-500 border-blue-500 ' : 'bg-white  border-blue-500'}`}>
                     <Repeat size={17} />
-                </button>
+                </button> */}
 
                 {/* Previous */}
-                <button onClick={playPrevious} disabled={!hasPrev}
+                {/* <button onClick={playPrevious} disabled={!hasPrev}
                     className={`w-8 h-8 border-2 rounded border-green-500 flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
                         ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
                     <SkipBack size={15} className="fill-current" />
-                </button>
+                </button> */}
 
                 {/* Play/Pause */}
                 <button
@@ -195,11 +194,11 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, progress, current
                 </button>
 
                 {/* Next */}
-                <button onClick={playNext} disabled={!hasNext}
+                {/* <button onClick={playNext} disabled={!hasNext}
                     className={`w-8 h-8 border-2 border-green-500 flex rounded items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
                         ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
                     <SkipForward size={15} className="fill-current" />
-                </button>
+                </button> */}
             </div>
         </div>
     );
@@ -319,14 +318,14 @@ export default function MobileMusicLayout({
                 track={playingTrack}
                 isActuallyPlaying={!!playingId && isPlaying}
                 onToggle={togglePlay}
-                progress={progress}
+                // progress={progress}
                 currentTime={currentTime}
                 duration={duration}
                 onSeek={handleSeek}
                 dark={dark}
-                playNext={playNext}
-                playPrevious={playPrevious}
-                repeat={repeat}
+                // playNext={playNext}
+                // playPrevious={playPrevious}
+                // repeat={repeat}
                 toggleRepeat={toggleRepeat}
                 hasNext={hasNext}
                 hasPrev={hasPrev}
