@@ -15,7 +15,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
     const { user } = useAuth()
     const dark = theme === 'dark'
     const isPublicNav = !user
-
+    
     const navLink = user
         ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS : PUBLIC_LINKS
 
@@ -88,7 +88,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
                 {/* bottom controls */}
                 <div className='mt-auto p-3 flex items-center justify-between'>
                     <ThemeBtn />
-                   <Usermenu/>
+                    <Usermenu />
                 </div>
             </aside>
         </div>
