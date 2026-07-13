@@ -42,10 +42,10 @@ const features = [
 ]
 
 const steps = [
-  { label: "Sign Up", img: "/loginImg.png", icon: "🎵", desc: "Create your free MusicMenia account in seconds." },
-  { label: "Be As an User", img: "/roleImg.png", icon: "👤", desc: "Join our community of music lovers." },
-  { label: "Explore Music", img: "/exploreImg.png", icon: "🌍", desc: "Discover new artists and tracks." },
-  { label: "Explore Artists", img: "/growImg.png", icon: "🎸", desc: "Connect with your favorite musicians." },
+  { label: "Sign Up", img: "/loginImg.png", desc: "Create your free MusicMenia account in seconds." },
+  { label: "Be As an User", img: "/roleImg.png", desc: "Join our community of music lovers." },
+  { label: "Explore Music", img: "/exploreImg.png", desc: "Discover new artists and tracks." },
+  { label: "Explore Artists", img: "/growImg.png",  desc: "Connect with your favorite musicians." },
 ]
 
 export default function LandingPage() {
@@ -59,7 +59,7 @@ export default function LandingPage() {
       <Navbar />
 
       {/* ── Hero ── */}
-      <section id="home" className={`pt-24 pb-16 px-4 sm:px-6 text-center border-b
+      <section id="home" className={`pt-10 pb-16 px-4 sm:px-6 text-center border-b
         ${dark ? "bg-gray-900 border-gray-800" : "bg-gray-50 border-gray-50"}`}>
 
         <div className='flex flex-col max-w-7xl mx-auto w-full items-center justify-center sm:flex-row sm:justify-between sm:px-10 gap-6'>
@@ -85,13 +85,7 @@ export default function LandingPage() {
         <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
           <button
             onClick={() => navigate('/login')}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
-          >
-            Explore Feed
-          </button>
-          <button
-            onClick={() => navigate('/login')}
-            className={`border border-green-500 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
+            className={`border border-green-500 px-6 sm:px-8 py-3 rounded font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
               ${dark ? "text-green-400 hover:bg-green-950" : "text-green-600 hover:bg-green-50"}`}
           >
             Join Free
@@ -110,7 +104,7 @@ export default function LandingPage() {
           {features.map((f, i) => (
             <div
               key={f.label}
-              className={`rounded p-5 md:p-6  transition-colors
+              className={`rounded p-5 md:p-6 font-mono transition-colors
                 ${dark ? "bg-gray-800" : "bg-gray-50"}`}
             >
               <div className={`flex flex-col gap-4 md:gap-8 items-center
@@ -120,17 +114,14 @@ export default function LandingPage() {
                 <img
                   src={f.img}
                   alt={f.label}
-                  className="md:h-90  w-auto  object-cover rounded flex-shrink-0"
+                  className="md:h-90 sm:h-50 h-40  w-auto  object-cover rounded flex-shrink-0"
                 />
               </div>
 
-                <div className="flex-1 min-w-0"> {/* ✅ Fix 4: min-w-0 prevents flex child overflow */}
-                  <div className="flex items-center gap-3 mb-3">
+                <div className="flex-1 min-w-0"> 
+                  {/* <div className="flex items-center gap-3 mb-3">
                     <span className="text-3xl md:text-4xl">{f.icon}</span>
-                    <span className="bg-black text-white w-10 h-10 md:w-11 md:h-11 rounded-full font-bold flex items-center justify-center flex-shrink-0">
-                      {i + 1}
-                    </span>
-                  </div>
+                  </div> */}
 
                   <h3 className={`font-bold p-3 text-xl md:text-4xl mb-2
                     ${dark ? "text-white" : "text-gray-900"}`}>
@@ -156,7 +147,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── How it works ── */}
-      <section id="listener-workflow" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden" style={{ background: dark ? "linear-gradient(135deg,#0f0f1a 0%,#0d1117 100%)" : "linear-gradient(135deg,#f0f4ff 0%,#e8f0fe 100%)" }}>
+      <section id="listener-workflow" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden" style={{ background: dark ? "" : "" }}>
         <h2 className={`text-center font-bold text-4xl md:text-5xl mb-4
           ${dark ? "text-white" : "text-gray-800"}`}>
           How it works <span className="text-green-400">For Listeners</span> 
@@ -165,38 +156,19 @@ export default function LandingPage() {
         <div className="grid grid-cols-1
          sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {steps.map((step, i) => (
-            <div key={step.label} className="flex flex-col items-center gap-4 rounded-2xl p-5 cursor-pointer transition-transform duration-300 hover:scale-105"
-            style={{
-              background: dark
-                ? "rgba(255,255,255,0.05)"
-                : "rgba(255,255,255,0.7)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-              border: dark
-                ? "1px solid rgba(74,222,128,0.25)"
-                : "1px solid rgba(74,222,128,0.4)",
-              boxShadow: dark
-                ? "0 0 20px rgba(74,222,128,0.1), 0 4px 24px rgba(0,0,0,0.4)"
-                : "0 4px 24px rgba(0,0,0,0.08)",
-            }}>
-              <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center font-bold text-white text-sm flex-shrink-0"
-                style={{ boxShadow: "0 0 12px rgba(74,222,128,0.6)" }}>
-                {i + 1}
-              </div>
-              <span className="text-3xl">{step.icon}
-               </span>
+            <div key={step.label} className="flex flex-col items-center gap-4 rounded-2xl p-5 cursor-pointer ">
                 <h3 className={`text-lg font-bold text-center ${dark ? "text-white" : "text-gray-800"}`}>
                   {step.label}</h3>
                 <p className={`text-sm text-center leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
                   {step.desc}</p>
-          <div className='w-full overflow-hidden rounded-xl mt-2'>
+          {/* <div className='w-full overflow-hidden rounded-xl mt-2'>
 
               <img
                 src={step.img}
                 alt={step.label}
-                className=" w-full h-auto object-cover rounded-xl"
+                className=" w-full h-full object-cover rounded-xl"
                 />
-          </div>
+          </div> */}
              
             </div>
           ))}
@@ -209,7 +181,7 @@ export default function LandingPage() {
           </section>
 
       <section className={`py-16 sm:py-20 px-4 sm:px-6 text-center
-        ${dark ? "bg-gray-700" : "bg-gray-50 border-t border-gray-100"}`}>
+        ${dark ? "bg-gray-900" : "bg-gray-50 border-t border-gray-100"}`}>
         <h2 className={`text-2xl sm:text-4xl font-bold mb-3  ${dark ? "text-white" : "text-gray-900"}`}>
           Ready to Dive In? Join MusicMenia Today!
         </h2>
@@ -221,16 +193,9 @@ export default function LandingPage() {
             onClick={() => navigate('/login')}
             className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-8 py-3 rounded items-center flex font-semibold transition-colors cursor-pointer text-xl sm:text-2xl"
           >
-            Join as Listener 
+            Join Now
           </button>
-          {/* <span className='items-center justify-center flex font-bold'> OR</span> */}
-          <button
-            onClick={() => navigate('/login')}
-            className={`border border-green-500 px-6 sm:px-8 py-3 rounded font-semibold transition-colors cursor-pointer text-xl sm:text-2xl
-              ${dark ? "text-green-400 hover:bg-green-950" : "text-green-600 hover:bg-green-100"}`}
-          >
-            Join as Artist
-          </button>
+         
         </div>
       </section>
 

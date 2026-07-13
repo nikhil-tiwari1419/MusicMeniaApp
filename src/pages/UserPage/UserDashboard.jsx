@@ -23,8 +23,8 @@ export default function UserDashboard() {
     const bg = dark ? 'bg-gray-950' : 'bg-zinc-100'
     const text = dark ? 'text-white' : 'text-black'
     const sub = dark ? 'text-zinc-400 text-xl' : 'text-black text-xl'
-    const card = ` rounded-xl ${dark ? 'bg-zinc-800' : 'bg-blue-500'}`
-    const btn = ` rounded-xl   hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`
+    const card = ` rounded ${dark ? 'bg-zinc-800' : 'bg-blue-500'}`
+    const btn = ` rounded   hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`
 
     return (
         <>
@@ -35,7 +35,7 @@ export default function UserDashboard() {
 
 
                     {/* ── Hero ── */}
-                    <section className={`relative rounded-xl overflow-hidden
+                    <section className={`relative rounded overflow-hidden
                         ${dark ? 'bg-zinc-900 border-white shadow-[2px_2px]' : 'bg-gray-200 border-black shadow-[2px_2px]'}`}>
 
                         <div className="px-6 py-4 sm:px-10 sm:py-12">
@@ -44,7 +44,7 @@ export default function UserDashboard() {
 
                             <span className="text-xl flex flex-col sm:text-4xl font-semibold">
                                 Hello
-                                <h1 className={`text-4xl rounded px-2 ${dark ? "border-white" : "border-black"}  inline-block`}>
+                                <h1 className={`text-4xl ${dark ? "border-white" : "border-black"}  inline-block`}>
                                     {user?.username || 'Listener'}
                                 </h1>
                             </span>

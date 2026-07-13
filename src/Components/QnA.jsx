@@ -1,6 +1,7 @@
 import React from 'react'
 import Qna from '../assets/QnA.json';
 import { useTheme } from '../Context/Theme';
+import {Plus} from 'lucide-react'
 
 function FAQItem({ question, answer, isOpen, onToggle}) {
     const { theme } = useTheme();
@@ -13,7 +14,7 @@ function FAQItem({ question, answer, isOpen, onToggle}) {
                 className={`w-full flex justify-between items-center py-4 px-2 text-left font-medium text-sm sm:text-base cursor-pointer ${dark ? "text-white hover:text-gray-200 " : "text-gray-800 hover:text-gray-600"}`}
             >
                 <span className='text-xl md:text-2xl'>{question}</span>
-                <span className={`ml-4 flex-shrink-0 text-lg transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}>+</span>
+                <span className={`ml-4 flex-shrink-0 text-lg transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}><Plus /></span>
             </button>
 
             <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 pb-4" : "max-h-0"}`}>
@@ -32,7 +33,7 @@ function QnA() {
 
     const filteredQna = activeCategory === "all" ? Qna : Qna.filter(q => q.category === activeCategory)
     return (
-        <div className={` py-10 px-5 ${dark ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+        <div className={` py-10 px-5 ${dark ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
             <div className='max-w-2xl mx-auto'>
 
                 <div className='mb-8 text-center'>
@@ -55,7 +56,7 @@ function QnA() {
                 </div>
                 {/* FAQ list */}
                 <div
-                    className={`rounded-2xl overflow-x-auto cursor-pointer no-scrollbar text-center ${dark ? "bg-gray-800" : "bg-white"}`}
+                    className={`font-semibold rounded-2xl overflow-x-auto cursor-pointer no-scrollbar text-center ${dark ? "bg-gray-900" : "bg-white"}`}
                 >
                     {filteredQna.length > 0 ? filteredQna.map(q => (
                         <FAQItem

@@ -1,19 +1,27 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useTheme } from '../../Context/Theme'
 import { AuthContext } from '../../Context/Auth'
-import { Mail, Shield, Calendar, Music2, User, Hash, Clock } from 'lucide-react'
+import { Shield, Music2, User, Sun, Moon, Heart, ListMusic, Users, Bell, FileText, Scale } from 'lucide-react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const dark = theme === 'dark';
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate()
+
+  // Simple local-only setting for now — not wired to a backend.
+  // Flip to true/false just to control the switch's look and feel.
+  const [notifications, setNotifications] = useState(true);
+
+  async function handleLogout() {
+    await logout()
+    navigate('/')
+  }
+
+  if (!user) return null;
 
   const initials = user?.username?.slice(0, 2).toUpperCase();
-
-  const joined = user?._id
-    ? new Date(parseInt(user._id.slice(0, 8), 16) * 1000)
-      .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-    : 'Unknown';
 
   const roleColors = {
     admin: 'bg-red-400 text-black',
@@ -27,116 +35,131 @@ export default function Profile() {
     user: <User size={20} />
   }[user.role];
 
-  const accountId = user?._id?.slice(-8).toUpperCase();
-
-  const sections = [
-    {
-      title: 'Account Info',
-      rows: [
-        { icon: <Mail size={20} />, label: 'Email', value: user.email },
-        { icon: <User size={20} />, label: 'Username', value: user.username },
-        { icon: <Hash size={20} />, label: 'Account ID', value: `#${accountId}` },
-      ]
-    },
-    {
-      title: 'Membership',
-      rows: [
-        { icon: roleIcon, label: 'Role', value: user.role },
-        { icon: <Calendar size={20} />, label: 'Member Since', value: joined },
-        { icon: <Clock size={20} />, label: 'Account Status', value: 'Active' },
-      ]
-    }
-  ];
-
   const bg = dark ? 'bg-zinc-950' : 'bg-white';
-  const card = `border-2 rounded-xl  shadow-[4px_4px_0_#000] ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`;
+  const card = `border-2 rounded ${dark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-black'}`;
   const labelText = dark ? 'text-zinc-400' : 'text-zinc-500';
   const valueText = dark ? 'text-white' : 'text-black';
-  const divider = `border-t-2 ${dark ? 'border-zinc-800' : 'border-black/10'}`;
+  const divider = dark ? 'border-zinc-800' : 'border-black/10';
+  const rowHover = dark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100';
+
+  // Quick links to the main sections of the app someone would want from
+  // their profile — kept as plain data so the JSX below stays simple.
+  const quickLinks = [
+    { label: 'Liked Songs', icon: <Heart size={18} />, path: '/liked-songs' },
+    { label: 'Local Feed', icon: <ListMusic size={18} />, path: '/Local-feed' },
+    { label: 'Artists', icon: <Users size={18} />, path: '/artist' },
+  ];
 
   return (
     <main className={`min-h-screen pt-6 pb-12 px-4 ${bg}`}>
-      <div className="max-w-lg mx-auto space-y-4 ">
+      <div className="max-w-lg mx-auto space-y-4">
 
         {/* Avatar Card */}
         <div className={card}>
-
-          {/* Banner — thick black stripe */}
-          <div className={`h-5 w-full rounded-xl  border-b-2 border-black ${user.role === 'admin' ? 'bg-red-400' :
-              user.role === 'artist' ? 'bg-yellow-400' : 'bg-green-300'
-            }`} />
-
           <div className="px-5 pb-5 pt-4">
             <div className="flex items-start justify-between mb-4">
 
               {/* Avatar — hard square */}
-              <div className={`w-16 h-16 rounded-xl border-2 border-black shadow-[3px_3px_0_#000]
+              <div className={`w-16 h-16 rounded border-2 border-black 
                 flex items-center justify-center text-2xl font-black
                 ${dark ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-black'}`}>
                 {initials}
               </div>
 
               {/* Role badge */}
-              <span className={` rounded-xl inline-flex items-center gap-1.5 text-sm 
-                px-3 py-2.5 border-2 border-black  tracking-widest
+              <span className={`rounded inline-flex items-center gap-1.5 text-sm
+                px-3 py-1.5 border-2 border-black tracking-widest
                 shadow-[2px_2px_0_#000] ${roleColors}`}>
                 {roleIcon} {user.role}
               </span>
             </div>
 
-            {/* Active dot + name */}
-            <div className="flex  items-center gap-2 mb-1">
-              <div className="w-3.5 h-3.5 bg-yellow-400 rounded-full flex-shrink-0" />
-              <h1 className={`text-xl font-black uppercase tracking-tight ${valueText}`}>
+            {/* Name + Logout, side by side */}
+            <div className="flex items-center justify-between gap-3 mb-1">
+              <h1 className={`text-xl font-black uppercase tracking-tight truncate ${valueText}`}>
                 {user.username}
               </h1>
+              <button
+                onClick={handleLogout}
+                className={`flex-shrink-0 border-2 rounded bg-red-500 font-semibold text-sm px-3 py-1 transition-colors
+                  ${dark ? "text-white border-red-500 hover:bg-red-600" : "text-black border-black hover:bg-white hover:border-red-500"}`}>
+                Logout
+              </button>
             </div>
-            <p className={`text-xs font-mono ${labelText}`}>{user.email}</p>
+            <p className={`text-xs font-semibold ${labelText}`}>{user.email}</p>
           </div>
         </div>
 
-        {/* Info Sections */}
-        {sections.map(({ title, rows }, si) => (
-          <div
-            key={title} className={card}>
+        {/* Quick Links — jump straight to the rest of the app */}
+        <div className={card}>
+          {quickLinks.map((link, i) => (
+            <button
+              key={link.label}
+              onClick={() => navigate(link.path)}
+              className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors
+                ${i !== 0 ? `border-t-2 ${divider}` : ''} ${rowHover}`}
+            >
+              <span className={labelText}>{link.icon}</span>
+              <span className={`text-sm font-bold ${valueText}`}>{link.label}</span>
+            </button>
+          ))}
+        </div>
 
-            {/* Section header */}
-            <div className={`px-5 rounded-xl py-2.5 border-b-2 border-black
-              ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-white">
-                {title}
-              </p>
+        {/* Appearance — theme toggle */}
+        <div className={card}>
+          <button
+            onClick={toggleTheme}
+            className={`w-full flex items-center justify-between px-4 py-3 transition-colors ${rowHover}`}
+          >
+            <span className={`text-sm font-bold ${valueText}`}>
+              {dark ? 'Dark Mode' : 'Light Mode'}
+            </span>
+            <span className={valueText}>
+              {dark ? <Sun size={20} /> : <Moon size={20} />}
+            </span>
+          </button>
+        </div>
+
+        {/* Settings */}
+        <div className={card}>
+          <p className={`px-4 pt-3 pb-1 text-xs font-black uppercase tracking-[0.2em] ${labelText}`}>
+            Settings
+          </p>
+
+          {/* Notifications — simple on/off toggle, local state only for now */}
+          <div className={`flex items-center justify-between px-4 py-3 border-t-2 ${divider}`}>
+            <div className="flex items-center gap-3">
+              <Bell size={18} className={labelText} />
+              <span className={`text-sm font-bold ${valueText}`}>Notifications</span>
             </div>
-
-            <div className="px-5 py-1">
-              {rows.map(({ icon, label, value }, i) => (
-                <div key={label}
-                  className={`flex items-center justify-between py-3 gap-3 ${i !== 0 ? divider : ''}`}>
-
-                  {/* Label side */}
-                  <div className="flex items-center gap-2.5">
-                    <div className={`w-9 h-9 rounded-2xl border-2 ${dark ? "border-black" : "border-white"} flex items-center justify-center flex-shrink-0
-                      ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-zinc-100 text-black'}`}>
-                      {icon}
-                    </div>
-                    <p className={`text-sm uppercase tracking-wider font-bold ${labelText}`}>{label}</p>
-                  </div>
-
-                  {/* Value side */}
-                  <p className={`text-sm  max-w-[55%] ${valueText}`}>
-                    {label === 'Account Status'
-                      ? <span className="inline-flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded bg-yellow-400 " />
-                        {value}
-                      </span>
-                      : value
-                    }
-                  </p>
-                </div>
-              ))}
-            </div>
+            <button
+              onClick={() => setNotifications(n => !n)}
+              className={`w-11 h-6 rounded-full border-2 border-black transition-colors relative
+                ${notifications ? 'bg-green-400' : dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}
+            >
+              <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-black transition-all
+                ${notifications ? 'left-5' : 'left-0.5'}`} />
+            </button>
           </div>
-        ))}
+        </div>
+
+        {/* Privacy Policy + Terms & Conditions */}
+        <div className={card}>
+          <button
+            onClick={() => navigate('/privacy-policy')}
+            className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${rowHover}`}
+          >
+            <FileText size={18} className={labelText} />
+            <span className={`text-sm font-bold ${valueText}`}>Privacy Policy</span>
+          </button>
+          <button
+            onClick={() => navigate('/terms')}
+            className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-t-2 ${divider} ${rowHover}`}
+          >
+            <Scale size={18} className={labelText} />
+            <span className={`text-sm font-bold ${valueText}`}>Terms & Conditions</span>
+          </button>
+        </div>
 
       </div>
     </main>

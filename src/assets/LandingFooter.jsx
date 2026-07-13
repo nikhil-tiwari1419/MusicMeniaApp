@@ -35,17 +35,17 @@ function LandingFooter() {
                         />
                         <span className="text-2xl font-bold tracking-tight">MusicMenia</span>
                     </div>
-                    <p className={`text-xl leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <p className={`text-xl font-semibold leading-relaxed max-w-sm ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         We are a team of music enthusiasts dedicated to providing the best music experience — discover, upload, and share short clips from artists around you.
                     </p>
-                    <p className={`text-xl mt-4 ${dark ? "text-gray-500" : "text-gray-400"}`}>
+                    <p className={`text-xl mt-4 font-semibold ${dark ? "text-gray-500" : "text-gray-900"}`}>
                         📍 123 Music Street, Tune City, Maharashtra, India
                     </p>
                 </div>
 
                 {/* Quick Links */}
                 <div>
-                    <h3 className={`text-2xl font-semibold uppercase inline-block border-blue-500 border-b-2 tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <h3 className={`text-2xl font-semibold  inline-block border-blue-500 border-b-2 tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
                         Quick Links
                     </h3>
                     <ul className="space-y-3">
@@ -53,7 +53,7 @@ function LandingFooter() {
                             <li key={l.id}>
                             <a
                                     href={l.url}
-                                    className={`text-xl transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                    className={`text-xl font-semibold transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-900 hover:text-gray-900"}`}
                                 >
                                     {l.label}
                                 </a>
@@ -64,7 +64,7 @@ function LandingFooter() {
 
                 {/* Socials */}
                 <div>
-                    <h3 className={`text-2xl font-semibold uppercase inline-block border-blue-500 border-b-2  tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                    <h3 className={`text-2xl font-semibold  inline-block border-blue-500 border-b-2  tracking-widest mb-4 ${dark ? "text-gray-400" : "text-gray-800"}`}>
                         Follow Us
                     </h3>
                     <ul className="space-y-3">
@@ -73,7 +73,7 @@ function LandingFooter() {
                                 
                                 <a
                                     href={s.url}
-                                    className={`text-xl transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900"}`}
+                                    className={`font-semibold text-xl transition-colors ${dark ? "text-gray-300 hover:text-white" : "text-gray-900 hover:text-gray-900"}`}
                                 >
                                     {s.label}
                                 </a>
