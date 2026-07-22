@@ -101,15 +101,15 @@ function AlbumDetails() {
   const { theme } = useTheme();
   const dark = theme === 'dark';
 
-  // ── AudioContext — all playback is handled here ──────────────
+  //  AudioContext — all playback is handled here 
   const { togglePlay, playingTrack, isPlaying } = useAudio();
 
-  // ── Local state — only for fetching the album ─────────────────
+  //  Local state — only for fetching the album 
   const [album, setAlbum] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // ── API call: GET /music/get-album/:albumId ───────────────────
+  //  API call: GET /music/get-album/:albumId 
   const fetchAlbum = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -165,8 +165,7 @@ function AlbumDetails() {
 
   return (
     <>
-      {/* <Navbar /> */}
-
+    
       {/* pb-36 leaves space for the global audio player bar at the bottom */}
       <main className={`min-h-screen pt-20 pb-36 px-4 sm:px-6 lg:px-8 transition-colors duration-300
         ${dark ? 'bg-black text-white' : 'bg-white text-black'}`}

@@ -15,7 +15,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
     const { user } = useAuth()
     const dark = theme === 'dark'
     const isPublicNav = !user
-    
+
     const navLink = user
         ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS : PUBLIC_LINKS
 
@@ -41,21 +41,21 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
 
                 {/* Logo */}
                 <button onClick={() => navigate('/')}
-                    lassName={`flex items-center gap-0 m-3 rounded-xl border-2 overflow-hidden ${dark ? "border-blue-600" : "border-black"} shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all`}>
-                    <div className="w-10 h-10 bg-blue-400 flex items-center justify-center flex-shrink-0">
-                        <Music2 size={20} className="text-black" />
+                    className={`flex items-center cursor-pointer gap-0 m-3 rounded-xl border-2 overflow-hidden ${dark ? "border-blue-600" : "border-black"} shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all`}>
+                    <div className="w-full h-10 gap-3 bg-blue-400 flex  items-center justify-center flex-shrink-0">
+                        <Music2 size={25} className="text-black" />
+                        <span className=" text-black text-lg tracking-tight font-semibold">MusicMenia</span>
                     </div>
-                    <span className="px-3 text-lg font-black tracking-tight font-semibold">MusicMenia</span>
                 </button>
 
                 {/* Nav links */}
-                <nav className='flex flex-col border-t-2 border-black overflow-y-auto'>
+                <nav className='flex pt-2 flex-col border-t-2 border-black overflow-y-auto'>
                     {navLink.map(link => {
                         const Icon = link.icon
                         const content = (
                             <>
                                 {Icon && <Icon size={18} />}
-                                <sapn className='truncate'>{link.label}</sapn>
+                                <span className='truncate'>{link.label}</span>
                             </>
                         )
                         if (isPublicNav) {
@@ -75,7 +75,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
                                 key={link.label}
                                 to={link.path}
                                 className={({ isActive }) =>
-                                    `flex items-center gap-3 px-4 py-3 text-sm font-bold border-b-2 border-black transition-colors
+                                    `flex items-center gap-3 px-4 py-2 text-sm font-bold border m-2 rounded-xl border-black transition-colors
                                 ${isActive ? activeLink : inactiveLink}`
                                 }
                             >

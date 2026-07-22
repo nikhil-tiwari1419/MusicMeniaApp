@@ -42,10 +42,10 @@ const features = [
 ]
 
 const steps = [
-  { label: "Sign Up", img: "/loginImg.png", desc: "Create your free MusicMenia account in seconds." },
-  { label: "Be As an User", img: "/roleImg.png", desc: "Join our community of music lovers." },
-  { label: "Explore Music", img: "/exploreImg.png", desc: "Discover new artists and tracks." },
-  { label: "Explore Artists", img: "/growImg.png",  desc: "Connect with your favorite musicians." },
+  { label: "Sign Up", img: "/loginImg.png", desc: "Create your free MusicMenia account in seconds via Google Auth or manual Email,Name and a specific password .  " },
+  { label: "Be As an User", img: "/roleImg.png", desc: "Join as a user to reach every artist and access there entire Song's and album's ." },
+  { label: "Explore Music", img: "/exploreImg.png", desc: "Discover new artist and there makers to listen there entire songs as per your choice " },
+  { label: "Explore Artists", img: "/growImg.png",  desc: "Follow an artist to never miss a update up to you -> Follow and Get ." },
 ]
 
 export default function LandingPage() {
@@ -119,10 +119,6 @@ export default function LandingPage() {
               </div>
 
                 <div className="flex-1 min-w-0"> 
-                  {/* <div className="flex items-center gap-3 mb-3">
-                    <span className="text-3xl md:text-4xl">{f.icon}</span>
-                  </div> */}
-
                   <h3 className={`font-bold p-3 text-xl md:text-4xl mb-2
                     ${dark ? "text-white" : "text-gray-900"}`}>
                     {f.label}
@@ -146,30 +142,21 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── How it works ── */}
-      <section id="listener-workflow" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden" style={{ background: dark ? "" : "" }}>
+      {/*  How it works  */}
+      <section id="listener-workflow" className={`py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden ${dark ? "bg-gray-700" : "bg-gray-50" }}`}>
         <h2 className={`text-center font-bold text-4xl md:text-5xl mb-4
           ${dark ? "text-white" : "text-gray-800"}`}>
           How it works <span className="text-green-400">For Listeners</span> 
         </h2>
 
         <div className="grid grid-cols-1
-         sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+         sm:grid-cols-2 lg:grid-cols-2 gap-2 max-w-6xl mx-auto">
           {steps.map((step, i) => (
             <div key={step.label} className="flex flex-col items-center gap-4 rounded-2xl p-5 cursor-pointer ">
-                <h3 className={`text-lg font-bold text-center ${dark ? "text-white" : "text-gray-800"}`}>
+                <h3 className={`text-3xl font-bold text-center ${dark ? "text-white" : "text-gray-900"}`}>
                   {step.label}</h3>
-                <p className={`text-sm text-center leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
+                <p className={`text-xl text-center leading-relaxed ${dark ? "text-gray-400" : "text-gray-500"}`}>
                   {step.desc}</p>
-          {/* <div className='w-full overflow-hidden rounded-xl mt-2'>
-
-              <img
-                src={step.img}
-                alt={step.label}
-                className=" w-full h-full object-cover rounded-xl"
-                />
-          </div> */}
-             
             </div>
           ))}
         </div>
@@ -181,7 +168,7 @@ export default function LandingPage() {
           </section>
 
       <section className={`py-16 sm:py-20 px-4 sm:px-6 text-center
-        ${dark ? "bg-gray-900" : "bg-gray-50 border-t border-gray-100"}`}>
+        ${dark ? "bg-gray-900" : "bg-gray-50 border-t-green-200 border-gray-100"}`}>
         <h2 className={`text-2xl sm:text-4xl font-bold mb-3  ${dark ? "text-white" : "text-gray-900"}`}>
           Ready to Dive In? Join MusicMenia Today!
         </h2>

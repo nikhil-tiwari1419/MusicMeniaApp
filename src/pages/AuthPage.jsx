@@ -15,8 +15,9 @@ const ROLE_HOME = {
   user: "/user-Dashboard",
 };
 
+
 export default function AuthPage() {
-  // ── Form / UI state ──
+  // Form / UI state 
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -43,7 +44,7 @@ export default function AuthPage() {
     }
   }, [user, authLoading, navigate]);
 
-  // ── Simple field handlers ──
+  // Simple field handlers
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -83,7 +84,7 @@ export default function AuthPage() {
     setOtp(["", "", "", "", "", ""]);
   }
 
-  // ── Main submit: login or register ──
+  // Main submit: login or register 
   // Runs on <form onSubmit={...}> now, not a button's onClick.
   // e.preventDefault() stops the browser's native page-reload behaviour,
   // which is what was happening before on every tab/toggle/submit click.
@@ -170,7 +171,7 @@ export default function AuthPage() {
     { label: "At least one special character (@$!%*&)", valid: /[@$!%*&]/.test(form.password) },
   ];
 
-  // ── Shared style tokens (black theme, blue + green accents) ──
+  // Shared style tokens (black theme, blue + green accents)
   const inputClass = "w-full bg-zinc-900 border border-zinc-700 focus:border-blue-500 rounded-xl " +
     "px-4 py-3 text-white text-sm outline-none transition-colors placeholder-zinc-600";
   const labelClass = "text-zinc-400 text-xs font-semibold uppercase tracking-wider";
@@ -401,3 +402,5 @@ export default function AuthPage() {
     </div>
   );
 }
+
+

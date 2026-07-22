@@ -7,7 +7,7 @@ export const useTheme = () => useContext(ThemeContext);
 export const ThemeProvider = ({ children }) => {
 
    const [theme, setTheme] = useState(() => {
-      return localStorage.getItem("theme") || "light"; // ✅ string return karo
+      return localStorage.getItem("theme") || "light"; //  string return karo
    });
 
    useEffect(() => {
@@ -21,7 +21,7 @@ export const ThemeProvider = ({ children }) => {
    }, [theme]);
 
    const toggleTheme = () => {
-      setTheme(prev => prev === "dark" ? "light" : "dark"); // ✅ string toggle
+      setTheme(prev => prev === "dark" ? "light" : "dark"); //  string toggle
    };
 
    return (

@@ -35,9 +35,9 @@ export default function AdminDashboard() {
         }
     }
 
-    // ─────────────────────────────────────────
+    // 
     // Promote user → artist
-    // ─────────────────────────────────────────
+    // 
     async function handlePromote(userId, username) {
         if (!confirm(`Promote ${username} to artist?`)) return;
         setActionLoading(userId);
@@ -56,9 +56,9 @@ export default function AdminDashboard() {
         }
     }
 
-    // ─────────────────────────────────────────
+    // 
     // Demote artist → user
-    // ─────────────────────────────────────────
+    // 
     async function handleDemote(userId, username) {
         if (!confirm(`Demote ${username} to regular user?`)) return;
         setActionLoading(userId);
@@ -77,9 +77,9 @@ export default function AdminDashboard() {
         }
     }
 
-    // ─────────────────────────────────────────
+    // 
     // Delete user
-    // ─────────────────────────────────────────
+    // 
     async function handleDelete(userId, username) {
         if (!confirm(`Permanently delete ${username}? This cannot be undone.`)) return;
         setActionLoading(userId);
@@ -97,9 +97,9 @@ export default function AdminDashboard() {
         }
     }
 
-    // ─────────────────────────────────────────
+    // 
     // Role badge color
-    // ─────────────────────────────────────────
+    // 
     function getRoleBadge(role) {
         const styles = {
             admin: "bg-red-100 text-red-700 border border-red-300",
@@ -109,9 +109,9 @@ export default function AdminDashboard() {
         return styles[role] || "bg-gray-100 text-gray-700";
     }
 
-    // ─────────────────────────────────────────
+    // 
     // UI
-    // ─────────────────────────────────────────
+    // 
     return (
         <div className="min-h-screen bg-gray-50">
 

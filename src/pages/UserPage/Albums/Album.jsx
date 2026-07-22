@@ -8,12 +8,12 @@ import { Disc3, Music, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 
 // import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 
-// ─── Constants ────────────────────────────────────────────────
+//  Constants 
 const API        = import.meta.env.VITE_API_URL;
 const PAGE_LIMIT = 10;
 
 
-// ─── 1. LoadingGrid  (shown while fetching) ───────────────────
+//  1. LoadingGrid  (shown while fetching) 
 function LoadingGrid() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -29,7 +29,7 @@ function LoadingGrid() {
 }
 
 
-// ─── 2. ErrorMessage  (shown when API call fails) ─────────────
+//  2. ErrorMessage  (shown when API call fails) 
 function ErrorMessage({ message, onRetry, dark }) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
@@ -51,7 +51,7 @@ function ErrorMessage({ message, onRetry, dark }) {
 }
 
 
-// ─── 3. EmptyState  (shown when no albums exist) ──────────────
+//  3. EmptyState  (shown when no albums exist) 
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
@@ -62,7 +62,7 @@ function EmptyState() {
 }
 
 
-// ─── 4. AlbumCard  (one card in the grid) ─────────────────────
+//  4. AlbumCard  (one card in the grid) 
 // Clicking it navigates to /album/:id  (AlbumDetail page)
 function AlbumCard({ album, onClick }) {
   return (
@@ -101,7 +101,7 @@ function AlbumCard({ album, onClick }) {
 }
 
 
-// ─── 5. Pagination  (prev / next page buttons) ────────────────
+//  5. Pagination  (prev / next page buttons) 
 // Only renders when there is more than 1 page
 function Pagination({ pagination, page, onPageChange }) {
   if (!pagination || pagination.totalPages <= 1) return null;
@@ -162,7 +162,7 @@ function Album() {
   const [error,      setError]      = useState(null);
   const [page,       setPage]       = useState(1);
 
-  // ── API call ───────────────────────────────────────────────
+  //  API call 
   const fetchAlbums = useCallback(async (currentPage = 1) => {
     setLoading(true);
     setError(null);

@@ -71,14 +71,17 @@ function UserMenu() {
                     shadow-[2px_2px] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
                     ${open ? 'bg-gray-400 text-black shadow-none translate-x-[2px] translate-y-[2px]' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black border-black'}`}
             >
+
                 {getInitials(user.username)}
+
             </button>
 
             {/* Dropdown */}
             {open && (
-                <div className={` rounded right-0 bottom-12 w-59 border-2  z-50 overflow-hidden
+                <div className={`rounded right-0 bottom-12 w-59 border-2  z-50 overflow-hidden
                     ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}
                 >
+
                     {/* User info header */}
                     <div className={`px-4 py-3 border-b-2 border-black ${dark ? 'bg-cyan-800' : 'bg-violet-400'}`}>
                         <p className={`text-sm font-black uppercase tracking-wider truncate ${dark ? 'text-white' : 'text-black'}`}>

@@ -6,10 +6,10 @@ function LandingFooter() {
     const dark = theme === "dark"
 
     const links = [
-        { id: 1, label: "Terms & Conditions", url: "/" },
-        { id: 2, label: "Privacy Policy", url: "/" },
+        { id: 1, label: "Terms & Conditions", url: "/Tos" },
+        { id: 2, label: "Privacy Policy", url: "/pp" },
         { id: 3, label: "FAQ", url: "/" },
-        { id: 4, label: "Contact", url: "/" },
+        { id: 4, label: "Contact", url: "/Contact" },
     ]
 
     const socials = [

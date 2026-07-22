@@ -21,8 +21,7 @@ export const AuthProvider = ({ children }) => {
         userRef.current = user;
     }, [user]);
 
-    // ─── Core Functions ───────────────────────────
-
+    //  Core Functions 
     const fetchUser = useCallback(async () => {
         const res = await axios.get(`${API}/auth/is-auth`, { withCredentials: true });
         if (res.data.success) {
@@ -82,7 +81,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, [fetchUser, refreshToken]);
 
-    // ─── Silent Refresh Interval ──────────────────
+    //  Silent Refresh Interval 
 
     const startSilentRefresh = useCallback(() => {
         // Pehle purana clear karo
@@ -96,7 +95,7 @@ export const AuthProvider = ({ children }) => {
         }, 13 * 60 * 1000);
     }, [refreshToken]);
 
-    // ─── Setup Effects ────────────────────────────
+    //  Setup Effects 
 
     useEffect(() => {
         // Axios interceptor — 401 pe handle karo
@@ -141,7 +140,7 @@ export const AuthProvider = ({ children }) => {
         };
     }, []);
 
-    // ─── Auth Functions ───────────────────────────
+    //  Auth Functions 
 
     async function login(formData) {
         try {

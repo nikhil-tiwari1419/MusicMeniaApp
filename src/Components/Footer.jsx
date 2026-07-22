@@ -12,9 +12,9 @@ const SOCIAL = [
 
 const SUPPORT = [
     { label: 'FAQ', path: '/faq' },
-    { label: 'Contact Us', path: '/contact' },
-    { label: 'Privacy Policy', path: '/privacy' },
-    { label: 'Terms of Service', path: '/terms' },
+    { label: 'Contact Us', path: '/Contact' },
+    { label: 'Privacy Policy', path: '/pp' },
+    { label: 'Terms of Service', path: '/Tos' },
 ]
 
 
@@ -60,7 +60,7 @@ export default function Footer() {
                     </p>
                 </div>
 
-                {/* ── Support ── */}
+                {/*  Support  */}
                 <div className={`p-7 ${colBorder} flex flex-col gap-4`}>
                     <p
                         className="text-sm bg-amber-300 px-3 rounded font-semibold tracking-widest uppercase text-black"

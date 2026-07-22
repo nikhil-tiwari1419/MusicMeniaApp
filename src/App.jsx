@@ -13,6 +13,9 @@ const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
 const Authpage = React.lazy(() => import('./pages/AuthPage'));
 const Forgotpass = React.lazy(() => import('./Components/ForgotPass'))
 const LandingPage = React.lazy(() => import('./assets/LandingPage'));
+const PrivacyPolicy = React.lazy(()=> import('./pages/PolicyPage'))
+const TermsOfService = React.lazy(()=> import('./pages/TermsofServise'))
+const ContactPage  =React.lazy(()=> import('./pages/ContactPage'))
 
 // Admin page
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
@@ -58,6 +61,10 @@ function AppContent() {
 
                 {/* Public routes */}
                 <Route path='/' element={<LandingPage />} />
+                <Route path='/pp' element={<PrivacyPolicy/>}/>
+                <Route path='/Tos' element={<TermsOfService/>}/>
+                <Route path='/Contact' element={<ContactPage/>}/>
+
 
 
                 {/* Artist routes */}
