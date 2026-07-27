@@ -5,7 +5,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Disc3, Music, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
-// import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 
 //  Constants 
@@ -145,7 +144,7 @@ function Pagination({ pagination, page, onPageChange }) {
 }
 
 
-// ─── 6. Album  (main page component) ─────────────────────────
+//  6. Album  (main page component) 
 // FLOW:
 //   mount → fetchAlbums() → show grid
 //   page changes → fetchAlbums(newPage)
