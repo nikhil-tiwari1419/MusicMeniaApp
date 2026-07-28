@@ -37,12 +37,12 @@ function MobileTrackRow({ music, isPlaying, onPlay, dark, index, isActuallyPlayi
             <div className="w-5 flex-shrink-0 flex items-center justify-center">
                 {isPlaying
                     ? <PlayingBars />
-                    : <span className={`text-sm tabular-nums font-black  ${sub}`}>{index + 1}</span>
+                    : <span className={`text-sm tabular-nums font-semibold  ${sub}`}>{index + 1}</span>
                 }
             </div>
 
             {/* Thumbnail — square, hard border */}
-            <div className="w-14 h-14 rounded border-2 border-black overflow-hidden flex-shrink-0 shadow-[2px_2px]">
+            <div className="w-14 h-14 rounded overflow-hidden flex-shrink-0 ">
                 {music.thumbnail
                     ? <img src={music.thumbnail} alt={music.title} loading="lazy" className="w-full h-full object-cover" />
                     : <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-zinc-700' : 'bg-zinc-200'}`}>
@@ -111,41 +111,12 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, dura
 
     return (
         <div
-            onClick={() => path('/music_Panel')}
-            className={` fixed bottom-10.5 left-0 right-0 z-5 
-            ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
+        onClick={() => path('/music_panel')}
+        className={`flex items-center justify-between fixed bottom-10.5 left-0 px-4 py-2 right-0 z-5 
+            ${dark ? 'bg-zinc-900' : 'bg-gray-300'}`}>
 
-            {/* Progress bar
-            <div className="relative mt-2 h-1.5 w-full bg-zinc-300 border-black">
-                <div className="h-full bg-blue-400 transition-all duration-100"
-                    style={{ width: `${progress}%` }} />
-
-                <div
-                    className={`
-                    absolute
-                    top-1/2
-                    h-4
-                    w-4
-                    border-2
-                    ${dark ? " bg-white" : "bg-blue-900"}
-                    rounded-full
-                    -translate-y-1/2
-                    -translate-x-1/2
-                    pointer-event-none
-`}
-                    style={{ left: `${progress}%` }}
-                />
-
-
-                <input
-                    type="range" min="0" max="100"
-                    value={Math.round(progress)} step="0.5"
-                    onChange={e => onSeek(parseFloat(e.target.value))}
-                    className="absolute inset-0 w-full opacity-0 cursor-pointer h-6 -top-2.5"
-                />
-            </div> */}
-
-            <div className="flex items-center gap-3 px-4 py-1 pb-1">
+            <div
+                className="flex items-center gap-3 py-1 pb-1">
 
                 {/* Thumbnail */}
                 <div className="w-10 h-10 border-2 rounded overflow-hidden flex-shrink-0 shadow-[2px_2px]">
@@ -166,40 +137,20 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, dura
                         {fmt(currentTime)} / {fmt(duration)}
                     </p>
                 </div>
-
-                {/* Repeat */}
-                {/* <button onClick={toggleRepeat}
-                    className={`w-8 h-8 border-2 text-black rounded flex items-center justify-center flex-shrink-0 transition-all active:scale-90
-                        ${repeat ? 'bg-violet-400 text-black' : dark ? 'bg-gray-500 border-blue-500 ' : 'bg-white  border-blue-500'}`}>
-                    <Repeat size={17} />
-                </button> */}
-
-                {/* Previous */}
-                {/* <button onClick={playPrevious} disabled={!hasPrev}
-                    className={`w-8 h-8 border-2 rounded border-green-500 flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
-                        ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
-                    <SkipBack size={15} className="fill-current" />
-                </button> */}
-
+            </div>
                 {/* Play/Pause */}
                 <button
-
-                    onClick={() => onToggle(track)}
-                    className={` w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggle(track);
+                    }}
+                    className={`right-10 w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
                         shadow-[3px_3px] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all `}>
                     {isActuallyPlaying
                         ? <Pause size={18} className="text-black fill-black" />
                         : <Play size={18} className="text-black fill-black ml-0.5" />
                     }
                 </button>
-
-                {/* Next */}
-                {/* <button onClick={playNext} disabled={!hasNext}
-                    className={`w-8 h-8 border-2 border-green-500 flex rounded items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-25
-                        ${dark ? 'bg-zinc-800 text-zinc-300' : 'bg-white text-black'}`}>
-                    <SkipForward size={15} className="fill-current" />
-                </button> */}
-            </div>
         </div>
     );
 }

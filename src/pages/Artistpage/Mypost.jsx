@@ -73,7 +73,7 @@ export default function Mypost() {
         m.title?.toLowerCase().includes(search.toLowerCase())
     );
 
-    // ── Theme tokens ──────────────────────────────────────
+    //  Theme tokens 
     const bg      = dark ? 'bg-gray-950'              : 'bg-gray-50';
     const text     = dark ? 'text-white'               : 'text-gray-900';
     const sub      = dark ? 'text-gray-400'            : 'text-gray-500';
@@ -116,9 +116,6 @@ export default function Mypost() {
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                         {/* Search */}
                         <div className="relative flex-1 sm:w-64">
-                            <svg className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${sub}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
                             <input
                                 type="text"
                                 placeholder="Search your tracks..."
@@ -218,7 +215,7 @@ export default function Mypost() {
                     </div>
                 )}
 
-                {/* ── Music Grid ── */}
+                {/*  Music Grid  */}
                 {!load && !error && filtered.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         {filtered.map((music, i) => (
@@ -233,7 +230,7 @@ export default function Mypost() {
                                         <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                     </div>
                                 )}
-                                <Musics musics={music} onDelete={handleDelete} />
+                                {/* <Musics musics={music} onDelete={handleDelete} /> */}
                             </div>
                         ))}
                     </div>
