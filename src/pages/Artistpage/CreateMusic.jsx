@@ -30,11 +30,11 @@ function CreateMusic() {
 
   // image handle
   const handleImageChange = (e) => {
-    const file = e.traget.files[0];
+    const file = e.target.files[0];
     if (!file) return;
     // image validation 
     if (file.size > 1 * 1024 * 1024) {
-      toast.error('Image must be under 10mb'); return;
+      toast.error('Image must be under 1mb'); return;
     }
     setImageFileName(file.name);
     setSelectedImage(file);
@@ -67,7 +67,7 @@ function CreateMusic() {
       audio.play();
       setisPreviewPlaying(true);
     } else {
-      audio.paused();
+      audio.pause();
       setisPreviewPlaying(false);
     }
   }
@@ -78,18 +78,22 @@ function CreateMusic() {
     setAudioFileName('');
     setSelectedFile(null);
     setisPreviewPlaying(false)
-    document.getElementById('file-upload').vlaue = '';
+    document.getElementById('file-upload').value = '';
   }
 
   //clear image
   const clearImage = () => {
     setImagepriview(null);
     setImageFileName('');
-    setSelectedFile(null)
+    setSelectedImage(null)
   }
 
   // clear form 
   const resetForm = () => {
+    setMusicPerview(null);
+    setImagepriview(null);
+    setAudioFileName('');
+    setImageFileName('')
     setSelectedFile(null);
     setSelectedImage(null);
     setCaption('');
@@ -102,8 +106,8 @@ function CreateMusic() {
     if (!selectedfile) {
       toast.error('Please select an audio file'); return;
     }
-    if (!caption) {
-      toast.error('Please select an Image file'); return;
+    if (!caption.trim()) {
+      toast.error('Please add a title'); return;
     }
 
     setloading(true);
@@ -121,7 +125,7 @@ function CreateMusic() {
         }
       );
 
-      if (respopnse.data.success || Response.status === 201) {
+      if (respopnse.data.success || response.status === 201) {
         toast.success('Music Published succesfully !');
         resetForm();
       }
@@ -152,8 +156,8 @@ function CreateMusic() {
           >
             <ArrowLeft size={24} />
           </button>
-          <h1 className='text-2xl font-semobold tracking-tight mb-1'>Upload a track</h1>
-          <p>Share your music with the world.</p>
+          <h1 className={`text-2xl font-semobold tracking-tight mb-1 ${sub}`}>Upload a track</h1>
+          <p className={`${sub}`}>Share your music with the world.</p>
         </div>
 
         <form onSubmit={handleSubmit}
@@ -167,8 +171,8 @@ function CreateMusic() {
             </div>
 
             <div className='p-5'>
+
               {musicPreview ? (
-                <>
                   <div className={`rounded-xl border p-3 flex items-center gap-3 ${dark ? 'bg-neutral-800/60 border-neutral-800' : 'bg-white border-neutral-200'}`}>
 
                     {/* Hidden native element — does the actual playback,
@@ -176,7 +180,7 @@ function CreateMusic() {
                     <audio
                       ref={audioRef}
                       src={musicPreview}
-                      onEnded={() => setisPreviewPlaying}
+                      onEnded={() => setisPreviewPlaying(false)}
                       className='hidden' />
 
                     {/* our own play pause control */}
@@ -185,7 +189,9 @@ function CreateMusic() {
                       type='button'
                       onClick={togglePriviewPlay}
                       className='flex-shrink-0 w-9 h-9'>
-                      {isPreviewPlaying ? <pause size={24} className="fill-current" /> : <play size={24} className="fill-current ml-0.5" />}
+                      {isPreviewPlaying ? 
+                      <Pause size={24} className="fill-current" /> 
+                      : <Play size={24} className="fill-current ml-0.5" />}
                     </button>
 
                     {/* Filename  -takes up the midle space */}
@@ -195,10 +201,16 @@ function CreateMusic() {
                     <button type="button"
                       onClick={clearAudio}><X size={24} /></button>
                   </div>
-                </>
+                
               ) : (
                 <>
-                  <input type="file" accept="audio/*" id="file-upload" />
+                  <input 
+                  type="file" 
+                  accept="audio/*" 
+                  id="file-upload" 
+                  onChange={handleAudioChange}
+                  className='hidden'
+                  />
                   <label htmlFor="file-upload"
                     className={`flex flex-col items-center justify-center h-28 rounded-xl border-2 border-dashed cursor-pointer transition-colors  ${dark
                       ? 'border-neutral-200 hover:border-indigo-500/50 hover:bg-indigo-500/5'
@@ -216,7 +228,7 @@ function CreateMusic() {
 
           {/* thumbnail cover art */}
           <div className={card}>
-            <div className='px-5 pt-5 gap-4 flex items-center justtify-between'>
+            <div className='px-5 pt-5 gap-4 flex items-center justify-between'>
               <p className={`${eyebrow} text-emerald-500`}><Image size={24} />cover art</p>
               <span className={`text-sm ${sub}`}>( Optional )</span>
             </div>
@@ -237,7 +249,13 @@ function CreateMusic() {
                 </>
               ) : (
                 <>
-                  <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="thumbnail-upload" />
+                  <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleImageChange} 
+                  className="hidden" 
+                  id="thumbnail-upload" 
+                  />
                   <label htmlFor="thumbnail-upload"
                     className={`flex flex-col items-center justify-center h-40 rounded-xl border-2 border-dashed cursor-pointer transition-colors
                       ${dark
