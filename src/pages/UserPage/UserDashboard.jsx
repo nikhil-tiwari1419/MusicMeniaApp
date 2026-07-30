@@ -72,13 +72,62 @@ export default function UserDashboard() {
                     </section>
 
                 </div>
-            </main>
-            <>
-                <section className=''>
-                
-                </section>
 
-            </>
+                <section className="max-w-7xl mx-auto px-2 sm:px-6 pt-5 pb-10">
+                    <h2 className={`text-2xl font-semibold mb-3 ${text}`}>Your Sound</h2>
+
+                    <div className="grid grid-cols-4 grid-rows-2 gap-3 h-[420px] sm:h-[360px]">
+
+                        {/* Big tile — trending stat */}
+                        <div className={`col-span-4 sm:col-span-2 row-span-2 rounded p-6 flex flex-col justify-between
+            ${dark ? 'bg-violet-500 border-white' : 'bg-violet-400 border-black'}
+            border shadow-[2px_2px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`}>
+                            <TrendingUp size={28} className="text-black" strokeWidth={2.5} />
+                            <div>
+                                <p className="text-5xl font-bold text-black">128</p>
+                                <p className="text-black/80 font-medium">tracks played this week</p>
+                            </div>
+                        </div>
+
+                        {/* Recently played */}
+                        <button onClick={() => navigate('/Local-Feed')}
+                            className={`col-span-2 sm:col-span-1 rounded p-4 flex flex-col justify-between text-left
+            ${dark ? 'bg-zinc-800 border-white' : 'bg-blue-500 border-black'}
+            border shadow-[2px_2px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`}>
+                            <Play size={22} className={dark ? 'text-white' : 'text-black'} />
+                            <p className={`font-semibold ${dark ? 'text-white' : 'text-black'}`}>Resume last track</p>
+                        </button>
+
+                        {/* Top artists */}
+                        <button onClick={() => navigate('/artist')}
+                            className={`col-span-2 sm:col-span-1 rounded p-4 flex flex-col justify-between text-left
+            ${dark ? 'bg-zinc-800 border-white' : 'bg-green-400 border-black'}
+            border shadow-[2px_2px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`}>
+                            <Users size={22} className={dark ? 'text-white' : 'text-black'} />
+                            <p className={`font-semibold ${dark ? 'text-white' : 'text-black'}`}>Top artists this week</p>
+                        </button>
+
+                        {/* Radio */}
+                        <button
+                            className={`col-span-2 sm:col-span-1 rounded p-4 flex flex-col justify-between text-left
+            ${dark ? 'bg-zinc-800 border-white' : 'bg-pink-400 border-black'}
+            border shadow-[2px_2px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`}>
+                            <Radio size={22} className={dark ? 'text-white' : 'text-black'} />
+                            <p className={`font-semibold ${dark ? 'text-white' : 'text-black'}`}>Live radio</p>
+                        </button>
+
+                        {/* Playlists */}
+                        <button
+                            className={`col-span-2 sm:col-span-1 rounded p-4 flex flex-col justify-between text-left
+            ${dark ? 'bg-zinc-800 border-white' : 'bg-orange-300 border-black'}
+            border shadow-[2px_2px] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-100`}>
+                            <ListMusic size={22} className={dark ? 'text-white' : 'text-black'} />
+                            <p className={`font-semibold ${dark ? 'text-white' : 'text-black'}`}>Your playlists</p>
+                        </button>
+
+                    </div>
+                </section>
+            </main>
 
             <Footer />
         </>

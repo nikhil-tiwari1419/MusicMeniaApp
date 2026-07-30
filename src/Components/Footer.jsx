@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Linkedin, Instagram, Facebook, Github, Music2, Mail, ArrowRight } from 'lucide-react'
+import { Linkedin,Dot, Instagram, Facebook, Github, Music2, Mail, ArrowRight } from 'lucide-react'
 import { useTheme } from '../Context/Theme'
 import { useState } from 'react'
 
@@ -22,7 +22,6 @@ export default function Footer() {
     const { theme } = useTheme()
     const navigate = useNavigate()
     const dark = theme === 'dark'
-    const [email, setEmail] = useState('')
 
     const bg = dark ? 'bg-black' : 'bg-white'
     const borderClr = dark ? 'border-white' : 'border-black'
@@ -67,14 +66,14 @@ export default function Footer() {
                     >
                         Support
                     </p>
-                    <ul className="flex justify-between">
+                    <ul className="flex flex-wrap justify-between">
                         {SUPPORT.map(({ label, path }) => (
                             <li key={label} className={` ${colBorder}`}>
                                 <button
                                     onClick={() => navigate(path)}
-                                    className={`w-full text-left text-sm py-2 tracking-wide transition-none ${sub} hover:text-[#0051ff]`}
+                                    className={`w-full grid-cols-1  text-sm py-2 tracking-wide transition-none ${sub} hover:text-[#0051ff]`}
                                 >
-                                    <span className={`${dark ? 'text-gray-700' : 'text-gray-300'}`}>→ </span>
+                                    <span className={` text-xl ${dark ? 'text-gray-700' : 'text-gray-800  '}`}> * </span>
                                     {label}
                                 </button>
                             </li>
