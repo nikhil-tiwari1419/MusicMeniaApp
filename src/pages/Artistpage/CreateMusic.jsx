@@ -12,7 +12,7 @@ function CreateMusic() {
   const { theme } = useTheme();
   const dark = theme === 'dark';
 
-  const [musicPreview, setMusicPerview] = useState(null);
+  const [musicPreview, setMusicPreview] = useState(null);
   const [imagePreview, setImagepriview] = useState(null);
   const [selectedfile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -34,7 +34,7 @@ function CreateMusic() {
     if (!file) return;
     // image validation 
     if (file.size > 1 * 1024 * 1024) {
-      toast.error('Image must be under 1mb'); return;
+      toast.error('Image must be under 1 MB'); return;
     }
     setImageFileName(file.name);
     setSelectedImage(file);
@@ -48,7 +48,7 @@ function CreateMusic() {
     if (!file) return;
     setAudioFileName(file.name);
     setSelectedFile(file);
-    setMusicPerview(URL.createObjectURL(file));
+    setMusicPreview(URL.createObjectURL(file));
   };
 
   useEffect(() => {
@@ -90,7 +90,7 @@ function CreateMusic() {
 
   // clear form 
   const resetForm = () => {
-    setMusicPerview(null);
+    setMusicPreview(null);
     setImagepriview(null);
     setAudioFileName('');
     setImageFileName('')
@@ -117,10 +117,10 @@ function CreateMusic() {
     if (selectedImage) formData.append('thumbnail', selectedImage);
 
     try {
-      const respopnse = await axios.post(
+      const response = await axios.post(
         `${API}/music/upload-music`, formData,
         {
-          header: { 'Content-type': 'multipart/form-data' },
+          headers: { 'Content-type': 'multipart/form-data' },
           withCredentials: true
         }
       );
