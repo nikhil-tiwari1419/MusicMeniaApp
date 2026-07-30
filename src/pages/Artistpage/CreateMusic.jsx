@@ -125,8 +125,18 @@ function CreateMusic() {
         }
       );
 
-      if (respopnse.data.success || response.status === 201) {
-        toast.success('Music Published succesfully !');
+      if (response.data.success || response.status === 201) {
+        toast.success('Music Uploaded Successfully 🎉.', {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
         resetForm();
       }
     } catch (error) {
@@ -173,43 +183,43 @@ function CreateMusic() {
             <div className='p-5'>
 
               {musicPreview ? (
-                  <div className={`rounded-xl border p-3 flex items-center gap-3 ${dark ? 'bg-neutral-800/60 border-neutral-800' : 'bg-white border-neutral-200'}`}>
+                <div className={`rounded-xl border p-3 flex items-center gap-3 ${dark ? 'bg-neutral-800/60 border-neutral-800' : 'bg-white border-neutral-200'}`}>
 
-                    {/* Hidden native element — does the actual playback,
+                  {/* Hidden native element — does the actual playback,
                       but renders no visible UI of its own. */}
-                    <audio
-                      ref={audioRef}
-                      src={musicPreview}
-                      onEnded={() => setisPreviewPlaying(false)}
-                      className='hidden' />
+                  <audio
+                    ref={audioRef}
+                    src={musicPreview}
+                    onEnded={() => setisPreviewPlaying(false)}
+                    className='hidden' />
 
-                    {/* our own play pause control */}
+                  {/* our own play pause control */}
 
-                    <button
-                      type='button'
-                      onClick={togglePriviewPlay}
-                      className='flex-shrink-0 w-9 h-9'>
-                      {isPreviewPlaying ? 
-                      <Pause size={24} className="fill-current" /> 
+                  <button
+                    type='button'
+                    onClick={togglePriviewPlay}
+                    className='shrink-0 w-9 h-9'>
+                    {isPreviewPlaying ?
+                      <Pause size={24} className="fill-current" />
                       : <Play size={24} className="fill-current ml-0.5" />}
-                    </button>
+                  </button>
 
-                    {/* Filename  -takes up the midle space */}
+                  {/* Filename  -takes up the midle space */}
 
-                    <span className={` text-xs truncate flex-1 ${sub}`}>{audioFileName}</span>
+                  <span className={` text-xs truncate flex-1 ${sub}`}>{audioFileName}</span>
 
-                    <button type="button"
-                      onClick={clearAudio}><X size={24} /></button>
-                  </div>
-                
+                  <button type="button"
+                    onClick={clearAudio}><X size={24} /></button>
+                </div>
+
               ) : (
                 <>
-                  <input 
-                  type="file" 
-                  accept="audio/*" 
-                  id="file-upload" 
-                  onChange={handleAudioChange}
-                  className='hidden'
+                  <input
+                    type="file"
+                    accept="audio/*"
+                    id="file-upload"
+                    onChange={handleAudioChange}
+                    className='hidden'
                   />
                   <label htmlFor="file-upload"
                     className={`flex flex-col items-center justify-center h-28 rounded-xl border-2 border-dashed cursor-pointer transition-colors  ${dark
@@ -249,12 +259,12 @@ function CreateMusic() {
                 </>
               ) : (
                 <>
-                  <input 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handleImageChange} 
-                  className="hidden" 
-                  id="thumbnail-upload" 
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    id="thumbnail-upload"
                   />
                   <label htmlFor="thumbnail-upload"
                     className={`flex flex-col items-center justify-center h-40 rounded-xl border-2 border-dashed cursor-pointer transition-colors
@@ -277,13 +287,13 @@ function CreateMusic() {
             </div>
 
             <div className='px-4 py-1'>
-              <textarea 
-              rows={1}
-              value={caption}
-              maxLength={maxlenth}
-              placeholder='Trackk title or short description..'
-              onChange={(e) => setCaption(e.target.value)}
-              className={`w-full px-4 py-3 text-sm rounded border outline-none resize-none transition-colors
+              <textarea
+                rows={1}
+                value={caption}
+                maxLength={maxlenth}
+                placeholder='Trackk title or short description..'
+                onChange={(e) => setCaption(e.target.value)}
+                className={`w-full px-4 py-3 text-sm rounded border outline-none resize-none transition-colors
                   focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20
                   ${dark ? 'bg-neutral-800/60 border-neutral-800 text-neutral-100 placeholder-neutral-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder-neutral-400'}`}
               />
@@ -308,7 +318,7 @@ function CreateMusic() {
               : <><Upload size={16} /> Publish track</>
             }
           </button>
- 
+
         </form>
       </div>
     </main>

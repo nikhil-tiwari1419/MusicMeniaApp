@@ -21,7 +21,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
 
     const navBg = dark ? 'bg-zinc-950 border-black' : 'bg-white border-black'
     const text = dark ? 'text-white' : 'text-black'
-    const activeLink = 'bg-yellow-400 text-black font-black'
+    const activeLink = 'bg-blue-400 text-black font-black'
     const inactiveLink = `font-bold ${dark ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white' : 'text-zinc-500 hover:bg-zinc-100 hover:text-black'}`
 
     function ThemeBtn() {
@@ -41,7 +41,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
 
                 {/* Logo */}
                 <button onClick={() => navigate('/')}
-                    className={`flex items-center cursor-pointer gap-0 m-3 rounded-xl border-2 overflow-hidden ${dark ? "border-blue-600" : "border-black"} shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all`}>
+                    className={`flex items-center cursor-pointer gap-0 m-3 rounded border-2 overflow-hidden ${dark ? "border-blue-600" : "border-black"} shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all`}>
                     <div className="w-full h-10 gap-3 bg-blue-400 flex  items-center justify-center flex-shrink-0">
                         <Music2 size={25} className="text-black" />
                         <span className=" text-black text-lg tracking-tight font-semibold">MusicMenia</span>
@@ -75,7 +75,7 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
                                 key={link.label}
                                 to={link.path}
                                 className={({ isActive }) =>
-                                    `flex items-center gap-3 px-4 py-2 text-sm font-bold border m-2 rounded-xl border-black transition-colors
+                                    `flex items-center gap-3 px-4 py-2 text-sm font-bold m-2 rounded border-black transition-colors
                                 ${isActive ? activeLink : inactiveLink}`
                                 }
                             >

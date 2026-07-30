@@ -110,7 +110,7 @@ export default function ArtistDashboard() {
             <div className="flex items-end gap-2 h-40">
               {weekData.map((d) => (
                 <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full flex items-end gap-[2px] h-32">
+                  <div className="w-full flex items-end gap-0.5 h-32">
                     <div
                       className={`flex-1 border-2 border-black transition-all ${dark ? "bg-zinc-600" : "bg-zinc-300"}`}
                       style={{ height: `${(d.views / maxViews) * 100}%` }}

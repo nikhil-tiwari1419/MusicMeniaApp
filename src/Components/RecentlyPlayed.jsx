@@ -28,13 +28,12 @@ function RecentlyPlayed() {
             e.preventDefault();
             // console.log("handlePlay called")
             togglePlay(song, recentlyPlayed);
-            setTimeout(() => setOpen(false), 150);  // 150ms 
+            // setTimeout(() => setOpen(false), 150);  // 150ms 
         }
         return (
             <div
                 onClick={handlePlay}
-                className={`group flex rounded-xl items-center justify-between p-2.5 border-2 border-black cursor-pointer transition-all duration-100
-                    shadow-[2px_2px]
+                className={`group flex rounded-xl items-center justify-between p-2 cursor-pointer transition-all duration-100
                     ${isActive && isPlaying
                         ? 'bg-yellow-400'
                         : dark ? 'bg-zinc-900 hover:bg-zinc-800' : 'bg-white hover:bg-zinc-50'
@@ -49,7 +48,7 @@ function RecentlyPlayed() {
                                 </div>
                             }
                         </div>
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 ">
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 rounded ">
                             {isActive && isPlaying
                                 ? <Pause size={14} className="text-white fill-white" />
                                 : <Play size={14} className="text-white fill-white" />
@@ -119,18 +118,18 @@ function RecentlyPlayed() {
                 <Trigger />
 
                 {open && (
-                    <div className={`absolute rounded top-full left-0 mt-5 w-full z-50 border-2  shadow-[6px_6px] overflow-hidden
-                        ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}>
+                    <div className={`absolute rounded top-full left-0 mt-5 w-full z-50 border-2   overflow-hidden
+                        ${dark ? 'bg-gray-800' : 'bg-white border-black'}`}>
 
                         {/* Header */}
                         <div className={`flex items-center justify-between px-4 py-2.5 border-b-2 border-black
-                            ${dark ? 'bg-zinc-800' : 'bg-black'}`}>
+                            ${dark ? 'border-white' : 'bg-black'}`}>
                             <span className="text-xl font-black uppercase tracking-[0.2em] font-semibold text-white">
                                 Recently Played
                             </span>
                             <button
                                 onClick={() => setOpen(false)}
-                                className="w-6 h-6 border-2 border-white flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors"
+                                className="w-6 h-6 border-2 border-white rounded flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors"
                             >
                                 <X size={12} />
                             </button>
