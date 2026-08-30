@@ -23,3 +23,6 @@ export const ARTIST_LINKS = [
     { label: 'My Posts', path: '/your-post', icon: User },
     { label: 'Profile', path: '/Profile', icon: User },
 ]
+
+
+

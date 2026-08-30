@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import {
   ArrowLeft, Disc3, Music, AlertCircle, RefreshCw, Play, Pause,
 } from 'lucide-react';
 // import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 import { useAudio } from '../../../Context/AudioContext';
-
-const API = import.meta.env.VITE_API_URL;
+import { getAlbumById } from '../../../api/Album.api';
 
 function LoadingState() {
   return (
@@ -115,9 +113,7 @@ function AlbumDetails() {
     setError(null);
 
     try {
-      const res = await axios.get(`${API}/music/get-album/${albumId}`, {
-        withCredentials: true,
-      });
+      const res = await getAlbumById(albumId);
 
       // Response shape: { album: { title, artist, musics: [...] } }
       const { album: fetchedAlbum } = res.data;
@@ -187,7 +183,7 @@ function AlbumDetails() {
 
           {/* Error */}
           {!loading && error && (
-            <ErrorMessage message={error} onRetry={fetchAlbum} dark={dark} />
+            <ErrorMsg message={error} onRetry={fetchAlbum} dark={dark} />
           )}
 
           {/* Album content */}

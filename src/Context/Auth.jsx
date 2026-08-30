@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
                 // Refresh token bhi expire — logout karo
                 localStorage.removeItem('wasLoggedIn');
                 setUser(null);
-                navigate('/login');
+                navigate('/unauthorized');
             }
             return false; // fail
         } finally {

@@ -3,12 +3,11 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Disc3, Music, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../../Context/Theme';
+import { getAlbums } from '../../../api/Album.api';
 
 //  Constants 
-const API        = import.meta.env.VITE_API_URL;
 const PAGE_LIMIT = 10;
 
 
@@ -167,10 +166,7 @@ function Album() {
     setError(null);
 
     try {
-      const res = await axios.get(`${API}/music/get-album`, {
-        params: { page: currentPage, limit: PAGE_LIMIT },
-        withCredentials: true,
-      });
+      const res = await getAlbums(currentPage, PAGE_LIMIT);
 
       // API response shape: { album: [...], pagination: {...} }
       const { album: fetchedAlbums, pagination: fetchedPagination } = res.data;
