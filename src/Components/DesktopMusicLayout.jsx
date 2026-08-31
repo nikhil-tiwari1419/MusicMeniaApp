@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Play, Pause, Music2, Volume2, Heart, SkipBack, SkipForward, Repeat, MoveLeft, MoveRight } from 'lucide-react';
 import RecentlyPlayed from './RecentlyPlayed';
 
@@ -103,11 +104,11 @@ function DesktopSkeletonCard({ dark }) {
 }
 
 export default function DesktopMusicLayout({
-    dark, musicLoad, error, filtered, playingId, playingTrack, isPlaying,
+    dark, musicLoad, isFetchingNextPage, error, filtered, playingId, playingTrack, isPlaying,
     togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
-    page, setPage, setSearch, pagination, search, fetchMusic,
+    setSearch, search, fetchMusic, fetchNextPage, hasNextPage,
     progress, currentTime, duration, handleSeek, handleVolume, volume,
-    likedSongs = [], onToggleLike
+    // likedSongs = [], onToggleLike
 }) {
     const currentQueueIndex = queue?.length > 0 && playingTrack
         ? queue.findIndex(t => t._id === playingTrack._id) : -1;
@@ -115,6 +116,25 @@ export default function DesktopMusicLayout({
     const hasPrev = currentQueueIndex > 0;
 
     const btnBase = `rounded-full border-2 font-black text-xs uppercase tracking-widest transition-all duration-100`;
+
+    // Infinite scroll sentinel
+    const sentinelRef = useRef(null);
+
+    useEffect(() => {
+        if (!hasNextPage || !sentinelRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(sentinelRef.current);
+        return () => observer.disconnect();
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <div className={`hidden md:block max-w-7xl mx-auto px-4 pt-20 pb-20 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
@@ -296,35 +316,20 @@ export default function DesktopMusicLayout({
                                             onPlay={(track) => togglePlay(track, filtered)}
                                             dark={dark}
                                             progress={progress}
-                                            isLiked={likedSongs.includes(music._id)}
-                                            onToggleLike={onToggleLike}
+                                        // isLiked={likedSongs.includes(music._id)}
+                                        // onToggleLike={onToggleLike}
                                         />
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Pagination */}
-                            {pagination?.totalPages > 1 && (
-                                <div className="flex items-center justify-center gap-2 mt-10">
-                                    <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                                        className={` ${btnBase} px-2 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
-                                        <MoveLeft strokeWidth={3} />
-                                    </button>
-                                    <div className="flex gap-1">
-                                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(p => (
-                                            <button key={p} onClick={() => setPage(p)}
-                                                className={`w-9 rounded-full h-9 border-2 border-black font-black text-sm transition-all duration-100
-                                                    ${page === p
-                                                        ? 'bg-blue-400 shadow-[2px_2px_0_#000]'
-                                                        : dark ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-white text-black hover:bg-zinc-100'}`}>
-                                                {p}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
-                                        className={` ${btnBase} px-2 py-2 disabled:opacity-30 ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}>
-                                       <MoveRight strokeWidth={3} />
-                                    </button>
+                           {hasNextPage && (
+                                <div ref={sentinelRef} className="py-10 flex items-center justify-center">
+                                    {isFetchingNextPage && (
+                                        <p className={`text-xs font-mono uppercase tracking-widest ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                                            Loading more...
+                                        </p>
+                                    )}
                                 </div>
                             )}
                         </>

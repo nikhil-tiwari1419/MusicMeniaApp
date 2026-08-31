@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MessageSquareHeart, KeySquare } from 'lucide-react';
+import { LogOut, User, MessageSquareHeart, KeySquare, ChevronDown } from 'lucide-react';
 import { useAuth } from '../Context/useAuth';
 import { useTheme } from '../Context/Theme';
 
@@ -33,22 +33,21 @@ function UserMenu() {
         navigate('/');
     }
 
-    // ── Not logged in ──
+    // Not logged in
     if (!user) {
         return (
             <div className="flex items-center gap-2">
                 <button
                     onClick={() => navigate('/login')}
                     className={`px-3 py-1.5 border-2 border-black text-xs font-black uppercase tracking-widest font-mono
-                        shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
+                    
                         ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
                 >
                     Login
                 </button>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-3 py-1.5 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase tracking-widest font-mono
-                        shadow-[2px_2px_0_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+                    className="px-3 py-1.5 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase tracking-widest font-mono"
                 >
                     Get Access
                 </button>
@@ -58,8 +57,12 @@ function UserMenu() {
 
     const isArtist = user?.role === 'artist';
 
-    const menuItem = `w-full  flex items-center gap-3 px-3 py-2.5 text-sm font-semibold  tracking-wide
-        border-b-2  ${dark ? "border-white" : " border-black"}transition-colors cursor-pointer text-left`;
+    // Each item gets its own accent chip color so the icon reads as a tag, not decoration
+    const items = [
+        { label: 'Liked Songs', icon: MessageSquareHeart, to: '/liked-songs', accent: 'bg-pink-400' },
+        ...(isArtist ? [{ label: 'Your Posts', icon: User, to: '/your-post', accent: 'bg-sky-400' }] : []),
+        { label: 'Forgot Password', icon: KeySquare, to: '/forgot-password', accent: 'bg-amber-400' },
+    ];
 
     return (
         <div className="relative" ref={menuRef}>
@@ -67,70 +70,78 @@ function UserMenu() {
             {/* Avatar button */}
             <button
                 onClick={() => setOpen(!open)}
-                className={`w-9 h-9 border-2 rounded  flex items-center justify-center text-sm font-black font-mono
-                    shadow-[2px_2px] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
-                    ${open ? 'bg-gray-400 text-black shadow-none translate-x-[2px] translate-y-[2px]' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black border-black'}`}
+                className={`flex items-center gap-1.5 pl-1 pr-2 py-1 border-2 border-black rounded
+                    ${open ? 'shadow-none bg-yellow-400 text-black' : dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
             >
-
-                {getInitials(user.username)}
-
+                <span className={`w-7 h-7 flex items-center justify-center text-xs font-black font-mono border-2 rounded-sm
+                    ${open ? 'border-black bg-black text-yellow-400' : dark ? 'border-white' : 'border-black'}`}>
+                    {getInitials(user.username)}
+                </span>
+                <ChevronDown size={14} strokeWidth={3} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown */}
-            {open && (
-                <div className={`rounded right-0 bottom-12 w-59 border-2  z-50 overflow-hidden
-                    ${dark ? 'bg-zinc-900' : 'bg-white border-black'}`}
-                >
+            <div
+                className={`absolute right-0 top-[calc(100%+20px)] w-58 border-2 rounded z-50 overflow-hidden origin-bottom-right
+                    
+                    ${dark ? 'bg-zinc-900' : 'bg-white border-black'}
+                    ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+            >
+                {/* Little pointer nub tying it back to the avatar */}
+                <div className={`absolute -bottom-[9px] right-4 w-4 h-4 border-b-2 border-r-2 border-black rotate-45
+                    ${dark ? 'bg-zinc-900' : 'bg-white'}`} />
 
-                    {/* User info header */}
-                    <div className={`px-4 py-3 border-b-2 border-black ${dark ? 'bg-cyan-800' : 'bg-violet-400'}`}>
-                        <p className={`text-sm font-black uppercase tracking-wider truncate ${dark ? 'text-white' : 'text-black'}`}>
+                {/* User info header */}
+                <div className={`relative px-4 py-3.5 border-b-2 border-black flex items-center gap-3
+                    ${dark ? 'bg-blue-300' : 'bg-violet-400'}`}
+                >
+                    <span className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-sm font-black font-mono
+                        border-2 border-black rounded-sm bg-white text-black">
+                        {getInitials(user.username)}
+                    </span>
+                    <div className="min-w-0">
+                        <p className="text-sm font-black uppercase tracking-wider truncate text-black">
                             {user.username}
                         </p>
-                        <p className={`text-sm truncate mt-0.5 ${dark ? 'text-zinc-200' : 'text-black'}`}>
+                        <p className="text-xs truncate mt-0.5 text-black/70 font-mono">
                             {user.email}
                         </p>
                     </div>
-
-                    {/* Menu items */}
-                    <div>
-                        <button
-                            onClick={() => { navigate('/liked-songs'); setOpen(false); }}
-                            className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
-                        >
-                            <MessageSquareHeart size={14} />
-                            Liked Songs
-                        </button>
-
-                        {isArtist && (
-                            <button
-                                onClick={() => { navigate('/your-post'); setOpen(false); }}
-                                className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
-                            >
-                                <User size={14} />
-                                Your Posts
-                            </button>
-                        )}
-
-                        <button
-                            onClick={() => { navigate('/forgot-password'); setOpen(false); }}
-                            className={`${menuItem} ${dark ? 'text-zinc-300 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
-                        >
-                            <KeySquare size={14} />
-                            Forgot Password
-                        </button>
-
-                        {/* Logout — red accent */}
-                        <button
-                            onClick={handleLogout}
-                            className={`${menuItem} border-b-0 text-red-500 hover:bg-red-500 hover:text-white`}
-                        >
-                            <LogOut size={14} />
-                            Logout
-                        </button>
-                    </div>
                 </div>
-            )}
+
+                {/* Menu items */}
+
+                <div className="py-1">
+                    {items.map(({ label, icon: Icon, to, accent }) => (
+                        <button
+                            key={to}
+                            onClick={() => { navigate(to); setOpen(false); }}
+                            className={`group w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold tracking-wide text-left transition-colors
+                                ${dark ? 'text-zinc-200 hover:bg-zinc-800' : 'text-black hover:bg-zinc-100'}`}
+                        >
+                            <span className={`w-6 h-6 flex-shrink-0 flex items-center justify-center border-2 border-black rounded-sm ${accent} text-black`}>
+                                <Icon size={12} strokeWidth={2.5} />
+                            </span>
+                            {label}
+                        </button>
+                    ))}
+
+                    <div className={`mx-3 my-1 border-t-2 border-dashed ${dark ? 'border-zinc-700' : 'border-zinc-200'}`} />
+
+                    {/* Logout — red accent, flips on hover */}
+
+                    <button
+                        onClick={handleLogout}
+                        className="group w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold tracking-wide text-left
+                            text-red-500 hover:bg-red-500 hover:text-white transition-colors"
+                    >
+                        <span className="w-6 h-6 flex-shrink-0 flex items-center justify-center border-2 border-black rounded-sm bg-white text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                            <LogOut size={12} strokeWidth={2.5} />
+                        </span>
+                        Logout
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

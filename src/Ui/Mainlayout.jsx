@@ -6,9 +6,9 @@ function Mainlayout() {
   return (
     <>
       <Navbar />
-      <div className="md:pl-64  md:pb-0">
+      <main className="md:pt-16 min-h-screen  md:pb-0">
         <Outlet />
-      </div>
+      </main>
     </>
   )
 }

@@ -1,17 +1,16 @@
 import React from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { Sun, Moon, Music2 } from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Music2 } from 'lucide-react'
 import { useTheme } from '../Context/Theme'
 import { useAuth } from '../Context/useAuth'
 import Usermenu from './Usermenu'
 import { PUBLIC_LINKS, USER_LINKS, ARTIST_LINKS } from '../Ui/Navlinks'
 
-const SIDEBAR_WIDTH = 'w-64'
+const NAVBAR_HEIGHT = 'h-16'
 
-export default function DesktopNavbar({ activeSection, scrollToSection }) {
+export default function DesktopNavbar({ activeSection, scrollTosection }) {
     const navigate = useNavigate()
-    const location = useLocation()
-    const { theme, toggleTheme } = useTheme()
+    const { theme } = useTheme()
     const { user } = useAuth()
     const dark = theme === 'dark'
     const isPublicNav = !user
@@ -24,73 +23,60 @@ export default function DesktopNavbar({ activeSection, scrollToSection }) {
     const activeLink = 'bg-blue-400 text-black font-black'
     const inactiveLink = `font-bold ${dark ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white' : 'text-zinc-500 hover:bg-zinc-100 hover:text-black'}`
 
-    function ThemeBtn() {
-        return (
-            <button
-                onClick={toggleTheme}
-                className={`w-8 h-8 flex items-center rounded-xl justify-center border-2 cursor-pointer ${dark ? 'bg-zinc-800 text-blue-400 border-blue-600' : 'bg-white text-black'}`}
-            >
-                {dark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-        )
-    }
-
     return (
-        <div>
-            <aside className={`hidden md:flex md:flex-col fixed top-0 left-0 h-full ${SIDEBAR_WIDTH} z-50 border-r-2 ${navBg} ${text}`}>
+        <header className={`hidden md:flex items-center fixed top-0 left-0 w-full ${NAVBAR_HEIGHT} z-50 border-2 px-4 gap-4 ${navBg} ${text}`}>
 
-                {/* Logo */}
-                <button onClick={() => navigate('/')}
-                    className={`flex items-center cursor-pointer gap-0 m-3 rounded border-2 overflow-hidden ${dark ? "border-blue-600" : "border-black"} shadow-[3px_3px_0] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all`}>
-                    <div className="w-full h-10 gap-3 bg-blue-400 flex  items-center justify-center flex-shrink-0">
-                        <Music2 size={25} className="text-black" />
-                        <span className=" text-black text-lg tracking-tight font-semibold">MusicMenia</span>
-                    </div>
-                </button>
+            {/* Logo */}
+            <button onClick={() => navigate('/')}
+                className={`flex items-center cursor-pointer gap-0 rounded border-2 overflow-hidden flex-shrink-0 ${dark ? "border-blue-600" : "border-black"}`}>
+                <div className="h-10 px-3 gap-2 bg-blue-400 flex items-center justify-center">
+                    <Music2 size={22} className="text-black" />
+                    <span className="text-black text-lg tracking-tight font-semibold">MusicMenia</span>
+                </div>
+            </button>
 
-                {/* Nav links */}
-                <nav className='flex pt-2 flex-col border-t-2 border-black overflow-y-auto'>
-                    {navLink.map(link => {
-                        const Icon = link.icon
-                        const content = (
-                            <>
-                                {Icon && <Icon size={18} />}
-                                <span className='truncate'>{link.label}</span>
-                            </>
-                        )
-                        if (isPublicNav) {
-                            return (
-                                <button
-                                    key={link.label}
-                                    type='button'
-                                    onClick={() => scrollToSection(link.section)}
-                                    className={`flex item-center gap-3 px-4 py-3 text-sm font-semibold ${activeSection === link.section ? activeLink : inactiveLink}`}
-                                >
-                                    {content}
-                                </button>
-                            )
-                        }
+            {/* Nav links */}
+            <nav className='flex no-scrollbar items-center gap-1 overflow-x-auto flex-1'>
+                {navLink.map(link => {
+                    const Icon = link.icon
+                    const content = (
+                        <>
+                            {Icon && <Icon size={20}  />}
+                            <span className='truncate underline text-xl'>{link.label}</span>
+                        </>
+                    )
+                    if (isPublicNav) {
                         return (
-                            <NavLink
+                            <button
                                 key={link.label}
-                                to={link.path}
-                                className={({ isActive }) =>
-                                    `flex items-center gap-3 px-4 py-2 text-sm font-bold m-2 rounded border-black transition-colors
-                                ${isActive ? activeLink : inactiveLink}`
-                                }
+                                type='button'
+                                onClick={() => scrollTosection(link.section)}
+                                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded whitespace-nowrap ${activeSection === link.section ? activeLink : inactiveLink}`}
                             >
                                 {content}
-                            </NavLink>
+                            </button>
                         )
-                    })}
+                    }
+                    return (
+                        <NavLink
+                            key={link.label}
+                            to={link.path}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-2 text-sm font-bold rounded whitespace-nowrap transition-colors
+                                ${isActive ? activeLink : inactiveLink}`
+                            }
+                        >
+                            {content}
+                        </NavLink>
+                    )
+                })}
+            </nav>
 
-                </nav>
-                {/* bottom controls */}
-                <div className='mt-auto p-3 flex items-center justify-between'>
-                    <ThemeBtn />
-                    <Usermenu />
-                </div>
-            </aside>
-        </div>
+            {/* right controls */}
+            <div className='flex items-center gap-3 flex-shrink-0'>
+                <Usermenu />
+            </div>
+        </header>
     )
 }
+

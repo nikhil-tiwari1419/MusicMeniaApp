@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, Disc3, Music, AlertCircle, RefreshCw, Play, Pause,
 } from 'lucide-react';
-// import Navbar from '../../../Ui/Navbar';
 import { useTheme } from '../../../Context/Theme';
 import { useAudio } from '../../../Context/AudioContext';
 import { getAlbumById } from '../../../api/Album.api';

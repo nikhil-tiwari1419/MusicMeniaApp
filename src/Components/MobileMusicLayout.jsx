@@ -1,4 +1,5 @@
-import { Play, Pause, Music2, Heart, SkipBack, SkipForward, Repeat, MoveRight, MoveLeft } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { Play, Pause, Music2, Heart, MoveRight, MoveLeft } from 'lucide-react';
 import MusicUIUser from './MusicUIUser';
 import { useNavigate } from 'react-router-dom';
 
@@ -100,9 +101,8 @@ function MobileSkeletonRow({ dark }) {
     );
 }
 
-function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, duration, onSeek, dark, toggleRepeat, hasNext, hasPrev }) {
+function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, duration, dark }) {
     if (!track) return null;
-
     const path = useNavigate()
     function fmt(s) {
         if (!s || isNaN(s)) return '0:00';
@@ -111,8 +111,8 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, dura
 
     return (
         <div
-        onClick={() => path('/music_panel')}
-        className={`flex items-center justify-between fixed bottom-10.5 left-0 px-4 py-2 right-0 z-5 
+            onClick={() => path('/music_panel')}
+            className={`flex items-center justify-between fixed bottom-10.5 left-0 px-4 py-2 right-0 z-5 
             ${dark ? 'bg-zinc-900' : 'bg-gray-300'}`}>
 
             <div
@@ -138,30 +138,50 @@ function MobilePlayerBar({ track, isActuallyPlaying, onToggle, currentTime, dura
                     </p>
                 </div>
             </div>
-                {/* Play/Pause */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onToggle(track);
-                    }}
-                    className={`right-10 w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
+            {/* Play/Pause */}
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onToggle(track);
+                }}
+                className={`right-10 w-11 h-11 border-2 rounded ${dark ? "" : "border-black"} bg-yellow-400 flex items-center justify-center flex-shrink-0
                         shadow-[3px_3px] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition-all `}>
-                    {isActuallyPlaying
-                        ? <Pause size={18} className="text-black fill-black" />
-                        : <Play size={18} className="text-black fill-black ml-0.5" />
-                    }
-                </button>
+                {isActuallyPlaying
+                    ? <Pause size={18} className="text-black fill-black" />
+                    : <Play size={18} className="text-black fill-black ml-0.5" />
+                }
+            </button>
         </div>
     );
 }
 
 export default function MobileMusicLayout({
-    dark, musicLoad, error, filtered, playingId, playingTrack,
-    togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
-    page, setPage, setSearch, pagination, search, fetchMusic,
-    progress, currentTime, duration, handleSeek, isPlaying,
+    dark, musicLoad, isFetchingNextPage, error, filtered, playingId, playingTrack,
+    togglePlay, toggleRepeat, queue,
+    setSearch, search, fetchMusic, fetchNextPage, hasNextPage,
+    currentTime, duration, handleSeek, isPlaying,
     likedSongs = [], onToggleLike
 }) {
+
+
+    const sentinelRef = useRef(null);
+
+    useEffect(() => {
+        if (!hasNextPage || !sentinelRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(sentinelRef.current);
+        return () => observer.disconnect();
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
     const sub = dark ? 'text-blue-400' : 'text-zinc-500';
 
     const currentQueueIndex = queue?.length > 0 && playingTrack
@@ -169,8 +189,7 @@ export default function MobileMusicLayout({
     const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
     const hasPrev = currentQueueIndex > 0;
 
-    const pgBtn = `px-3 py-1  border-black text-sm rounded font-black uppercase tracking-widest font-mono
-        transition-all disabled:opacity-30  disabled:hover:translate-x-0 disabled:hover:translate-y-0`;
+    
 
     return (
         <div className={`md:hidden pb-28 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
@@ -242,20 +261,14 @@ export default function MobileMusicLayout({
                         ))}
                     </div>
 
-                    {/* Pagination */}
-                    {pagination?.totalPages > 1 && (
-                        <div className="flex items-center justify-between px-4 py-8 mt-2">
-                            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                                className={`rounded-full ${pgBtn} ${dark ? 'bg-zinc-500 text-white' : 'bg-violet-500 text-black'}`}>
-                                <MoveLeft />
-                            </button>
-                            <span className={` font-black tabular-nums font-mono ${dark ? 'text-zinc-400' : 'text-black'}`}>
-                                {page} / {pagination.totalPages}
-                            </span>
-                            <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages}
-                                className={`rounded-full ${pgBtn} ${dark ? ' bg-violet-800 text-white' : 'bg-violet-500 text-black'}`}>
-                                <MoveRight />
-                            </button>
+                    {/* Infinite scroll sentinel — jab ye screen pe dikhega, next page auto-fetch hoga */}
+                    {hasNextPage && (
+                        <div ref={sentinelRef} className="py-6 flex items-center justify-center">
+                            {isFetchingNextPage && (
+                                <p className={`text-xs font-mono ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                                    Loading more...
+                                </p>
+                            )}
                         </div>
                     )}
                 </>

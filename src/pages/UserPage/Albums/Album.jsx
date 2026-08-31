@@ -161,7 +161,7 @@ function Album() {
   const [page,       setPage]       = useState(1);
 
   //  API call 
-  const fetchAlbums = useCallback(async (currentPage = 1) => {
+  const fetchAlbums = useCallback ( async (currentPage = 1) => {
     setLoading(true);
     setError(null);
 
@@ -210,7 +210,7 @@ function Album() {
     <>
       {/* <Navbar /> */}
 
-      <main className={`min-h-screen pt-20 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300
+      <main className={`min-h-[93vh] pt-20 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300
         ${dark ? 'bg-black text-white' : 'bg-white text-black'}`}
       >
         <div className="max-w-6xl mx-auto">

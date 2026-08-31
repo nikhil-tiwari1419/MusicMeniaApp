@@ -10,14 +10,14 @@ const API = import.meta.env.VITE_API_URL;
  * GET /music/get-album?page=&limit=
  * Paginated list of albums (used in Album.jsx grid page)
  */
-export function getAlbums(page = 1, limit = 10) {
+export function getAlbums(page = 1, limit = 1) {
   return axios.get(`${API}/music/get-album`, {
     params: { page, limit },
     withCredentials: true,
   });
 }
 
-/**
+/*
  * GET /music/get-album/:albumId
  * Single album with its songs (used in AlbumDetails.jsx)
  */

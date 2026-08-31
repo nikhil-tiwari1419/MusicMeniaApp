@@ -1,171 +1,318 @@
-import React, { Suspense } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from './Context/Theme';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Pageloder from './Components/Pageloder';
-import { AuthProvider } from './Context/Auth';
-import ProtectedRoute from './Components/ProtectedRoute';
-import { AudioProvider } from './Context/AudioContext';
-import Mainlayout from './Ui/Mainlayout';
+import React, { Suspense, lazy } from "react";
+import { Toaster } from "react-hot-toast";
+import { NavLink } from "react-router-dom";
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Navigate,
+    Outlet,
+} from "react-router-dom";
 
+import { ThemeProvider } from "./Context/Theme";
+import { AuthProvider } from "./Context/Auth";
+import { AudioProvider } from "./Context/AudioContext";
 
-const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
-const Authpage = React.lazy(() => import('./pages/AuthPage'));
-const Forgotpass = React.lazy(() => import('./Components/ForgotPass'))
-const LandingPage = React.lazy(() => import('./assets/LandingPage'));
-const PrivacyPolicy = React.lazy(()=> import('./pages/PolicyPage'))
-const TermsOfService = React.lazy(()=> import('./pages/TermsofServise'))
-const ContactPage  =React.lazy(()=> import('./pages/ContactPage'))
+import ProtectedRoute from "./Components/ProtectedRoute";
+import Pageloder from "./Components/Pageloder";
+import Mainlayout from "./Ui/Mainlayout";
 
-// Admin page
-const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
+// Lazy Loaded Pages
 
-// Artist pages
-const ArtistDashboard = React.lazy(() => import('./pages/Artistpage/ArtistDashboard'));
-const Artist_Albums = React.lazy(() => import('./pages/Artistpage/AlbumsArtist'));
-const CreateMusic = React.lazy(() => import('./pages/Artistpage/CreateMusic'));
-const Mypost = React.lazy(() => import('./pages/Artistpage/Mypost'));
-const Likedsong = React.lazy(() => import('./Components/Likedsong'));
+// ---------- Public Pages ----------
+const Unauthorized = lazy(() => import("./pages/Unauthorized"));
+const Authpage = lazy(() => import("./pages/AuthPage"));
+const Forgotpass = lazy(() => import("./Components/ForgotPass"));
+const LandingPage = lazy(() => import("./assets/LandingPage"));
+const PrivacyPolicy = lazy(() => import("./pages/PolicyPage"));
+const TermsOfService = lazy(() => import("./pages/TermsofServise"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
-// User pages
-const UserDashboard = React.lazy(() => import('./pages/UserPage/UserDashboard'));
-const LocalFeed = React.lazy(() => import('./pages/UserPage/LocalFeed'));
-const About = React.lazy(() => import('./pages/UserPage/About'));
-const Profile = React.lazy(() => import('./pages/UserPage/Profile'));
-const Album = React.lazy(() => import('./pages/UserPage/Albums/Album'));
-const AlbumDetail = React.lazy(() => import('./pages/UserPage/Albums/AlbumDetails'));
-const Artist = React.lazy(() => import('./pages/UserPage/Artist'))
-const Musicpanal = React.lazy(() => import('./Ui/MusicPanal'))
+// ---------- Admin ----------
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
+// ---------- Artist ----------
+const ArtistDashboard = lazy(() =>
+    import("./pages/Artistpage/ArtistDashboard")
+);
 
-function AppContent() {
+const Artist_Albums = lazy(() =>
+    import("./pages/Artistpage/AlbumsArtist")
+);
+
+const CreateMusic = lazy(() =>
+    import("./pages/Artistpage/CreateMusic")
+);
+
+const Mypost = lazy(() =>
+    import("./pages/Artistpage/Mypost")
+);
+
+// ---------- User ----------
+const UserDashboard = lazy(() =>
+    import("./pages/UserPage/UserDashboard")
+);
+
+const LocalFeed = lazy(() =>
+    import("./pages/UserPage/LocalFeed")
+);
+
+const About = lazy(() =>
+    import("./pages/UserPage/About")
+);
+
+const Profile = lazy(() =>
+    import("./pages/UserPage/Profile")
+);
+
+const Album = lazy(() =>
+    import("./pages/UserPage/Albums/Album")
+);
+
+const AlbumDetail = lazy(() =>
+    import("./pages/UserPage/Albums/AlbumDetails")
+);
+
+const Artist = lazy(() =>
+    import("./pages/UserPage/Artist")
+);
+
+const Musicpanal = lazy(() =>
+    import("./Ui/MusicPanal")
+);
+
+const Likedsong = lazy(() =>
+    import("./Components/Likedsong")
+);
+
+// App Providers
+
+function AppProviders() {
     return (
-        <Suspense fallback={<Pageloder />}>
-            <Toaster position="top-left" reverseOrder={false} />
-            <Routes>
+        <AuthProvider>
+            <AudioProvider>
 
-                {/* Router WITHOUT shared navbar/ Footer layout */}
-                <Route path='/unauthorized' element={<Unauthorized />} />
-                <Route path='/login' element={<Authpage />} />
-                <Route path='/forgot-password' element={<Forgotpass />} />
-                {/* Admin route */}
-                <Route path='/admin-dashboard' element={
+                {/* Toast Notifications */}
+                <Toaster
+                    position="top-left"
+                    reverseOrder={false}
+                />
+
+                {/* Lazy Loading */}
+                <Suspense fallback={<Pageloder />}>
+                    <Outlet />
+                </Suspense>
+
+            </AudioProvider>
+        </AuthProvider>
+    );
+}
+
+// React Router
+
+const AppContent = createBrowserRouter([
+    {
+        element: <AppProviders />,
+        errorElement: <div> <Unauthorized />Something went wrong. <NavLink to="/" className={"border p-3 m-2 rounded "}>Go home</NavLink></div>,
+        children: [
+
+            // Routes WITHOUT Mainlayout
+
+            {
+                path: "/unauthorized",
+                element: <Unauthorized />,
+            },
+
+            {
+                path: "/login",
+                element: <Authpage />,
+            },
+
+            {
+                path: "/forgot-password",
+                element: <Forgotpass />,
+            },
+
+            // Admin
+
+            {
+                path: "/admin-dashboard",
+                element: (
                     <ProtectedRoute allowedRole="admin">
                         <AdminDashboard />
                     </ProtectedRoute>
-                } />
-                
-                {/* Now everything render it inside MainLyout's */}
+                ),
+            },
 
-                <Route element={<Mainlayout/>}>
+            // Main Layout
 
-                {/* Public routes */}
-                <Route path='/' element={<LandingPage />} />
-                <Route path='/pp' element={<PrivacyPolicy/>}/>
-                <Route path='/Tos' element={<TermsOfService/>}/>
-                <Route path='/Contact' element={<ContactPage/>}/>
+            {
+                element: <Mainlayout />,
+                children: [
 
+                    // Public Routes
 
+                    {
+                        index: true,
+                        element: <LandingPage />,
+                    },
 
-                {/* Artist routes */}
-                <Route path='/artist-Dashboard' element={
-                    <ProtectedRoute allowedRole="artist">
-                        <ArtistDashboard />  {/* renamed */}
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "pp",
+                        element: <PrivacyPolicy />,
+                    },
 
-                <Route path='/create-music' element={
-                    <ProtectedRoute allowedRole="artist">
-                        <CreateMusic />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "tos",
+                        element: <TermsOfService />,
+                    },
 
-                <Route path='/your-post' element={
-                    <ProtectedRoute allowedRole="artist">
-                        <Mypost />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "contact",
+                        element: <ContactPage />,
+                    },
 
-                <Route path='/Artist-album' element={
-                    <ProtectedRoute allowedRole="artist">
-                        <Artist_Albums />
-                    </ProtectedRoute>
-                } />
+                    // Artist Routes
 
-                {/* User routes */}
-                <Route path='/user-Dashboard' element={
-                    <ProtectedRoute allowedRole="user">
-                        <UserDashboard />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "artist-dashboard",
+                        element: (
+                            <ProtectedRoute allowedRole="artist">
+                                <ArtistDashboard />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/Local-feed' element={
-                    <ProtectedRoute>
-                        <LocalFeed />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "create-music",
+                        element: (
+                            <ProtectedRoute allowedRole="artist">
+                                <CreateMusic />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/music_Panel' element={
-                    <ProtectedRoute>
-                        <Musicpanal />
-                    </ProtectedRoute>
-                } />
-                <Route path='/about' element={
-                    <ProtectedRoute>
-                        <About />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "your-post",
+                        element: (
+                            <ProtectedRoute allowedRole="artist">
+                                <Mypost />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/album' element={
-                    <ProtectedRoute>
-                        <Album />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "artist-album",
+                        element: (
+                            <ProtectedRoute allowedRole="artist">
+                                <Artist_Albums />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/album/:albumId' element={
-                    <ProtectedRoute>
-                        <AlbumDetail />
-                    </ProtectedRoute>
-                } />
+                    // User Routes
 
-                <Route path='/liked-songs' element={
-                    <ProtectedRoute>
-                        <Likedsong />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "user-dashboard",
+                        element: (
+                            <ProtectedRoute allowedRole="user">
+                                <UserDashboard />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/Profile' element={
-                    <ProtectedRoute>
-                        <Profile />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "local-feed",
+                        element: (
+                            <ProtectedRoute>
+                                <LocalFeed />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='/artist' element={
-                    <ProtectedRoute>
-                        <Artist />
-                    </ProtectedRoute>
-                } />
+                    {
+                        path: "music_panel",
+                        element: (
+                            <ProtectedRoute>
+                                <Musicpanal />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                </Route>
+                    {
+                        path: "about",
+                        element: (
+                            <ProtectedRoute>
+                                <About />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                <Route path='*' element={<Navigate to="/" />} />
-            </Routes>
-        </Suspense>
-    );
-}
+                    {
+                        path: "album",
+                        element: (
+                            <ProtectedRoute>
+                                <Album />
+                            </ProtectedRoute>
+                        ),
+                    },
+
+                    {
+                        path: "album/:albumId",
+                        element: (
+                            <ProtectedRoute>
+                                <AlbumDetail />
+                            </ProtectedRoute>
+                        ),
+                    },
+
+                    {
+                        path: "liked-songs",
+                        element: (
+                            <ProtectedRoute>
+                                <Likedsong />
+                            </ProtectedRoute>
+                        ),
+                    },
+
+                    {
+                        path: "profile",
+                        element: (
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        ),
+                    },
+
+                    {
+                        path: "artist",
+                        element: (
+                            <ProtectedRoute>
+                                <Artist />
+                            </ProtectedRoute>
+                        ),
+                    },
+                ],
+            },
+
+            // 404 RANDOME PATH WHICH NOT EXIST IN APP
+
+            {
+                path: "*",
+                element: <Navigate to="/" replace />,
+            },
+        ],
+    },
+]);
+
+// App
 
 function App() {
     return (
         <ThemeProvider>
-            <Router>
-                <AuthProvider>
-                    <AudioProvider>
-                        <AppContent />
-                    </AudioProvider>
-                </AuthProvider>
-            </Router>
+            <RouterProvider router={AppContent} />
         </ThemeProvider>
     );
 }
 
 export default App;
+
