@@ -39,7 +39,7 @@ function UserMenu() {
             <div className="flex items-center gap-2">
                 <button
                     onClick={() => navigate('/login')}
-                    className={`px-3 py-1.5 border-2 border-black text-xs font-black uppercase tracking-widest font-mono
+                    className={`px-3 rounded py-1.5 border-2 border-black text-xs font-black  tracking-widest font-mono
                     
                         ${dark ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
                 >
@@ -47,7 +47,7 @@ function UserMenu() {
                 </button>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-3 py-1.5 border-2 border-black bg-yellow-400 text-black text-xs font-black uppercase tracking-widest font-mono"
+                    className="px-3 rounded py-1.5 border-2 border-black bg-blue-400 text-black text-xs font-black  tracking-widest font-semibold"
                 >
                     Get Access
                 </button>

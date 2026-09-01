@@ -19,8 +19,8 @@ export default function DesktopNavbar({ activeSection, scrollTosection }) {
         ? user.role === 'artist' ? ARTIST_LINKS : USER_LINKS : PUBLIC_LINKS
 
     const navBg = dark ? 'bg-zinc-950 border-black' : 'bg-white border-black'
-    const text = dark ? 'text-white' : 'text-black'
-    const activeLink = 'bg-blue-400 text-black font-black'
+    const text = dark ? 'text-white' : 'text-black'  
+    const activeLink = 'bg-blue-200 text-black font-black'
     const inactiveLink = `font-bold ${dark ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white' : 'text-zinc-500 hover:bg-zinc-100 hover:text-black'}`
 
     return (
@@ -28,10 +28,10 @@ export default function DesktopNavbar({ activeSection, scrollTosection }) {
 
             {/* Logo */}
             <button onClick={() => navigate('/')}
-                className={`flex items-center cursor-pointer gap-0 rounded border-2 overflow-hidden flex-shrink-0 ${dark ? "border-blue-600" : "border-black"}`}>
-                <div className="h-10 px-3 gap-2 bg-blue-400 flex items-center justify-center">
+                className={`flex items-center cursor-pointer gap-0 rounded overflow-hidden flex-shrink-0 ${dark ? "border-green-600" : "border-blue-800"}`}>
+                <div className="h-10 px-3 gap-2 bg-green-400 flex items-center justify-center">
                     <Music2 size={22} className="text-black" />
-                    <span className="text-black text-lg tracking-tight font-semibold">MusicMenia</span>
+                    <span className="text-lg tracking-tight font-semibold">MusicMenia</span>
                 </div>
             </button>
 
@@ -42,7 +42,7 @@ export default function DesktopNavbar({ activeSection, scrollTosection }) {
                     const content = (
                         <>
                             {Icon && <Icon size={20}  />}
-                            <span className='truncate underline text-xl'>{link.label}</span>
+                            <span className='truncate underline lg:text-xl'>{link.label}</span>
                         </>
                     )
                     if (isPublicNav) {

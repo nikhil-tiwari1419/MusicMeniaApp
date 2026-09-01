@@ -51,7 +51,7 @@ export default function Profile() {
   ];
 
   return (
-    <main className={`min-h-[95vh] pt-6 pb-12 px-4 ${bg}`}>
+    <main className={` lg:min-h-[93vh] min-h-screen pt-6 pb-12 px-4 ${bg}`}>
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4 lg:gap-6 lg:items-start">
 
         {/* ── Left column: identity — sticky on desktop so it stays in view while the right column scrolls ── */}

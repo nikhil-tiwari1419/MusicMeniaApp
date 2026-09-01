@@ -4,6 +4,7 @@ import { useTheme } from '../../Context/Theme';
 import { useMusicFeed } from "../../hooks/useMusicFeed";
 import DesktopMusicLayout from "../../Components/DesktopMusicLayout";
 import MobileMusicLayout from "../../Components/MobileMusicLayout";
+import { Search } from "lucide-react";
 
 export default function LocalFeed() {
     const { theme } = useTheme();
@@ -119,27 +120,23 @@ export default function LocalFeed() {
     };
 
     return (
-        <main className={`min-h-screen ${bg} ${text} transition-colors duration-300`}>
+        <main className={`min-h-[93vh] ${bg} ${text} transition-colors duration-300`}>
             <div className={`sticky top-0 z-20 backdrop-blur-lg border-b ${headerBg}`}>
                 <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
-                        <h1 className={`text-2xl font-mono tracking-tight ${text}`}>
+                        <h1 className={`text-2xl font-semibold tracking-tight ${text}`}>
                             Local Feed
                             {total > 0 && (
-                                <span className={`ml-2 text-sm font-normal ${sub}`}>
+                                <span className={`ml-2 text-sm font-semibold ${sub}`}>
                                     {total} Tracks
                                 </span>
                             )}
                         </h1>
-                        <p className={`text-sm font-mono ${sub}`}>Discover music from artists around you</p>
+                        <p className={`text-sm font-semibold ${sub}`}>Discover music from artists around you</p>
                     </div>
 
-                    <div className="relative w-full sm:w-92">
-                        <svg className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${sub}`}
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                    <div className="relative w-full sm:w-99">
+                        <Search className="absolute m-2"/>
                         <input
                             type="text"
                             placeholder="Search songs or artists..."

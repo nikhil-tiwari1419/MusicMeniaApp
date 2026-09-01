@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Play, Pause, Music2, Volume2, Heart, SkipBack, SkipForward, Repeat, MoveLeft, MoveRight } from 'lucide-react';
+import { Play, Pause, Music2, Volume2, Heart, SkipBack, SkipForward, Repeat } from 'lucide-react';
 import RecentlyPlayed from './RecentlyPlayed';
 
 function EqBars({ size = 'sm' }) {
@@ -11,7 +11,7 @@ function EqBars({ size = 'sm' }) {
     return (
         <div className="flex gap-[4px] items-end">
             {heights.map(([a], i) => (
-                <div key={i} className={`${w} bg-blue-400 rounded-xl `}
+                <div key={i} className={`${w} bg-blue-400 rounded-xl`}
                     style={{
                         animation: `mBar${i + 1} 0.7s ease-in-out infinite`,
                         animationDelay: `${i * 0.12}s`,
@@ -28,19 +28,19 @@ function fmt(s) {
     return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
 }
 
-function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, progress, isLiked, onToggleLike }) {
+function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark }) {
     return (
         <div
-            className={`group relative rounded-2xl border-2 border-black transition-all duration-150 cursor-pointer
+            className={`group relative rounded border border-black transition-all duration-150 cursor-pointer
                 ${isPlaying
                     ? 'bg-blue-400 shadow-[4px_4px_0_#000]'
                     : dark
-                        ? 'bg-zinc-900 '
-                        : 'bg-white '
+                        ? 'bg-zinc-900'
+                        : 'bg-white'
                 }`}
         >
             {/* Thumbnail */}
-            <div className="relative rounded-2xl aspect-square overflow-hidden border-b-2 border-black bg-zinc-800">
+            <div className="relative rounded aspect-square overflow-hidden border-black bg-zinc-800">
                 {music.thumbnail
                     ? <img src={music.thumbnail} alt={music.title} loading="lazy"
                         className="w-full h-full object-cover" />
@@ -68,19 +68,11 @@ function DesktopMusicCard({ music, isPlaying, isActuallyPlaying, onPlay, dark, p
                         <EqBars size="sm" />
                     </div>
                 )}
-
-                {/* Like button */}
-                {onToggleLike && (
-                    <button onClick={(e) => { e.stopPropagation(); onToggleLike(music._id); }}
-                        className="absolute top-2 left-2 p-1.5 border-2 border-black bg-white hover:bg-yellow-400 transition-colors">
-                        <Heart size={14} className={isLiked ? 'fill-black text-black' : 'text-black'} />
-                    </button>
-                )}
             </div>
 
             {/* Info */}
             <div className="px-3 pt-2.5 pb-3">
-                <h3 className={`font-black text-sm truncate uppercase tracking-tight ${isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
+                <h3 className={`font-semibold text-sm truncate tracking-tight ${isPlaying ? 'text-black' : dark ? 'text-white' : 'text-black'}`}>
                     {music.title}
                 </h3>
                 <p className={`text-xs truncate mt-0.5 font-mono ${isPlaying ? 'text-black/70' : dark ? 'text-zinc-400' : 'text-zinc-500'}`}>
@@ -103,21 +95,184 @@ function DesktopSkeletonCard({ dark }) {
     );
 }
 
+// Now Playing Bar 
+
+function NowPlayingBar({
+    dark, playingTrack, isPlaying,
+    togglePlay, playNext, playPrevious,
+    repeat, toggleRepeat,
+    queue,
+    progress, currentTime, duration,
+    handleSeek, handleVolume, volume,
+}) {
+    const currentQueueIndex =
+        queue?.length > 0 && playingTrack
+            ? queue.findIndex(t => t._id === playingTrack._id)
+            : -1;
+    const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
+    const hasPrev = currentQueueIndex > 0;
+
+    return (
+        <div
+            className={`fixed bottom-0 left-0 right-0 z-50 border-t-2 border-black
+                ${dark ? 'bg-zinc-900' : 'bg-white'}`}
+        >
+            {/* ── Seek bar — properly constrained with padding ── */}
+            <div className="px-3 md:px-6 lg:px-8 pt-2 pb-1">
+                <div className="relative h-1.5 bg-zinc-300 cursor-pointer rounded group">
+                    <div
+                        className="h-full bg-blue-400 transition-all duration-100 rounded"
+                        style={{ width: `${progress}%` }}
+                    />
+                    {/* Thumb dot */}
+                    <div
+                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2
+                            w-3 h-3 rounded-full border-2 border-black pointer-events-none
+                            ${dark ? 'bg-white' : 'bg-blue-900'}`}
+                        style={{ left: `${progress}%` }}
+                    />
+                    <input
+                        type="range" min="0" max="100" step="0.1"
+                        value={progress}
+                        onChange={e => handleSeek(parseFloat(e.target.value))}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                </div>
+            </div>
+
+            {/* ── Three-zone row ── */}
+            <div className="flex items-center justify-between gap-2 px-3 md:px-6 lg:px-8 py-2.5">
+
+                {/* ── ZONE 1: Track info ── */}
+                {/* min-w-0 is critical — without it flex children won't shrink below content size */}
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    {/* Album art */}
+                    <div className="relative flex-shrink-0 w-9 h-9 md:w-10 md:h-10 border-2 border-black bg-zinc-800 overflow-hidden">
+                        {playingTrack.thumbnail
+                            ? <img src={playingTrack.thumbnail} alt={playingTrack.title}
+                                className="w-full h-full object-cover" />
+                            : <div className="w-full h-full flex items-center justify-center">
+                                <Music2 size={14} className="text-zinc-500" />
+                            </div>
+                        }
+                        {isPlaying && (
+                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <EqBars size="sm" />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Title + artist — truncate so they never overflow */}
+                    <div className="min-w-0">
+                        <p className={`font-semibold text-xs md:text-sm truncate tracking-tight
+                            ${dark ? 'text-white' : 'text-black'}`}>
+                            {playingTrack.title}
+                        </p>
+                        <p className={`text-[10px] md:text-xs truncate font-mono
+                            ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                            {playingTrack.artist?.username || 'Unknown Artist'}
+                        </p>
+                    </div>
+                </div>
+
+                {/* ── ZONE 2: Transport controls — flex-shrink-0 so they never collapse ── */}
+                <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
+                    {/* Repeat */}
+                    <button
+                        onClick={toggleRepeat}
+                        title="Repeat"
+                        className={`w-8 h-8 md:w-10 md:h-10 border-2 flex items-center justify-center rounded transition-all
+                            ${repeat
+                                ? 'bg-violet-400 border-black shadow-[2px_2px_0_#000]'
+                                : dark
+                                    ? 'bg-zinc-800 border-zinc-600 hover:border-zinc-400'
+                                    : 'bg-white border-black hover:bg-zinc-100'
+                            }`}
+                    >
+                        <Repeat size={14} className={dark && !repeat ? 'text-zinc-400' : 'text-black'} />
+                    </button>
+
+                    {/* Previous */}
+                    <button
+                        onClick={playPrevious}
+                        disabled={!hasPrev}
+                        title="Previous"
+                        className={`w-8 h-8 md:w-10 md:h-10 rounded border-2 flex items-center justify-center transition-all disabled:opacity-25
+                            ${dark
+                                ? 'bg-zinc-800 border-zinc-600 hover:bg-zinc-700 text-zinc-300'
+                                : 'bg-white border-black hover:bg-blue-100 text-black'}`}
+                    >
+                        <SkipBack size={15} className="fill-current" />
+                    </button>
+
+                    {/* Play / Pause — slightly larger, accent colour */}
+                    <button
+                        onClick={() => togglePlay(playingTrack)}
+                        title={isPlaying ? 'Pause' : 'Play'}
+                        className={`w-10 h-10 md:w-11 md:h-11 rounded border-2
+                            ${dark ? 'bg-green-500 border-white' : 'bg-pink-400 border-black'}
+                            flex items-center justify-center
+                            shadow-[3px_3px_0_#000] hover:shadow-[1px_1px_0_#000]
+                            hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-100`}
+                    >
+                        {isPlaying
+                            ? <Pause size={16} className="text-black fill-black" />
+                            : <Play  size={16} className="text-black fill-black ml-0.5" />}
+                    </button>
+
+                    {/* Next */}
+                    <button
+                        onClick={playNext}
+                        disabled={!hasNext}
+                        title="Next"
+                        className={`w-8 h-8 md:w-10 md:h-10 rounded border-2 flex items-center justify-center transition-all disabled:opacity-25
+                            ${dark
+                                ? 'bg-zinc-800 border-zinc-600 hover:bg-zinc-700 text-zinc-300'
+                                : 'bg-white border-black hover:bg-blue-100 text-black'}`}
+                    >
+                        <SkipForward size={15} className="fill-current" />
+                    </button>
+                </div>
+
+                {/* ── ZONE 3: Volume + time — hidden on small md, visible from lg ── */}
+                <div className="hidden lg:flex items-center gap-2 flex-1 justify-end min-w-0">
+                    {/* Volume icon + slider — disappear below xl to save space */}
+                    <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
+                        <Volume2 size={16} className={dark ? 'text-zinc-300' : 'text-black'} />
+                        <div className="w-20 relative h-1.5 rounded border border-black overflow-hidden">
+                            <div
+                                className={`h-full transition-all duration-100 ${dark ? 'bg-white' : 'bg-black'}`}
+                                style={{ width: `${volume * 100}%` }}
+                            />
+                            <input
+                                type="range" min="0" max="1" step="0.02" value={volume}
+                                onChange={e => handleVolume(parseFloat(e.target.value))}
+                                className="absolute inset-0 w-full opacity-0 cursor-pointer h-full"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Time readout */}
+                    <span className={`text-xs tabular-nums font-mono flex-shrink-0
+                        ${dark ? 'text-zinc-300' : 'text-black'}`}>
+                        {fmt(currentTime)}&thinsp;/&thinsp;{fmt(duration)}
+                    </span>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+//  Main layout 
+
 export default function DesktopMusicLayout({
     dark, musicLoad, isFetchingNextPage, error, filtered, playingId, playingTrack, isPlaying,
     togglePlay, playNext, playPrevious, repeat, toggleRepeat, queue,
     setSearch, search, fetchMusic, fetchNextPage, hasNextPage,
     progress, currentTime, duration, handleSeek, handleVolume, volume,
-    // likedSongs = [], onToggleLike
 }) {
-    const currentQueueIndex = queue?.length > 0 && playingTrack
-        ? queue.findIndex(t => t._id === playingTrack._id) : -1;
-    const hasNext = currentQueueIndex !== -1 && currentQueueIndex < (queue?.length || 0) - 1;
-    const hasPrev = currentQueueIndex > 0;
-
     const btnBase = `rounded-full border-2 font-black text-xs uppercase tracking-widest transition-all duration-100`;
 
-    // Infinite scroll sentinel
     const sentinelRef = useRef(null);
 
     useEffect(() => {
@@ -125,9 +280,7 @@ export default function DesktopMusicLayout({
 
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
+                if (entries[0].isIntersecting && !isFetchingNextPage) fetchNextPage();
             },
             { threshold: 0.5 }
         );
@@ -137,121 +290,38 @@ export default function DesktopMusicLayout({
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <div className={`hidden md:block max-w-7xl mx-auto px-4 pt-20 pb-20 ${dark ? 'bg-zinc-950' : 'bg-white'}`}>
-
-            {/* ── Now Playing Bar ── */}
+        // recent and music area 
+        <div className={`hidden md:block max-w-7xl mx-auto px-4 border
+            ${dark ? 'bg-zinc-950' : 'bg-white'}
+            ${playingId && playingTrack ? 'pt-10' : ''}`}
+        >
+            {/* Now Playing Bar */}
             {playingId && playingTrack && (
-                <div className={`fixed bottom-0 left-65 right-0 z-50  border-black
-                    ${dark ? 'bg-zinc-900' : 'bg-white'}`}>
-
-                    {/* Progress bar — full width, raw */}
-                    <div className="relative h-2 w-full bg-zinc-300 border-black">
-                        <div className="h-full bg-blue-400 transition-all duration-100"
-                            style={{ width: `${progress}%` }} />
-
-                        <div
-                            className={`
-                    absolute
-                    top-1/2
-                    h-4
-                    w-4
-                    border-2
-                    ${dark ? " bg-white" : "bg-blue-900"}
-                    rounded-full
-                    -translate-y-1/2
-                    -translate-x-1/2
-                    pointer-event-none
-`}
-                            style={{ left: `${progress}%` }}
-                        />
-                        <input type="range" min="0" max="100" step="0.5"
-                            value={Math.round(progress)}
-                            onChange={e => handleSeek(parseFloat(e.target.value))}
-                            className="absolute inset-0 w-full opacity-0 cursor-pointer h-full" />
-                    </div>
-
-                    <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-
-                        {/* Left: Track info */}
-                        <div className="w-1/3 flex items-center gap-3 min-w-0">
-                            <div className="relative  w-10 h-10 border-2 border-black flex-shrink-0 bg-zinc-800 overflow-hidden">
-                                {playingTrack.thumbnail
-                                    ? <img src={playingTrack.thumbnail} alt={playingTrack.title} className="w-full h-full object-cover" />
-                                    : <div className="w-full h-full flex items-center justify-center">
-                                        <Music2 size={16} className="text-zinc-500" />
-                                    </div>}
-                                {isPlaying && (
-                                    <div className="absolute  inset-0 bg-black/50 flex items-center justify-center">
-                                        <EqBars size="sm" />
-                                    </div>
-                                )}
-                            </div>
-                            <div className="min-w-0">
-                                <p className={`font-black text-sm truncate uppercase tracking-tight ${dark ? 'text-white' : 'text-black'}`}>
-                                    {playingTrack.title}
-                                </p>
-                                <p className={`text-xs truncate font-mono ${dark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                                    {playingTrack.artist?.username || 'Unknown Artist'}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Center: Controls */}
-                        <div className="flex items-center gap-2">
-                            <button onClick={toggleRepeat}
-                                className={`w-11 h-11 border-2 flex items-center justify-center rounded transition-all
-                                    ${repeat
-                                        ? 'bg-violet-400 shadow-[2px_2px]'
-                                        : dark ? 'bg-zinc-800 border-white' : 'bg-white border-black '}`}>
-                                <Repeat size={18} className={dark && !repeat ? 'text-zinc-400' : 'text-black'} />
-                            </button>
-
-                            <button onClick={playPrevious} disabled={!hasPrev}
-                                className={`w-11 h-11 rounded border-2  flex items-center justify-center transition-all disabled:opacity-25
-                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'bg-white border-black hover:bg-blue-100 text-black'}`}>
-                                <SkipBack size={18} className="fill-current" />
-                            </button>
-
-                            <button onClick={() => togglePlay(playingTrack)}
-                                className={`w-11 h-11 rounded border-2 ${dark ? "bg-green-500  border-white" : "bg-pink-400 border-black"}  flex items-center justify-center
-                                    shadow-[3px_3px] hover:shadow-[1px_1px]
-                                    hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-100`}>
-                                {isPlaying
-                                    ? <Pause size={18} className="text-black fill-black" />
-                                    : <Play size={18} className="text-black fill-black ml-0.5" />}
-                            </button>
-
-                            <button onClick={playNext} disabled={!hasNext}
-                                className={`w-11 h-11 rounded border-2 flex items-center justify-center transition-all disabled:opacity-25
-                                    ${dark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300' : 'border-black  bg-white hover:bg-blue-100 text-black'}`}>
-                                <SkipForward size={18} className="fill-current" />
-                            </button>
-                        </div>
-
-                        {/* Right: Volume + Time */}
-                        <div className="w-1/3 flex justify-end items-center gap-3">
-                            <Volume2 size={20} className={dark ? 'text-zinc-200' : 'text-black'} />
-                            <div className="w-24 relative h-2 rounded  border">
-                                <div className={` h-full ${dark ? "bg-white border-white" : "bg-black border-black"} transition-all duration-100 `}
-                                    style={{ width: `${volume * 100}%` }} />
-                                <input type="range" min="0" max="1" step="0.02" value={volume}
-                                    onChange={e => handleVolume(parseFloat(e.target.value))}
-                                    className="absolute inset-0 w-full opacity-0 cursor-pointer h-full" />
-                            </div>
-                            <span className={`text-sm tabular-nums font-mono ${dark ? 'text-zinc-200' : 'text-black'}`}>
-                                {fmt(currentTime)} / {fmt(duration)}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <NowPlayingBar
+                    dark={dark}
+                    playingTrack={playingTrack}
+                    isPlaying={isPlaying}
+                    togglePlay={togglePlay}
+                    playNext={playNext}
+                    playPrevious={playPrevious}
+                    repeat={repeat}
+                    toggleRepeat={toggleRepeat}
+                    queue={queue}
+                    progress={progress}
+                    currentTime={currentTime}
+                    duration={duration}
+                    handleSeek={handleSeek}
+                    handleVolume={handleVolume}
+                    volume={volume}
+                />
             )}
 
             {/* ── Main Split Layout ── */}
-            <div className="flex gap-0 mb-10">
+            <div className="flex gap-0 mb-10 max-h-[calc(100vh-280px)] overflow-hidden">
 
                 {/* LEFT — Recently Played */}
-                <aside className="w-1/3 flex-shrink-0 pr-6 border-r-2 border-black">
-                    <div className="sticky top-22">
+                <aside className="w-1/3 flex-shrink-0 pr-6 border-r-2 border-black overflow-y-auto">
+                    <div className="sticky top-0">
                         <p className={`text-xs font-black uppercase tracking-[0.2em] mb-4 pb-2 border-b-2 border-black ${dark ? 'text-zinc-400' : 'text-black'}`}>
                             Recently Played
                         </p>
@@ -260,7 +330,7 @@ export default function DesktopMusicLayout({
                 </aside>
 
                 {/* RIGHT — Music Grid */}
-                <main className="flex-1 min-w-0 pl-6">
+                <main className="flex-1 min-w-0 pl-6 overflow-y-auto no-scrollbar">
                     <p className={`text-xs font-black uppercase tracking-[0.2em] mb-4 pb-2 border-b-2 border-black ${dark ? 'text-zinc-400' : 'text-black'}`}>
                         All Music
                     </p>
@@ -305,7 +375,7 @@ export default function DesktopMusicLayout({
                     {/* Grid */}
                     {!musicLoad && !error && filtered.length > 0 && (
                         <>
-                            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                            <div className="grid grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                                 {filtered.map((music, i) => (
                                     <div key={String(music._id)} className="fade-up"
                                         style={{ animationDelay: `${i * 45}ms` }}>
@@ -316,17 +386,15 @@ export default function DesktopMusicLayout({
                                             onPlay={(track) => togglePlay(track, filtered)}
                                             dark={dark}
                                             progress={progress}
-                                        // isLiked={likedSongs.includes(music._id)}
-                                        // onToggleLike={onToggleLike}
                                         />
                                     </div>
                                 ))}
                             </div>
 
-                           {hasNextPage && (
+                            {hasNextPage && (
                                 <div ref={sentinelRef} className="py-10 flex items-center justify-center">
                                     {isFetchingNextPage && (
-                                        <p className={`text-xs font-mono uppercase tracking-widest ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                                        <p className={`text-xs font-semibold tracking-widest ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                                             Loading more...
                                         </p>
                                     )}
@@ -339,3 +407,4 @@ export default function DesktopMusicLayout({
         </div>
     );
 }
+

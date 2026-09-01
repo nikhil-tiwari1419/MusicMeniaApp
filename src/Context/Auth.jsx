@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }) => {
                     const refreshed = await refreshToken();
                     if (!refreshed) {
                         setUser(null);
-                        navigate('/login');
+                        navigate('/');
                     }
                 }
                 return Promise.reject(error);

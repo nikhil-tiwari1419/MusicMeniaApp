@@ -105,7 +105,7 @@ export default function LandingPage() {
             {features.map((f, i) => (
               <div
                 key={f.label}
-                className={`rounded p-5 md:p-6 font-mono transition-colors
+                className={`rounded p-5 md:p-6 font-semibold transition-colors
             ${dark ? "bg-gray-800" : "bg-gray-50"}`}
               >
                 <div className={`flex flex-col gap-4 md:gap-8 items-center
