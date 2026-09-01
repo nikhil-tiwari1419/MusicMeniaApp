@@ -45,7 +45,7 @@ export default function Profile() {
   // Quick links to the main sections of the app someone would want from
   // their profile — kept as plain data so the JSX below stays simple.
   const quickLinks = [
-    { label: 'Liked Songs', icon: <Heart size={18} />, path: '/liked-songs' },
+    // { label: 'Liked Songs', icon: <Heart size={18} />, path: '/liked-songs' },
     { label: 'Local Feed', icon: <ListMusic size={18} />, path: '/Local-feed' },
     { label: 'Artists', icon: <Users size={18} />, path: '/artist' },
   ];
@@ -93,9 +93,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Quick Links — jump straight to the rest of the app. Hidden here on desktop
-              and shown in the right column instead, since this card sits fixed in the
-              viewport and a tall link list would push the avatar off-screen on short windows. */}
+          {/* Quick Links*/}
           <div className={`${card} lg:hidden`}>
             {quickLinks.map((link, i) => (
               <button
@@ -169,14 +167,14 @@ export default function Profile() {
           {/* Privacy Policy + Terms & Conditions */}
           <div className={`${card} lg:grid lg:grid-cols-2`}>
             <button
-              onClick={() => navigate('/privacy-policy')}
+              onClick={() => navigate('/pp')}
               className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${rowHover}`}
             >
               <FileText size={18} className={labelText} />
               <span className={`text-sm font-bold ${valueText}`}>Privacy Policy</span>
             </button>
             <button
-              onClick={() => navigate('/terms')}
+              onClick={() => navigate('/tos')}
               className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-t-2 lg:border-t-0 lg:border-l-2 ${divider} ${rowHover}`}
             >
               <Scale size={18} className={labelText} />

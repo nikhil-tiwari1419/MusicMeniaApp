@@ -49,8 +49,7 @@ function MusicPanal() {
         <p className="font-black uppercase tracking-wide">Nothing is playing</p>
         <button
           onClick={() => navigate(-1)}
-          className="px-4 py-2 border-2 border-black rounded-xl font-black uppercase text-sm
-            shadow-[3px_3px_0_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
+          className="px-4 py-2 border-2 border-black rounded-xl font-semibold uppercase text-sm">
           Back to Feed
         </button>
       </div>
@@ -87,7 +86,7 @@ function MusicPanal() {
       <div className="px-6">
         <div className="flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <h1 className="text-xl font-black uppercase tracking-tight truncate">{track.title}</h1>
+            <h1 className="text-xl font-semibold  tracking-tight truncate">{track.title}</h1>
             <p className={`text-sm truncate ${sub}`}>{track.artist?.username || 'Unknown Artist'}</p>
           </div>
 
